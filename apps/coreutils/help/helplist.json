@@ -1,6 +1,6 @@
 {
     "meta": {
-        "title": "PY OS Improved II Codename \"Kokoro\"",
+        "title": "VoidFlan Project Codename \"Kokoro\"",
         "subtitle": "Command List",
         "version": "0.01a_tr",
         "colors": {
@@ -67,7 +67,7 @@
             "empty": "we are not ready for them."
         },
         "Other": {
-            "tutor": "PY OS Improved User help manual(Unfinished)"
+            "tutor": "VoidFlan Project User help manual(Unfinished)"
         }
     }
 }
