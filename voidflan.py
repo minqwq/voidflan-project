@@ -54,6 +54,7 @@ except Exception:
 import art
 import pprint
 import coreutil.shizuku.manager as szkmng # Installer for shizuku
+import coreutil.oeminfo.printoeminfo as oeminfo
 # import core.module.history as history
 print("\033[?25l")
 class override:
@@ -492,7 +493,7 @@ while count < 3:
                     elif cmd_theme == "tcsh":
                         cmd_pre = colorama.Fore.CYAN + lsh_hostname + color.reset + ":" + colorama.Fore.LIGHTWHITE_EX + lsh_path + color.reset + "> "
                     elif cmd_theme == "qos":
-                        cmd_pre = colorama.Back.BLUE + "[PYOS Imp. II]" + colorama.Back.WHITE + colorama.Fore.BLACK + " --:--:-- " + colorama.Style.RESET_ALL + colorama.Fore.WHITE + colorama.Back.GREEN + " " + user + " " + colorama.Style.RESET_ALL + " > " + colorama.Fore.LIGHTGREEN_EX + " ~ $ " + colorama.Style.RESET_ALL
+                        cmd_pre = colorama.Back.BLUE + "[VF]" + colorama.Back.WHITE + colorama.Fore.BLACK + " --:--:-- " + colorama.Style.RESET_ALL + colorama.Fore.WHITE + colorama.Back.GREEN + " " + user + " " + colorama.Style.RESET_ALL + " > " + colorama.Fore.LIGHTGREEN_EX + " ~ $ " + colorama.Style.RESET_ALL
                     else:
                         print("Theme not found! will do nothing.")
                         print("Available theme name:default_v2, default, lite, debian_bash, arch_bash, sh, classic, flandre")
@@ -527,6 +528,12 @@ while count < 3:
                             os.system("ls ./")
                         elif isWindows == "true":
                             os.system("dir .\\")
+
+                    elif cmd == "oeminfo":
+                        oeminfo.getoeminfo(lsh_path_fixed + "/coreutil/oeminfo/oeminfo.json")
+                            
+                    elif cmd == "scrtest":
+                        runPreInstApp(lsh_path_fixed + "/apps/coreutils/scrtest/scrtest.py")
 
                     elif cmd == "help":
                         if enable_legacy_help_engine == "false":

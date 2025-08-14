@@ -2,6 +2,6 @@
     "startup_screen_filepath": "./coreutil/xubuntu_startup_mod.py",
     "autologin_username": "",
     "system_version": "2.0.0 Beta 1",
-    "system_build": "Build 600",
+    "system_build": "Build 605",
     "system_codename": "Hata no Kokoro"
 }
