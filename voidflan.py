@@ -342,11 +342,10 @@ beep()
 logger.info("Welcome to VoidFlan Project!")
 if isWindows == "true":
     visuallog("Operating System Incomptiable warning: Some program may not working on your PC.", 1)
-print("VoidFlan Project \"Flandre/Scarlet Kernel I\" PYOS/Legacy version " + system_version + " " + lsh_hostname) # Login screen | For restart to login manager, please goto this line for work normally
-print("\nTips: " + random.choice(splashes))
+print("Welcome to VoidFlan Project \"Flandre/Scarlet Kernel I\" PYOS/Legacy version " + system_version + " " + lsh_hostname) # Login screen | For restart to login manager, please goto this line for work normally
+print("\n" + random.choice(splashes))
 now = datetime.datetime.now()
-other_StyleTime = now.strftime("%b %a %d %H:%M:%S %Y")
-print("Current time: " + other_StyleTime)
+# other_StyleTime = now.strftime("%b %a %d %H:%M:%S %Y")
 count = 0
 unreg_count = 0
 stpasswd = "ciallo"
@@ -354,7 +353,7 @@ while count < 3:
     if not autologin_username == "":
         user = autologin_username
     elif debugMode == "":
-        user = input(lsh_hostname + " login: ")
+        user = input(lsh_hostname + " login " + color.blue + "--> " + color.reset)
     if user == "gaster":
         goto(line=0)
     elif user == "":
@@ -1009,6 +1008,7 @@ while count < 3:
                 traceback.print_exception(crashReason, limit=1145, file=sys.stdout)
                 cat(lsh_path_fixed + "/coreutil/buildtime_styled.txt")
                 runPreInstApp("coreutil/catchinfo.py")
+                print("Last command input " + cmd)
                 visuallog("System Panic o(╥﹏╥)o : な、何か予期しないエラーが発生しましたにゃ (⁄ ⁄•⁄ω⁄•⁄ ⁄)", 3)
                 input("[Press any key to shutdown - " + str(crashReason) + "]")
                 clearScreen()
