@@ -26,7 +26,7 @@
             "su <user>": "Switch user",
             "patch": "Check the current configurements of the system",
             "chthm <theme>": "Change the theme of Flandre Shell",
-            "pyosiupgrade": "Upgrade the system",
+            "pyosiupgrade": "Upgrade the system(Development Channel User Only)",
             "shizuku <c1> <c2>": "Package manager, Offline.",
             "logout": "Logoff the current user",
             "kernlog <level> <str>": "Print kernel log now",
@@ -57,7 +57,6 @@
         "Games": {
             "tetris": "Tetris for Python 3.x",
             "guessnum": "Number guessing game",
-            "demine": "Minesweeper(C(Programming Language))",
             "ttt": "Tic-Tac-Toe classic game for Python 3.x"
         },
         "Networking": {
