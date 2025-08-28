@@ -37,7 +37,7 @@ try:
     from coreutil.module.splashes import *
     from coreutil.module.network import *
 except Exception:
-    visuallog("Kernel Panic!!", 3)
+    visuallog("Can't startup currently, kernel is broken.", 3)
     sys.exit(15)
 visuallog("Kernel is ready.", 0)
 try:
@@ -75,7 +75,7 @@ def echo(string):
 cmdhist_lines = 0
 cmdhist_time = "nul"
 lsh_hostname = "scarletlocal-000"
-user = "defaultuser_nologin"
+user = "defaultuser-000"
 lsh_path = os.getcwd()
 lsh_path_fixed = os.getcwd()
 networked = False
