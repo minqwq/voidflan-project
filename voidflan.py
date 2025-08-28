@@ -491,8 +491,8 @@ while count < 3:
                         cmd_pre = "[" + user + "@" + lsh_hostname + " ~ ] $ "
                     elif cmd_theme == "tcsh":
                         cmd_pre = colorama.Fore.CYAN + lsh_hostname + color.reset + ":" + colorama.Fore.LIGHTWHITE_EX + lsh_path + color.reset + "> "
-                    elif cmd_theme == "qos":
-                        cmd_pre = colorama.Back.BLUE + "[VF]" + colorama.Back.WHITE + colorama.Fore.BLACK + " --:--:-- " + colorama.Style.RESET_ALL + colorama.Fore.WHITE + colorama.Back.GREEN + " " + user + " " + colorama.Style.RESET_ALL + " > " + colorama.Fore.LIGHTGREEN_EX + " ~ $ " + colorama.Style.RESET_ALL
+                    # elif cmd_theme == "qos": # will wont use because its not working actually
+                    #     cmd_pre = colorama.Back.BLUE + "[VF]" + colorama.Back.WHITE + colorama.Fore.BLACK + " --:--:-- " + colorama.Style.RESET_ALL + colorama.Fore.WHITE + colorama.Back.GREEN + " " + user + " " + colorama.Style.RESET_ALL + " > " + colorama.Fore.LIGHTGREEN_EX + " ~ $ " + colorama.Style.RESET_ALL
                     else:
                         print("Theme not found! will do nothing.")
                         print("Available theme name:default_v2, default, lite, debian_bash, arch_bash, sh, classic, flandre")
