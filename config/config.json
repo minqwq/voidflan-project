@@ -21,5 +21,6 @@
     "shorter_welcome": "false",
     "faster_startup": "false",
     "rsyscmd_when_cnf": "false",
-    "enable_legacy_help_engine": "false"
+    "enable_legacy_help_engine": "false",
+    "language": "en_ST"
 }
