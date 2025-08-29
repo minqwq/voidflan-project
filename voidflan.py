@@ -36,8 +36,8 @@ try:
     from coreutil.module.textmoji import *
     from coreutil.module.splashes import *
     from coreutil.module.network import *
-except Exception:
-    visuallog("Can't startup currently, kernel is broken.", 3)
+except Exception as crashReason:
+    print(crashReason + " Can't startup currently, kernel is broken.")
     sys.exit(15)
 visuallog("Kernel is ready.", 0)
 try:
@@ -53,24 +53,13 @@ except Exception:
     haveSoundCard = False
 import art
 import pprint
-import coreutil.shizuku.manager as szkmng # Installer for shizuku
-import coreutil.oeminfo.printoeminfo as oeminfo
-# import core.module.history as history
+visuallog("Initialing unimportant Kernel Feature...", 0)
+try:
+    import coreutil.shizuku.manager as szkmng # Installer for shizuku
+    import coreutil.oeminfo.printoeminfo as oeminfo
+except Exception as crashReason:
+    visuallog(crashReason + " can't to load", 2)
 print("\033[?25l")
-class override:
-    errorexpection = "teto:ErrorExpection"
-    tongue = "teto:a-------"
-def echo(string):
-    print(string)
-# pretty_errors.configure(
-#    postfix               = '!!! FALLBACK CRASH SCREEN !!!\nPY OS Improved has been crashed.\nRestart command:python pyosimproved.py\nReport this error!:https://github.com/minqwq/pyos-improved/issues',
-#    separator_character   = '#',
-#    line_color            = colorama.Fore.LIGHTBLUE_EX + 'Here > ' + color.reset,
-# print("config updated for pretty-errors")
-
-# i love bai9nine and minimalmio --minqwq 2025-02-19
-# and my best friend stevemcpe
-# 19740914
 
 cmdhist_lines = 0
 cmdhist_time = "nul"
@@ -215,8 +204,10 @@ if temp_clock1 < 2:
     goto(line=181)
 
 print("Other utils loaded")
+logger.info("test log")
 print(style_cur.hide)
 import psutil
+time.sleep(1)
 clearScreen()
 visuallog("in the shortly future, we will change the project name to VoidFlan or DarkReedy", 1)
 print(colorama.Fore.LIGHTGREEN_EX + "Native + Extended Memory Total " + str(psutil.virtual_memory().total / 1024) + " KBytes(i)")
@@ -495,7 +486,7 @@ while count < 3:
                     #     cmd_pre = colorama.Back.BLUE + "[VF]" + colorama.Back.WHITE + colorama.Fore.BLACK + " --:--:-- " + colorama.Style.RESET_ALL + colorama.Fore.WHITE + colorama.Back.GREEN + " " + user + " " + colorama.Style.RESET_ALL + " > " + colorama.Fore.LIGHTGREEN_EX + " ~ $ " + colorama.Style.RESET_ALL
                     else:
                         print("Theme not found! will do nothing.")
-                        print("Available theme name:default_v2, default, lite, debian_bash, arch_bash, sh, classic, flandre")
+                        print("Available theme name:default_v2, default, lite, debian_bash, arch_bash, sh, classic, flandre, remilia, tcsh")
                         cmd_theme = "default"
 
                     cbatteryperc()
@@ -1008,9 +999,9 @@ while count < 3:
                 traceback.print_exception(crashReason, limit=1145, file=sys.stdout)
                 cat(lsh_path_fixed + "/coreutil/buildtime_styled.txt")
                 runPreInstApp("coreutil/catchinfo.py")
-                print("Last command input " + cmd)
+                print("Last command input: " + cmd)
                 visuallog("System Panic o(╥﹏╥)o : な、何か予期しないエラーが発生しましたにゃ (⁄ ⁄•⁄ω⁄•⁄ ⁄)", 3)
-                input("[Press any key to shutdown - " + str(crashReason) + "]")
+                input("[System Halted, Press any key to shutdown - " + str(crashReason) + "]")
                 clearScreen()
                 sys.exit()
         if logout == True:
