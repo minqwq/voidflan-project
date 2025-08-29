@@ -1,9 +1,9 @@
 PY OS Improved SBI
-Time at        - Sunday, 03. August 2025 16:41:17
-Architecture   - x86_64
-pyosver        - 2.0.0 Alpha 2 Build 588
+Time at        - Friday, 29. August 2025 16:33:42
+Architecture   - aarch64
+pyosver        - 2.0.0 Beta 2 Build 608
 System/Kernel  - Linux
-Builder's Path - /home/minqwq/gitclones/pyos-improved/coreutil/.dev
-S/K, Version   - 6.1.0-35-amd64
-uuid           - a0c7e6e4-3f3b-426b-8f7b-510ae05fc865
+Builder's Path - /data/data/com.termux/files/home/gitclones/voidflan-project/coreutil/.dev
+S/K, Version   - 5.4.289-qgki-g4c23b1a30923
+uuid           - 6f7146b3-f990-4cd8-a858-51d3c08d741e
 
