@@ -1,0 +1,23 @@
+1.2.3-stage-codename[-revision* | -hotfix*]
+
+Stage:
+- Alpha: Sakuya(lowercase)
+- Beta: Laevatein(lowercase)
+- Pre-release: SMeister(lowercase)
+- RC: Alice(lowercase)
+
+Codename:
+- Customized.
+
+Revision:
+- idk, it's maybe are some little fix after new release
+
+Hotfix:
+- Fatal bug fix.
+
+For example:
+2.0.3-smeister1-hatanokokoro
+2.0.1-alice2-hatanokokoro-revision1
+
+For code:
+system_version + "-" + system_codename

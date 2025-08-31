@@ -79,6 +79,7 @@ logger.info("Logger started successfully.")
 # CONFIG START
 system_version = devJsonRead["system_version"] # 版本号 / Version
 system_codename = devJsonRead["system_codename"] # Codename
+system_codename_lower = devJsonRead["system_codename_lower"] # Codename Lowercased
 system_build = devJsonRead["system_build"] # 每做一个修改或增减内容，就加一个 Build / If changed a feature, build +=1
 system_is_beta = False # 是否为 Beta 版 / Beta version
 isWindows = jsonRead["isWindows"] # 是否为 Windows / Are you windows?
@@ -305,7 +306,7 @@ else:
         networked = False
         print("[" + color.yellow + " WARN " + color.reset + "] Skipped network checking, will keep status \"False\".")
     """
-    print("\n" + system_version + " " + system_build)
+    print("\n" + system_version + "-" + system_codename_lower + " " + system_build)
     print("Flandre Studio 2024--2025")
     print("0x1c Studio 2022--2023")
     print("\n" + "* VoidFlan Project is a Open-Source fake operating system, so fell free to improve our code!")
@@ -831,7 +832,7 @@ while count < 3:
 
                     elif cmd == "about": # About system
                         slowprint("---------------| About |---------------")
-                        print(color.blue + "VoidFlan Project " + system_version + " " + system_build + " by Yartmin Scarlet" + color.reset)
+                        print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" " + system_build + " by Yartmin Scarlet" + color.reset)
                         print("(C) " + color.green + "0x1c Studio " + color.reset + "2022--2023 | (C) " + colorama.Fore.LIGHTRED_EX + "Flandre" + color.red + " Studio " + color.reset + "&" + color.grey + " FCNM " + color.reset + "&" + color.grey + " SnowMio Studios 2022--2025" + color.reset)
                         print("Python version: " + str(platform.python_version()))
                         print(" ")
