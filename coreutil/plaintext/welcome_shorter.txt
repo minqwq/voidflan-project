@@ -1,4 +1,4 @@
-This software included PY OS Improved are freeware, released with License "minqwq's License 1.1".
+This software included VoidFlan Project are freeware, released with License "minqwq's License 1.1".
 License file is at "/LICENSE", if you want release it with your software please copy the license file to your project.
 
 We are welcome you to "improve" this project...

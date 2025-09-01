@@ -1,4 +1,4 @@
-Welcome to PY OS Improved!
+Welcome to VoidFlan Project!
 
 GitHub/Codeberg Repo:    minqwq/pyos-improved
 Telegram Group: https://t.me/pyosimproved
@@ -24,7 +24,7 @@ And we hope you try the original PY OS
 It's rebirth on Jul 15 2024
 If you want to try, go to this GitHub Repo:Meltide/mpga-pyos
 
-The PY OS Improved is an Open-source "Fake" operating system
+The VoidFlan Project is an Open-source "Fake" operating system
 We are welcome you to improve this project!
 
-FOr software update, system update, and packages, please go to our official website for more info.
+For software update, system update, and packages, please go to our official website for more info.
