@@ -107,6 +107,7 @@ rsyscmd_when_cnf = jsonRead["rsyscmd_when_cnf"] # Run system command when comman
 lsh_hostname = jsonRead["default_hostname"] # Your default hostname(Boot ID 1 only)
 autologin_username = devJsonRead["autologin_username"]
 enable_legacy_help_engine = jsonRead["enable_legacy_help_engine"]
+expertfeature_cd_enabled = True # cd command availablity
 try:
     deviceid = open(lsh_path_fixed + "/config/deviceid.txt", "r", encoding="utf-8").readline().strip()
 except Exception:
@@ -115,7 +116,6 @@ except Exception:
 
 readConfigFromExport = False # Linux only! windows have same but not a command.
 disableKernelFeature = False # Disable the kernel, may crash more.
-expertfeature_cd_enabled = True # cd command availablity
 
 # EXPERTIONAL FEATURE
 # DYNAMIC CONFIG
@@ -167,6 +167,9 @@ def runPreInstApp(pathtoapp):
             rpia_404 = False
         except FileNotFoundError:
             rpia_404 = True
+    else:
+        print("Config incorrect at \"isWindows\"")
+        print("check it on config/config.json\nif you need help please contact minqwq723897@outlook.com")
 
 def termux_detect():
     return "TERMUX_VERSION" in os.environ
@@ -310,8 +313,8 @@ else:
     print("Flandre Studio 2024--2025")
     print("0x1c Studio 2022--2023")
     print("\n" + "* VoidFlan Project is a Open-Source fake operating system, so fell free to improve our code!")
-    print("* VoidFlan Project is inspired from PY OS/BBC OS 1.2.1 not 2.0 or later.")
-    print("This is a \"freeware\".")
+    print("* VoidFlan Project is inspired from PY OS/BBC OS 1.2.1.")
+    print("This is a \"freeware\" and will not take your any money.")
     loading_spinner("[" + color.yellow + " WAIT " + color.reset + "] Delay: 3 secs (Press Ctrl+C to skip) ", 3)
 clearScreen()
 time.sleep(0.1)
