@@ -1,35 +1,33 @@
 # Main code - VoidFlan Project
 print("First running may take long time in some device, if this happen please just wait.(if its not responding at somewhere please press Ctrl+C and restart.)")
-from python_goto import goto # Goto a line
-import json # Read json file(config file need this)
+from python_goto import goto
+import json
 conf = open("./config/config.json", "r", encoding="utf-8")
 devconf = open("./config/.devconfig/confdev.json", "r", encoding="utf-8")
 jsonRead = json.load(conf)
 devJsonRead = json.load(devconf)
-# jsonWrite = open("config/config.json", "w", encoding="utf-8")
-import time as tm # Time
-import getpass # Password?
-import calendar # Calendar
-import os # Communicate to your system
-import sys # idk
+import time as tm
+import getpass
+import calendar
+import os
+import sys
 import datetime
 import colorama
-import time # Time
-import random # Random tools
-from os import path # Path control
+import time
+import random
+from os import path
 sys.path.append("./")
 import platform
-import requests # Get file from server
-import base64 # Encode and decode
+import requests
+import base64
 import traceback
-import logging # Log.
-import profile # used only at startup screen and you can remove it
+import logging
+import profile
 import subprocess
 import re
 import autoexec
 import threading
 import uuid
-# import coreutil.moddedprogram.pymodpl as pymodpl
 try:
     from coreutil.module.actions import *
     from coreutil.module.style import *
@@ -211,6 +209,7 @@ print("Other utils loaded")
 logger.info("test log")
 print(style_cur.hide)
 import psutil
+runPreInstApp(lsh_path_fixed + "/apps/coreutils/exampleapp/hello.py")
 time.sleep(1)
 clearScreen()
 visuallog("in the shortly future, we will change the project name to VoidFlan or DarkReedy", 1)
