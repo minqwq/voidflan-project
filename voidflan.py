@@ -168,6 +168,7 @@ def runPreInstApp(pathtoapp):
     else:
         print("Config incorrect at \"isWindows\"")
         print("check it on config/config.json\nif you need help please contact minqwq723897@outlook.com")
+        sys.exit()
 
 def termux_detect():
     return "TERMUX_VERSION" in os.environ
