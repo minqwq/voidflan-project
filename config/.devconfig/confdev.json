@@ -2,7 +2,7 @@
     "startup_screen_filepath": "./coreutil/xubuntu_startup_mod.py",
     "autologin_username": "",
     "system_version": "2.0.0-laevatein2",
-    "system_build": "Build 615",
+    "system_build": "Build 618",
     "system_codename": "Hata no Kokoro",
     "system_codename_lower": "kokoro"
 }

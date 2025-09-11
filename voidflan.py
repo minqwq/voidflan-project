@@ -213,7 +213,7 @@ import psutil
 runPreInstApp(lsh_path_fixed + "/apps/coreutils/exampleapp/hello.py")
 time.sleep(1)
 clearScreen()
-visuallog("in the shortly future, we will change the project name to VoidFlan or DarkReedy", 1)
+print("VoidFlan Bootstrap 10.0 Laevatein 2")
 print(colorama.Fore.LIGHTGREEN_EX + "Native + Extended Memory Total " + str(psutil.virtual_memory().total / 1024) + " KBytes(i)")
 print(colorama.Fore.LIGHTGREEN_EX + "System Kernel init successful!")
 print("Checking Device UUID Availablity...")
@@ -538,7 +538,8 @@ while count < 3:
                     elif cmd == "morifetchex":
                         currentUptime = time.time()
                         currentUptimeII = currentUptime - end_startingtime
-                        mori(user, lsh_hostname, lsh_path, "config/config.json", "config/.devconfig/confdev.json", str(round(int(currentUptimeII))), deviceid)
+                        formattedUptime = timeformat(currentUptimeII)
+                        mori(user, lsh_hostname, lsh_path, "config/config.json", "config/.devconfig/confdev.json", formattedUptime, deviceid)
                     
                     elif cmd.startswith("kernlog"):
                         try:

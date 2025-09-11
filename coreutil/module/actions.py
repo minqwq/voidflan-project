@@ -236,7 +236,7 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
     def final_prints():
         print(f"{Fore.LIGHTCYAN_EX}morifetch{Fore.LIGHTRED_EX}EX{Style.RESET_ALL} Version 1.00a\n",
               f" {Fore.YELLOW}User & Hostname: {Style.RESET_ALL}{user} at {hostname}\n",
-              f" {Fore.YELLOW}Uptime: {Style.RESET_ALL}{uptime} secs\n",
+              f" {Fore.YELLOW}Uptime: {Style.RESET_ALL}{uptime}\n",
               f" {Fore.YELLOW}Version & Codename: {Style.RESET_ALL}{system_version} \"{system_codename}\"\n",
               f" {Fore.YELLOW}Device UUID: {Style.RESET_ALL}{deviceid}\n\n"
               f"  {Fore.GREEN}Host System Release: {Style.RESET_ALL}{platform.system()} {platform.release()} {platform.version()}\n",
@@ -253,6 +253,26 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
         print(f"  {Fore.CYAN}Extended Memory: {Style.RESET_ALL}{formemtotal} MiB / {formemtotalkib} KiB")
 
     final_prints()
+
+def timeformat(sectime):
+    days = sectime // (24 * 3600)
+    sectime %= (24 * 3600)
+    hours = sectime // 3600
+    sectime %= 3600
+    minutes = sectime // 60
+    sectime %= 60
+
+    parts = []
+    if days > 0:
+        parts.append(f"{int(days)}d")
+    if hours > 0:
+        parts.append(f"{int(hours)}h")
+    if minutes > 0:
+        parts.append(f"{int(minutes)}m")
+    if sectime > 0 or not parts:
+        parts.append(f"{int(sectime)}s")
+
+    return " ".join(parts)
 
 def coresh():
     pprint.pprint(dict(globals()))
