@@ -1,6 +1,3 @@
-def sk_stl_about():
-    print("ScarletKernel / CoreUtil:Style Controller / 1.0_R1")
-
 class style:
     bold = "\033[1m"
     light = "\033[2m"

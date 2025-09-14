@@ -1,7 +1,5 @@
 import socket
 
-def sk_net_about():
-    print("ScarletKernel / CoreUtil:Network / 1.0fx1")
 def get_public_ips():
     
     # 获取IPv4

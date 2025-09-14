@@ -1,5 +1,3 @@
-def sk_tm_about():
-    print("ScarletKernel / CoreUtil:Textmoji / 1.2_r0")
 class color: # Text colors
     red = "\033[31m"
     green = "\033[32m"

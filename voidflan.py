@@ -4,8 +4,10 @@ from python_goto import goto
 import json
 conf = open("./config/config.json", "r", encoding="utf-8")
 devconf = open("./config/.devconfig/confdev.json", "r", encoding="utf-8")
+kiconf = open("./coreutil/module/kernelinfo.json", "r", encoding="utf-8")
 jsonRead = json.load(conf)
 devJsonRead = json.load(devconf)
+kiJsonRead = json.load(kiconf)
 import time as tm
 import getpass
 import calendar
@@ -106,6 +108,7 @@ lsh_hostname = jsonRead["default_hostname"] # Your default hostname(Boot ID 1 on
 autologin_username = devJsonRead["autologin_username"]
 enable_legacy_help_engine = jsonRead["enable_legacy_help_engine"]
 expertfeature_cd_enabled = True # cd command availablity
+kernelver = kiJsonRead["version"] # Kernel version
 try:
     deviceid = open(lsh_path_fixed + "/config/deviceid.txt", "r", encoding="utf-8").readline().strip()
 except Exception:
@@ -289,13 +292,6 @@ else:
     print("Starting up...")
     if system_is_beta == True: # If is beta version, show this warn
         print(text.doubt + "not release version, may unstable")
-    print("[" + color.yellow + " LOAD " + color.reset + "] Initialing Scarlet Kernel...")
-    time.sleep(0.1)
-    sk_act_about()
-    sk_stl_about()
-    sk_tm_about()
-    sk_net_about()
-    time.sleep(0.1)
     print("[" + color.green + "  OK  " + color.reset + "] Scarlet Kernel initialion complete")
     """
     print("[" + color.yellow + " WAIT " + color.reset + "] Initialing network... checking... connecting to main.minqwq.moe:80 ...(Press Ctrl+C to skip)")
@@ -337,7 +333,7 @@ beep()
 logger.info("Welcome to VoidFlan Project!")
 if isWindows == "true":
     visuallog("Operating System Incomptiable warning: Some program may not working on your PC.", 1)
-print("Welcome to VoidFlan Project \"Flandre/Scarlet Kernel I\" PYOS/Legacy version " + system_version + " " + lsh_hostname) # Login screen | For restart to login manager, please goto this line for work normally
+print("Welcome to VoidFlan Project \"Flandre/Scarlet Kernel II\" " + kernelver + " PYOS/Legacy version " + system_version + " " + lsh_hostname) # Login screen | For restart to login manager, please goto this line for work normally
 print("\n" + random.choice(splashes))
 now = datetime.datetime.now()
 # other_StyleTime = now.strftime("%b %a %d %H:%M:%S %Y")

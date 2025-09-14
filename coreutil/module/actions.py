@@ -14,8 +14,6 @@ import json
 
 loadtime = 0
 
-def sk_act_about():
-    print("ScarletKernel / CoreUtil:Actions / 1.4.5")
 def dotLoader(howMany, howSlow):
     for dotLoader_time in range(howMany):
         sys.stdout.write(".")
