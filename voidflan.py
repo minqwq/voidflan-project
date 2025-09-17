@@ -830,7 +830,7 @@ while count < 3:
                             finally:
                                 os.chdir(pyosi_local_path)
 
-                    elif cmd == "about": # About system
+                    elif cmd == "about" or cmd == "^[[5~": # About system
                         slowprint("---------------| About |---------------")
                         print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" " + system_build + " by Yartmin Scarlet" + color.reset)
                         print("(C) " + color.green + "0x1c Studio " + color.reset + "2022--2023 | (C) " + colorama.Fore.LIGHTRED_EX + "Flandre" + color.red + " Studio " + color.reset + "&" + color.grey + " FCNM " + color.reset + "&" + color.grey + " SnowMio Studios 2022--2025" + color.reset)
@@ -1001,6 +1001,7 @@ while count < 3:
                 cat(lsh_path_fixed + "/coreutil/buildtime_styled.txt")
                 runPreInstApp("coreutil/catchinfo.py")
                 print("Last command input: " + cmd)
+                print("Logged on " + user)
                 visuallog("System Panic o(╥﹏╥)o : な、何か予期しないエラーが発生しましたにゃ (⁄ ⁄•⁄ω⁄•⁄ ⁄)", 3)
                 input("[System Halted, Press any key to shutdown - " + str(crashReason) + "]")
                 clearScreen()
