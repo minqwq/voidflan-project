@@ -1,5 +1,5 @@
 {
-    "isWindows": "",
+    "isWindows": "false",
     "cmd_theme": "default_v2",
     "default_hostname": "hostnametest-495",
     "enable_instant_show_time": "true",
@@ -14,12 +14,12 @@
     "dualBoot": "true",
     "dualBoot_startupCommand": "python test.py",
     "dualBoot_OSName": "TEST",
-    "venvEnable": "false",
+    "venvEnable": "true",
     "venvPath": "~/pyvenv/bin/python",
     "replace_python_command_to_python3": "true",
     "disablePathShow": "false",
     "shorter_welcome": "false",
-    "faster_startup": "false",
+    "faster_startup": "true",
     "rsyscmd_when_cnf": "false",
     "enable_legacy_help_engine": "false",
     "language": "en_ST"

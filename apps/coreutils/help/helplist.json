@@ -67,6 +67,9 @@
         },
         "Other": {
             "tutor": "VoidFlan Project User help manual(Unfinished)"
+        },
+        "Keyboard Shortcut": {
+            "^[[5~ (PgUp)": "about command shortcut"
         }
     }
 }
