@@ -176,6 +176,9 @@ def runPreInstApp(pathtoapp):
 def termux_detect():
     return "TERMUX_VERSION" in os.environ
 
+def userLoginSession():
+    user = ("\n" + lsh_hostname + " login: ")
+
 # with open("./config/config.json", "w", encoding="utf-8") as temp_writeConfig:
 #
 """
@@ -333,54 +336,28 @@ beep()
 logger.info("Welcome to VoidFlan Project!")
 if isWindows == "true":
     visuallog("Operating System Incomptiable warning: Some program may not working on your PC.", 1)
-print("Welcome to VoidFlan Project \"Flandre/Scarlet Kernel II\" " + kernelver + " PYOS/Legacy version " + system_version + " " + lsh_hostname) # Login screen | For restart to login manager, please goto this line for work normally
-print("\n" + random.choice(splashes))
+print("VoidFlan Project PhyU/Legacy " + system_version + " \"" + system_codename + "\" " + lsh_hostname) # Login screen | For restart to login manager, please goto this line for work normally
+# print("\n" + random.choice(splashes))
 now = datetime.datetime.now()
 # other_StyleTime = now.strftime("%b %a %d %H:%M:%S %Y")
 count = 0
 unreg_count = 0
 stpasswd = "ciallo"
 while count < 3:
+    print(lsh_hostname, end=" ")
+    user = input("login: ")
     if not autologin_username == "":
         user = autologin_username
-    elif debugMode == "":
-        user = input(lsh_hostname + " login " + color.blue + "--> " + color.reset)
-    if user == "gaster":
-        goto(line=0)
-    elif user == "":
+    if user == "" or user == "defaultuser-000":
         time.sleep(1.5)
-        print("Login incorrect")
-    elif user == "bai9nine":
-        print("nope.   --minqwq")
-    elif user == "yukari2024":
-        print(colorama.Back.LIGHTBLUE_EX + "VoidFlan Project has been terminated.")
-        print("and this is not a issue, its just a easter egg." + color.reset)
-        sys.exit()
-    elif user == "yukari":
-        print(colorama.Back.LIGHTBLUE_EX + "nope bro")
-        print("change her's second name and retry to login is useless." + color.reset)
-        sys.exit()
-    elif user == "koishi":
-        for idk in range(100000):
-            print(colorama.Fore.LIGHTRED_EX)
-            print("die", end="")
-        for idk2 in range(50000):
-            print("look back ", end="")
-        for idk3 in range(20):
-            for idk4 in tqdm.tqdm(range(5114)):
-                print(colorama.Fore.LIGHTRED_EX + "die!!!", end="")
-            d.infobox("N? Si??a?", width=0, height=0, title="Er??r")
-            time.sleep(random.random())
-            clearScreen()
-        time.sleep(0.1)
-        clearScreen()
-        print("You have been kicked by Komeiji Koishi.\nPlease r???\nP??\nPlease re-lo??..gin.")
-    elif user == "mibino":
-        print("nope")
-        sys.exit()
-    else: # a lot of shit code here --minqwq
+        visuallog("Login incorrect", 2)
+    else:
         isCreatorAccount = False
         while count < 3: # 代码难以维护，到处不明变量 --wusheng233
+            if logout == True:
+                clearScreen()
+                print("System locked, log on to a user to continue.")
+                user = input(lsh_hostname + " login: ")
             if enablePassword == "true": # 回上面：那确实，我也不知道啥时候就变成屎山了 --minqwq
                 if show_password_when_typing == "false":
                     login_password = input("Password: ")
@@ -458,7 +435,6 @@ while count < 3:
                     ll_wrt.write("Last login: " + now.strftime("%b %a %d %H:%M:%S %Y"))
                     print("lastlogin written completed.")
                 while count < 3:
-
                     if cmd_theme == "default":
                         cmd_pre = colorama.Fore.LIGHTBLUE_EX + user + color.grey + ":" + colorama.Fore.LIGHTCYAN_EX + lsh_hostname + colorama.Fore.LIGHTGREEN_EX + " > " + color.reset
                     elif cmd_theme == "flandre":
@@ -946,10 +922,10 @@ while count < 3:
                     elif cmd == "": # what is this??? --minqwq at 2024-06-12 19:32
                         space = "0"
 
-                    elif cmd == "clear": # Clear screen using real system command
+                    elif cmd == "clear":
                         clearScreen()
 
-                    elif cmd == "exit": # Logout
+                    elif cmd == "exit":
                         clearScreen()
                         systemIsLocked = True
                         print("VoidFlan " + system_version + " (Locked.)")
@@ -992,9 +968,9 @@ while count < 3:
             except Exception as crashReason: # Crash
                 time.sleep(0.3) # need this for beep correctly
                 beep()
-                time.sleep(0.1)
+                time.sleep(0.3)
                 beep()
-                time.sleep(0.1)
+                time.sleep(0.3)
                 beep()
                 clearScreen()
                 traceback.print_exception(crashReason, limit=1145, file=sys.stdout)
