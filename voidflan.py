@@ -53,6 +53,7 @@ except Exception:
     haveSoundCard = False
 import art
 import pprint
+import psutil
 visuallog("Initialing unimportant Kernel Feature...", 0)
 try:
     import coreutil.shizuku.manager as szkmng # Installer for shizuku
@@ -209,13 +210,9 @@ def beep():
 loadtime_aftered = 0
 temp_clock1 = time.time()
 
-if temp_clock1 < 2:
-    goto(line=181)
-
 print("Other utils loaded")
 logger.info("test log")
 print(style_cur.hide)
-import psutil
 runPreInstApp(lsh_path_fixed + "/apps/coreutils/exampleapp/hello.py")
 time.sleep(1)
 clearScreen()
