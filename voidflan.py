@@ -352,9 +352,14 @@ while count < 3:
         isCreatorAccount = False
         while count < 3: # 代码难以维护，到处不明变量 --wusheng233
             if logout == True:
-                clearScreen()
-                print("System locked, log on to a user to continue.")
-                user = input(lsh_hostname + " login: ")
+                while True:
+                    clearScreen()
+                    print("System locked, log on to a user to continue.")
+                    user = input(lsh_hostname + " login: ")
+                    if user == "":
+                        print("No string provided")
+                    else:
+                        break
             if enablePassword == "true": # 回上面：那确实，我也不知道啥时候就变成屎山了 --minqwq
                 if show_password_when_typing == "false":
                     login_password = input("Password: ")
