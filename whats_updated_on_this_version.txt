@@ -1,4 +1,7 @@
-Latest - 2.0 Laevatein 2 - 2025-09-12
+2.0 Laevatein 3 - 2025-xx-xx
+- Removed Herobrine
+
+2.0 Laevatein 2 - 2025-09-12
 - Updated the Kernel, so you can see formatted uptime on morifetchex now
 - Added autotest runPreInstApp availbility, if the config had problem, the system will wont start and saying error and help
 - Updated the login screen, so it looks more like linux tty login now

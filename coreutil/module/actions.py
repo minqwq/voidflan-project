@@ -275,15 +275,16 @@ def timeformat(sectime):
 def coresh():
     pprint.pprint(dict(globals()))
     print("End of current loaded modules.\nStarting shell...")
+    print("! You are now running VoidFlan Project in Kernel mode\n"+
+          "If all are dont, type \"exit\" to exit shell.")
     while True:
-        cmd = input("initramfs >_ $ ")
+        cmd = input("kn >_ $ ")
         if cmd == "about":
             sk_act_about()
-            print("initramfs input v1.0.1")
         elif cmd == "exit":
             sys.exit()
         elif cmd == "mori":
-            mori("initramfs", "127.0.0.1", "/", "", "", "Unknown", "11111111-1111-1111-1111111111111111")
+            mori("Scarlet Kernel II", "127.0.0.1", "/", "", "", "Unknown", "11111111-1111-1111-1111111111111111")
         elif cmd.startswith("dlt"):
             dotLoader(50, 0.01)
         else:
