@@ -79,6 +79,7 @@ def run(*aargs):
             boot_args = args if args else []
             # Run app
             os.chdir(app_path)
+            print("SYS.EXEC=" + sys.executable)
             process = subprocess.run([sys.executable, boot_string] + boot_args)
             if process.returncode != 0:
                 print(f"{Fore.YELLOW}WARNING: This app returned a code: {process.returncode}.{Style.RESET_ALL}")

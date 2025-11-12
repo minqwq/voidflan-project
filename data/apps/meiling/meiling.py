@@ -1,1 +1,0 @@
-print("Congrats! This program is successfully installed on your VoidFlan Project now.")

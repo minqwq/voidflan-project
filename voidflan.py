@@ -789,7 +789,7 @@ while count < 3:
                         if isWindows == "true":
                             try:
                                 os.chdir(".\\data\\apps\\" + pypkg)
-                                os.system("python " + pypkg + ".py")
+                                runPreInstApp(pypkg + ".py")
                             except FileNotFoundError:
                                 print("Package not found: " + pypkg)
                                 os.chdir(pyosi_local_path)
@@ -801,7 +801,8 @@ while count < 3:
                         elif isWindows == "false":
                             try:
                                 os.chdir(lsh_path_fixed + "/data/apps/" + pypkg)
-                                os.system("python " + pypkg + ".py")
+                                print("EXECUTABLE=" + sys.executable)
+                                runPreInstApp(pypkg + ".py")
                             except FileNotFoundError:
                                 print("Package not found: " + pypkg)
                                 os.chdir(pyosi_local_path)
