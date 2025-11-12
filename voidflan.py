@@ -489,7 +489,7 @@ while count < 3:
                             unreg_count = 0
                     # Begin commands register
 
-                    # pyosi_local_path = os.getcwd() --comment this for disabled, i dont need this one\n if i break somethiing, please uncomment --minqwq
+                    pyosi_local_path = os.getcwd()
 
                     if cmd == "ls": # Path
                         if isWindows == "false":
@@ -609,7 +609,8 @@ while count < 3:
 
                     # Package manager info
                     elif cmd == "shizuku":
-                        cat(lsh_path_fixed + "/coreutil/plaintext/extprog_info.txt")
+                        # cat(lsh_path_fixed + "/coreutil/plaintext/extprog_info.txt")
+                        szkmng.tips()
                     elif cmd.startswith("shizuku run"):
                         os.chdir(lsh_path_fixed + "/extprog")
                         runPreInstApp(cmd[11:] + ".py")

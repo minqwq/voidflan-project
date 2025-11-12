@@ -1,0 +1,13 @@
+{
+    "meiling": {
+        "path": "./data/apps/meiling",
+        "version": "0.0.1",
+        "version_code": "2",
+        "author": "libyartmin",
+        "description": "This is an example software package, written by Yartmin Scarlet.",
+        "category": "Tests",
+        "min_python_version": "3.8",
+        "target_python_version": "3.8",
+        "comptb_os": "linux"
+    }
+}

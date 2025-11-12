@@ -5,7 +5,6 @@ colorama
 datetime
 pretty-errors
 python-goto
-pygame
 requests
 progressbar
 plyer

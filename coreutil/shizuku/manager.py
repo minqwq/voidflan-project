@@ -17,6 +17,7 @@ import shutil   # 用于文件和目录的高级操作，如复制文件和删�
 from platform import system as pfs # 用于获取当前操作系统类型
 from platform import python_version as pv # 用于获取当前Python版本
 from colorama import Fore, Style, init # 用于控制终端输出的颜色
+import traceback # 错误报告
 
 init(autoreset=True) # 初始化颜色模块
 
@@ -28,7 +29,7 @@ if not os.path.exists(szk_install_path):
     os.makedirs(szk_install_path)
 
 def tips():
-    print(f"{Fore.LIGHTGREEN_EX}% Shizuku Package Manager %{Style.RESET_ALL}")
+    print(f"{Fore.LIGHTGREEN_EX}% Shizuku Package Manager II %{Style.RESET_ALL}")
     print(f"{Fore.LIGHTGREEN_EX}==========================={Style.RESET_ALL}")
     print(f"{Fore.CYAN}install <path> - Install a package{Style.RESET_ALL}")
     print(f"{Fore.CYAN}remove <pkg>   - Remove a package{Style.RESET_ALL}")
@@ -136,6 +137,7 @@ def install(*aargs):
         return 1
     except Exception as e:
         print(f"{Fore.RED}An error occurred during package check: {e}{Fore.RESET}")
+        traceback.print_exception(e, limit=1145, file=sys.stdout)
         return 1
     
     # Get app name and version
@@ -144,7 +146,7 @@ def install(*aargs):
             app_json = json.load(app_json_f)
             app_name = app_json["name"]
             app_version = app_json["version"]
-            app_vcode = app_json["vcode"]
+            app_vcode = app_json["vcode"] # what is vcode? --minqwq
             app_author = app_json["author"]
             app_desc = app_json["description"]
             app_category = app_json["category"]
@@ -172,6 +174,7 @@ def install(*aargs):
     except Exception as e:
         print(f"{Fore.RED}An error occurred: {e}{Fore.RESET}")
         shutil.rmtree(extra_path)
+        traceback.print_exception(e, limit=1145, file=sys.stdout)
         return 1
 
     # Install app
@@ -190,9 +193,11 @@ def install(*aargs):
     # Check if app already exists
     try:
         app_dir = os.path.join(apps_path, app_name)
+        print("APPDIR=" + app_dir.replace("/", Fore.GREEN + "/" + Fore.YELLOW))
         if os.path.exists(app_dir):
             with open(os.path.join(app_dir, "info.json"), "r") as exist_app_json_f:
                 exist_app_json = json.load(exist_app_json_f)
+                print("EXIST_APP_JSON=" + str(exist_app_json))
             # Same version, reinstall ask
             if exist_app_json["vcode"] == app_vcode:
                 print(f"{Fore.YELLOW}Package '{app_name}' already installed. Do you want to install it again? (y/n){Fore.RESET}")
@@ -227,6 +232,7 @@ def install(*aargs):
         return 1
     except Exception as e:
         print(f"{Fore.RED}An error occurred during package installation: {e}{Fore.RESET}")
+        traceback.print_exception(e, limit=1145, file=sys.stdout)
         return 1
 
     # Install dependencies
@@ -278,6 +284,7 @@ def install(*aargs):
         return 1
     except Exception as e:
         print(f"{Fore.RED}An error occurred during app registry update: {e}{Fore.RESET}")
+        traceback.print_exception(e, limit=1145, file=sys.stdout)
         return 1
     
     # Clean up
@@ -286,6 +293,7 @@ def install(*aargs):
         return 0
     except Exception as e:
         print(f"{Fore.RED}An error occurred during cleanup: {e}{Fore.RESET}")
+        traceback.print_exception(e, limit=1145, file=sys.stdout)
         return 1
 
 def remove(*aargs):
