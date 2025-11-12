@@ -611,6 +611,8 @@ while count < 3:
                     elif cmd == "shizuku":
                         # cat(lsh_path_fixed + "/coreutil/plaintext/extprog_info.txt")
                         szkmng.tips()
+                    elif cmd == "shizuku list":
+                        szkmng.list_apps()
                     elif cmd.startswith("shizuku run"):
                         os.chdir(lsh_path_fixed + "/extprog")
                         runPreInstApp(cmd[11:] + ".py")
