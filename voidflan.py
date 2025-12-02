@@ -767,11 +767,6 @@ while count < 3:
                     elif cmd == "guessnum":
                         runPreInstApp(lsh_path_fixed + "/apps/guessnum/guessnum.py")
 
-                    elif cmd == "ping": # Ping tool
-                        pingToolIPInput = input("Input IP or Domain: ")
-                        pingToolCountInput = input("Send how many packages: ")
-                        os.system("ping -c " + pingToolCountInput + " " + pingToolIPInput)
-
                     elif cmd == "hostname":
                         print("add option -c to change.\n\nHostname:\n" + lsh_hostname)
                     elif cmd == "hostname -c":
@@ -880,23 +875,6 @@ while count < 3:
                         clearScreen()
                         goto(line=1)
 
-                    elif cmd == "screensaver": # Screensaver
-                        os.chdir(lsh_path_fixed + "/apps/_screensaver")
-                        runPreInstApp("scrsv.py")
-                        os.chdir("../..")
-
-                    elif cmd == "tetris":
-                        print("   #####   ####  #####   ###    #   ####")
-                        print("     #     #       #     #  #      #")
-                        print(" *   #     ###     #     # #    #   ###   *")
-                        print("     #     #       #     #  #   #      #")
-                        print("     #     ####    #     #   #  #  ####")
-                        print(" ")
-                        print("by shkolovy")
-                        print("https://github.com/shkolovy/tetris-terminal")
-                        time.sleep(3)
-                        runPreInstApp(lsh_path_fixed + "/apps/tetris/tetris.py")
-
                     elif cmd == "time": # Show current time
                         now = datetime.datetime.now()
                         other_StyleTime = now.strftime("%b %a %d %H:%M:%S %Y")
@@ -918,11 +896,6 @@ while count < 3:
                                 pass
                         else:
                             os.system(customCommand)
-
-                    elif cmd == "tutor":
-                        os.chdir(lsh_path_fixed + "/apps/tutor")
-                        runPreInstApp("tutor.py")
-                        os.chdir("../..")
 
                     elif cmd == "": # what is this??? --minqwq at 2024-06-12 19:32
                         space = "0"
