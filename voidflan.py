@@ -846,8 +846,6 @@ while count < 3:
                         print("WeChat:minqwq723897")
                         print("E-mail:minqwq723897@outlook.com")
                         print("Telegram:@minqwq723897")
-                        print("IRC(Instant only):minqwq #pyos-improved irc.freenode.net:6667")
-                        print("AutumnChat:Unavailable")
                     elif cmd == "about -l":
                         cat(lsh_path_fixed + "/LICENSE")
 
