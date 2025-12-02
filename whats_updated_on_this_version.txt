@@ -1,4 +1,6 @@
-2.0 Laevatein 3 - 2025-xx-xx
+2.0 Laevatein 3 - 2025-12-12
+- Removed some old programs and cleanup useless content
+- Added oem boot screens and can be customized
 - Removed Herobrine
 
 2.0 Laevatein 2 - 2025-09-12
