@@ -44,7 +44,7 @@ try:
     import curses
 except ModuleNotFoundError:
     print("If you are trying run this on windows, please install curses module.")
-    sys.exit(1)
+    input("[Press any key to continue...]")
 try:
     import pygame
     haveSoundCard = True
@@ -81,7 +81,7 @@ logger.info("Logger started successfully.")
 system_version = devJsonRead["system_version"] # 版本号 / Version
 system_codename = devJsonRead["system_codename"] # Codename
 system_codename_lower = devJsonRead["system_codename_lower"] # Codename Lowercased
-system_build = devJsonRead["system_build"] # 每做一个修改或增减内容，就加一个 Build / If changed a feature, build +=1
+# system_build = devJsonRead["system_build"] # 此选项已弃用
 system_is_beta = False # 是否为 Beta 版 / Beta version
 isWindows = jsonRead["isWindows"] # 是否为 Windows / Are you windows?
 cmd_theme = jsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme
@@ -306,7 +306,7 @@ else:
         networked = False
         print("[" + color.yellow + " WARN " + color.reset + "] Skipped network checking, will keep status \"False\".")
     """
-    print("\n" + system_version + "-" + system_codename_lower + " " + system_build)
+    print("\n" + system_version + "-" + system_codename_lower)
     print("Flandre Studio 2024--2025")
     print("0x1c Studio 2022--2023")
     print("\n" + "* VoidFlan Project is a Open-Source fake operating system, so fell free to improve our code!")
@@ -581,7 +581,7 @@ while count < 3:
                         cat(lsh_path_fixed + "/coreutil/plaintext/netrefresh_help.txt")
 
                     elif cmd == "pyosver":
-                        print(system_version + " " + system_build)
+                        print(system_version)
 
                     elif cmd == "jrrp":
                         print("As today, your luck is " + str(random.randint(0, 100)))
@@ -810,7 +810,7 @@ while count < 3:
 
                     elif cmd == "about" or cmd == "^[[5~": # About system
                         slowprint("---------------| About |---------------")
-                        print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" " + system_build + " by Yartmin Scarlet" + color.reset)
+                        print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" by Yartmin Scarlet" + color.reset)
                         print("(C) " + color.green + "0x1c Studio " + color.reset + "2022--2023 | (C) " + colorama.Fore.LIGHTRED_EX + "Flandre" + color.red + " Studio " + color.reset + "&" + color.grey + " FCNM " + color.reset + "&" + color.grey + " SnowMio Studios 2022--2025" + color.reset)
                         print("Python version: " + str(platform.python_version()))
                         print(" ")
