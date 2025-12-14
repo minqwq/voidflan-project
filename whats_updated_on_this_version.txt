@@ -1,4 +1,5 @@
 2.0 Laevatein 3 - 2025-12-12
+- Improved startup speed
 - Build code now decprated
 - Removed some old programs and cleanup useless content
 - Added oem boot screens and can be customized

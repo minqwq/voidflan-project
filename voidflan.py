@@ -42,12 +42,14 @@ except Exception as crashReason:
 visuallog("Kernel is ready.", 0)
 try:
     import curses
+    print("curses loaded")
 except ModuleNotFoundError:
-    print("If you are trying run this on windows, please install curses module.")
+    print("If you are trying run this on windows, please install curses module.(you can ignore this if you dont need advanced startup screen)")
     input("[Press any key to continue...]")
 try:
     import pygame
     haveSoundCard = True
+    print("pygame loaded")
 except Exception:
     print("pygame not found or error, some program may not work.")
     haveSoundCard = False
@@ -59,7 +61,7 @@ try:
     import coreutil.shizuku.manager as szkmng # Installer for shizuku
     import coreutil.oeminfo.printoeminfo as oeminfo
 except Exception as crashReason:
-    visuallog(crashReason + " can't to load", 2)
+    visuallog(crashReason + ", can't to load", 2)
 print("\033[?25l")
 
 cmdhist_lines = 0

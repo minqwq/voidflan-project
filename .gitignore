@@ -1,3 +1,7 @@
+# VoidFlan tmp data
+data/*
+savedfile/*
+
 # Vim backup
 *.*~
 *.un~
@@ -69,7 +73,7 @@ cython_debug/
 
 # Log files.
 *.log
-output.log
+cache/*
 
 # swap files
 .*.swp
