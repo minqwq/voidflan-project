@@ -1,7 +1,7 @@
 {
-    "isWindows": "true",
+    "isWindows": "",
     "cmd_theme": "default_v2",
-    "default_hostname": "hostnametest-495",
+    "default_hostname": "linkiya-lvt3",
     "enable_instant_show_time": "true",
     "isUnregistered": "false",
     "beep_when_finished": "false",
@@ -9,7 +9,7 @@
     "devenv": "uwu",
     "enablePassword": "false",
     "show_password_when_typing": "false",
-    "pwdstring": "defaultblyat",
+    "pwdstring": "45450721",
     "allowShowNotify": "true",
     "dualBoot": "true",
     "dualBoot_startupCommand": "python test.py",
