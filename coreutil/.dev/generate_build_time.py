@@ -19,7 +19,7 @@ writeme = open("../buildtime_styled.txt", "w+", encoding="utf-8")
 writeme.write("PY OS Improved SBI\n" +
               "Time at        - " + str(dt.strftime("%A, %d. %B %Y %H:%M:%S")) + "\n" +
               "Architecture   - " + platform.machine() + "\n" +
-              "pyosver        - " + devJR["system_version"] + " " + devJR["system_build"] + "\n"
+              "pyosver        - " + devJR["system_version"] + "\n"
               "System/Kernel  - " + platform.system() + "\n" +
               "Builder's Path - " + os.environ["PWD"] + "\n" +
               "S/K, Version   - " + platform.release() + "\n" +

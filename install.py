@@ -325,7 +325,7 @@ def step3():
             with open('..\\PYOSI\\system\\config\\config.json', 'r') as file:
                 config = json.load(file)
             # 当前系统为Windows，修改配置为true
-            config['isWindows'] = "true"
+            config['isWindows'] = True
             with open('..\\PYOSI\\system\\config\\config.json', 'w') as file:
                 json.dump(config, file, indent=4)
             print(step3_3)
@@ -334,7 +334,7 @@ def step3():
             with open('../PYOSI/system/config/config.json', 'r') as file:
                 config = json.load(file)
             # 当前系统为非Windows，修改配置为false
-            config['isWindows'] = "false"
+            config['isWindows'] = False
             with open('../PYOSI/system/config/config.json', 'w') as file:
                 json.dump(config, file, indent=4)
             print(step3_4)
@@ -347,7 +347,7 @@ def step3():
             with open('../PYOSI/system/config/config.json', 'r') as file:
                 config = json.load(file)
             # 当前系统为非Windows，修改配置为false
-            config['isWindows'] = "false"
+            config['isWindows'] = False
             with open('../PYOSI/system/config/config.json', 'w') as file:
                 json.dump(config, file, indent=4)
             print(step3_5)
@@ -356,7 +356,7 @@ def step3():
             with open('..\\PYOSI\\system\\config\\config.json', 'r') as file:
                 config = json.load(file)
             # 当前系统为Windows，修改配置为true
-            config['isWindows'] = "true"
+            config['isWindows'] = True
             with open('..\\PYOSI\\system\\config\\config.json', 'w') as file:
                 json.dump(config, file, indent=4)
             print(step3_6)

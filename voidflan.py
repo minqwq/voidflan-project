@@ -81,7 +81,6 @@ logger.info("Logger started successfully.")
 system_version = devJsonRead["system_version"] # 版本号 / Version
 system_codename = devJsonRead["system_codename"] # Codename
 system_codename_lower = devJsonRead["system_codename_lower"] # Codename Lowercased
-system_build = devJsonRead["system_build"] # 每做一个修改或增减内容，就加一个 Build / If changed a feature, build +=1
 system_is_beta = False # 是否为 Beta 版 / Beta version
 isWindows = jsonRead["isWindows"] # 是否为 Windows / Are you windows?
 cmd_theme = jsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme
@@ -98,7 +97,7 @@ dualBoot = jsonRead["dualBoot"] # Allow you to boot another fake os written in a
 dualBoot_startupCommand = jsonRead["dualBoot_startupCommand"] # Dual boot startup command
 dualBoot_OSName = jsonRead["dualBoot_OSName"] # Dual boot name(show in boot manager)
 venvEnable = jsonRead["venvEnable"] # Enable python venv here
-if venvEnable == "true":
+if venvEnable == True:
     venvPath = jsonRead["venvPath"] # If you are linux distro, like me, you need this
 replace_python_command_to_python3 = jsonRead["replace_python_command_to_python3"] # Replace python command to python3(when you using linux distro)
 disablePathShow = jsonRead["disablePathShow"] # Disable path show on shell
@@ -125,7 +124,7 @@ logout = False
 # DYNAMIC CONFIG END
 # CONFIG END
 
-if disablePathShow == "true":
+if disablePathShow == True:
     lsh_path = "DISABLED"
 
 # core/plaintext loads START
@@ -140,27 +139,27 @@ def cmdhistory_write():
     tmp_f.write(str(cmdhist_time) + " " + user + ":" + lsh_hostname + " | " + cmd + "\n")
 
 def runPreInstApp(pathtoapp):
-    if isWindows == "true":
+    if isWindows == True:
         try:
             os.system("python " + pathtoapp)
             rpia_404 = False
         except FileNotFoundError:
             rpia_404 = True
-    elif isWindows == "false":
+    elif isWindows == False:
         try:
-            if venvEnable == "true": # bugfix!!!!! --minqwq
-                if replace_python_command_to_python3 == "true":
+            if venvEnable == True: # bugfix!!!!! --minqwq
+                if replace_python_command_to_python3 == True:
                     os.system(venvPath + "3 " + pathtoapp)
-                elif replace_python_command_to_python3 == "false":
+                elif replace_python_command_to_python3 == False:
                     os.system(venvPath + " " + pathtoapp)
                 else:
                     print("Config incorrect at \"replace_python_command_to_python3\"")
                     print("check it on config/config.json\nif you need help please contact minqwq723897@outlook.com")
                     sys.exit()
             else: # too --minqwq
-                if replace_python_command_to_python3 == "true":
+                if replace_python_command_to_python3 == True:
                     os.system("python " + pathtoapp)
-                elif replace_python_command_to_python3 == "false":
+                elif replace_python_command_to_python3 == False:
                     os.system("python3 " + pathtoapp)
                 else:
                     print("Config incorrect at \"replace_python_command_to_python3\"")
@@ -186,12 +185,12 @@ def userLoginSession():
 def compWizard():
     print("Comptiable Wizard\ntrue if you are windows\nfalse if you are *nix")
     conf_isWindows_write = input("> ")
-    if conf_isWindows_write == "false":
-        jsonRead["isWindows"] = "false"
+    if conf_isWindows_write == False:
+        jsonRead["isWindows"] = False
         json.dump(jsonRead, jsonWrite, indent=4)
         print("You can restart now.")
-    elif conf_isWindows_write == "true":
-        jsonRead["isWindows"] = "true"
+    elif conf_isWindows_write == True:
+        jsonRead["isWindows"] = True
         json.dump(jsonRead, jsonWrite, indent=4)
         print("You can restart now.")
     # print("Please configure the 'isWindows' to false or true on config/config.json\nIt's looks like this:\"isWindows\": \"\", Change it to:\n\"isWindows\": \"false\" If you are linux\n\"isWindows\": \"true\" If you are windows")
@@ -224,7 +223,7 @@ print("Checking Device UUID Availablity...")
 if not os.path.isfile(lsh_path_fixed + "/config/deviceid.txt"):
     print("Not found, Creating one...")
     open(lsh_path_fixed + "/config/deviceid.txt", "w+", encoding="utf-8").write(str(uuid.uuid1()))
-    print("Restarting...")
+    print("ok, now restarting...")
     goto(line=1)
 else:
     print("Founded! checking pass.")
@@ -240,7 +239,7 @@ while bootManagerLoopRun == True:
     print(colorama.Fore.LIGHTRED_EX + "Scarlet Kernel Boot manager\n" + colorama.Fore.LIGHTYELLOW_EX + "  -- version II series" + color.reset + style_cur.show)
     print("If you dont know which to choose, choose 1 and then continue.")
     print("\n1:VoidFlan Project " + system_version + "\n9:VoidFlan Rescue Mode\n2:Reboot\n3:Shutdown\n4:PY OS Improved Pre-Alpha 1\n5:BBC OS 1.2.1\n8:Switch to Leaf Boot manager(new!)")
-    if dualBoot == "true":
+    if dualBoot == True:
         print(color.green + "\nDUAL BOOT ENABLED" + color.reset)
         print("6:" + dualBoot_OSName)
     if auto_boot_choice == "":
@@ -267,10 +266,10 @@ while bootManagerLoopRun == True:
         runPreInstApp(lsh_path_fixed + "/.earlysystem/bbcos-full.py")
         sys.exit()
     elif bootChoice == "6":
-        if dualBoot == "true":
+        if dualBoot == True:
             os.system(dualBoot_startupCommand)
             sys.exit()
-        elif dualBoot == "false":
+        elif dualBoot == False:
             pass
     elif bootChoice == "7":
         coresh()
@@ -287,7 +286,7 @@ clearScreen()
 # Startup screen
 visuallog("Starting main operating system...", 0)
 startingtime = time.time()
-if faster_startup == "true":
+if faster_startup == True:
     runPreInstApp(lsh_path_fixed + "/coreutil/xubuntustartup_mod.py")
 else:
     print("Starting up...")
@@ -306,7 +305,7 @@ else:
         networked = False
         print("[" + color.yellow + " WARN " + color.reset + "] Skipped network checking, will keep status \"False\".")
     """
-    print("\n" + system_version + "-" + system_codename_lower + " " + system_build)
+    print("\n" + system_version + "-" + system_codename_lower + " ")
     print("Flandre Studio 2024--2025")
     print("0x1c Studio 2022--2023")
     print("\n" + "* VoidFlan Project is a Open-Source fake operating system, so fell free to improve our code!")
@@ -332,7 +331,7 @@ end_startingtime = time.time()
 startingtime_t = end_startingtime - startingtime
 beep()
 logger.info("Welcome to VoidFlan Project!")
-if isWindows == "true":
+if isWindows == True:
     visuallog("Operating System Incomptiable warning: Some program may not working on your PC.", 1)
 print("VoidFlan Project PhyU/Legacy " + system_version + " \"" + system_codename + "\" " + lsh_hostname) # Login screen | For restart to login manager, please goto this line for work normally
 # print("\n" + random.choice(splashes))
@@ -361,10 +360,10 @@ while count < 3:
                         print("No string provided")
                     else:
                         break
-            if enablePassword == "true": # 回上面：那确实，我也不知道啥时候就变成屎山了 --minqwq
-                if show_password_when_typing == "false":
+            if enablePassword == True: # 回上面：那确实，我也不知道啥时候就变成屎山了 --minqwq
+                if show_password_when_typing == False:
                     login_password = input("Password: ")
-                elif show_password_when_typing == "true":
+                elif show_password_when_typing == True:
                     try:
                         login_password = getpass.getpass("Password: ")
                     except getpass.GetPassWarning:
@@ -374,7 +373,7 @@ while count < 3:
                 else:
                     print("Incorrect password, please re-enter")
                     continue
-            elif enablePassword == "false":
+            elif enablePassword == False:
                 pass
             else:
                 pass
@@ -406,20 +405,20 @@ while count < 3:
                         clearScreen()
                         sys.exit()
                 beep()
-                if allowShowNotify == "true":
+                if allowShowNotify == True:
                     try:
                         showNotify("Welcome to VoidFlan Project~!", "Type \"help\" to show all available commands.\nIf you have problem or issue, contact me or open new issue on our official repo.\nhere is my email:minqwq723897@outlook.com")
                     except Exception:
-                        if isWindows == "false":
+                        if isWindows == False:
                             print("libnotify-bin is not installed, install it from your package manager to enable notify.")
-                        elif isWindows == "true":
+                        elif isWindows == True:
                             print("Unknown error at sending notify")
-                elif allowShowNotify == "false":
+                elif allowShowNotify == False:
                     pass
                 clearScreen()
-                if shorter_welcome == "false":
+                if shorter_welcome == False:
                     cat(lsh_path_fixed + "/" + co_welcome) # Welcome text, editable at coreutil/plaintext/welcome.txt
-                elif shorter_welcome == "true":
+                elif shorter_welcome == True:
                     cat(lsh_path_fixed + "/coreutil/plaintext/welcome_shorter.txt")
                 print("\nH-hi thewe " + color.cyan + user + color.reset + " >///<, I-I missed you a-a lot.")
                 print("Today is " + colorama.Fore.LIGHTCYAN_EX + lshdate + color.reset + " and time is " + colorama.Fore.LIGHTCYAN_EX + lshtime + color.reset + ".\nWeather is not bad.\n")
@@ -469,21 +468,21 @@ while count < 3:
                         cmd_theme = "default"
 
                     cbatteryperc()
-                    if beep_when_finished == "true":
+                    if beep_when_finished == True:
                         beep()
 
                     lsh_time_prepare = datetime.datetime.now()
                     lsh_time = lsh_time_prepare.strftime("%H:%M:%S")
-                    if enable_instant_show_time == "true":
+                    if enable_instant_show_time == True:
                         print("[" + lsh_time + "]", end=" ")
-                    elif enable_instant_show_time == "false":
+                    elif enable_instant_show_time == False:
                         pass
                     # lsh_username = os.system("whoami")
                     cmd = input(cmd_pre)
                     logger.info("[Command] tty1/lsh: " + cmd)
                     # cmdhistory_write()
 
-                    if isUnregistered == "true":
+                    if isUnregistered == True:
                         unreg_count += 1
                         if unreg_count > 25:
                             print("Please register to get best exprience.\nconfig/config.json")
@@ -493,9 +492,9 @@ while count < 3:
                     pyosi_local_path = os.getcwd()
 
                     if cmd == "ls": # Path
-                        if isWindows == "false":
+                        if isWindows == False:
                             os.system("ls ./")
-                        elif isWindows == "true":
+                        elif isWindows == True:
                             os.system("dir .\\")
 
                     elif cmd == "oeminfo":
@@ -505,9 +504,9 @@ while count < 3:
                         runPreInstApp(lsh_path_fixed + "/apps/coreutils/scrtest/scrtest.py")
 
                     elif cmd == "help":
-                        if enable_legacy_help_engine == "false":
+                        if enable_legacy_help_engine == False:
                             runPreInstApp(lsh_path_fixed + "/apps/coreutils/help/cmdListParser.py")
-                        elif enable_legacy_help_engine == "true":
+                        elif enable_legacy_help_engine == True:
                             cat(lsh_path_fixed + "/" + co_manualHelp)
 
                     elif cmd == "morifetchex":
@@ -557,7 +556,7 @@ while count < 3:
                             try:
                                 os.chdir(chdir)
                                 lsh_path = os.getcwd()
-                                if disablePathShow == "true":
+                                if disablePathShow == True:
                                     lsh_path = "DISABLED"
                             except FileNotFoundError:
                                 print("dir not found: " + chdir)
@@ -569,10 +568,10 @@ while count < 3:
                         else:
                             print("[" + color.red + " FAIL " + color.reset + "] Network return False, if you have tryed to reconnect, retry run \"netrefresh\"")
                     elif cmd.startswith("netrefresh set"):
-                        if cmd[15:] == "True" or cmd[15:] == "true":
+                        if cmd[15:] == True or cmd[15:] == True:
                             networked = True
                             print("networked = " + str(networked))
-                        elif cmd[15:] == "False" or cmd[15:] == "false":
+                        elif cmd[15:] == False or cmd[15:] == False:
                             networked = False
                             print("networked = " + str(networked))
                         else:
@@ -581,7 +580,7 @@ while count < 3:
                         cat(lsh_path_fixed + "/coreutil/plaintext/netrefresh_help.txt")
 
                     elif cmd == "pyosver":
-                        print(system_version + " " + system_build)
+                        print(system_version + " ")
 
                     elif cmd == "jrrp":
                         print("As today, your luck is " + str(random.randint(0, 100)))
@@ -622,13 +621,13 @@ while count < 3:
                     elif cmd.startswith("shizuku install"):
                         pkgPath = cmd[16:]
                         print("Installing package from " + pkgPath + " ...")
-                        if isWindows == "true":
+                        if isWindows == True:
                             # os.system("copy " + pkgPath + " .\\data\\apps")
                             result = szkmng.install(pkgPath)
                             os.chdir(pyosi_local_path)
                             if result != 0:
                                 print("Installation failed.")
-                        elif isWindows == "false":
+                        elif isWindows == False:
                             # os.system("cp " + pkgPath + " ./data/apps")
                             result = szkmng.install(pkgPath)
                             os.chdir(pyosi_local_path)
@@ -638,12 +637,12 @@ while count < 3:
                     elif cmd.startswith("shizuku remove"):
                         rm_app_name = cmd[15:]
                         print("Removing application: " + rm_app_name + " ...")
-                        if isWindows == "true":
+                        if isWindows == True:
                             result = szkmng.remove(rm_app_name)
                             os.chdir(pyosi_local_path)
                             if result != 0:
                                 print("Removal failed.")
-                        elif isWindows == "false":
+                        elif isWindows == False:
                             result = szkmng.remove(rm_app_name)
                             os.chdir(pyosi_local_path)
                             if result != 0:
@@ -782,7 +781,7 @@ while count < 3:
                     elif cmd.startswith("szk"):
                         # 提取包名，即命令去掉前四个字符后的部分
                         pypkg = cmd[4:]
-                        if isWindows == "true":
+                        if isWindows == True:
                             try:
                                 os.chdir(".\\data\\apps\\" + pypkg)
                                 runPreInstApp(pypkg + ".py")
@@ -794,7 +793,7 @@ while count < 3:
                                 os.chdir(pyosi_local_path)
                             finally:
                                 os.chdir(pyosi_local_path)
-                        elif isWindows == "false":
+                        elif isWindows == False:
                             try:
                                 os.chdir(lsh_path_fixed + "/data/apps/" + pypkg)
                                 print("EXECUTABLE=" + sys.executable)
@@ -810,7 +809,7 @@ while count < 3:
 
                     elif cmd == "about" or cmd == "^[[5~": # About system
                         slowprint("---------------| About |---------------")
-                        print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" " + system_build + " by Yartmin Scarlet" + color.reset)
+                        print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" " +  + " by Yartmin Scarlet" + color.reset)
                         print("(C) " + color.green + "0x1c Studio " + color.reset + "2022--2023 | (C) " + colorama.Fore.LIGHTRED_EX + "Flandre" + color.red + " Studio " + color.reset + "&" + color.grey + " FCNM " + color.reset + "&" + color.grey + " SnowMio Studios 2022--2025" + color.reset)
                         print("Python version: " + str(platform.python_version()))
                         print(" ")
@@ -924,10 +923,10 @@ while count < 3:
                                 clearScreen()
                                 sys.exit()
                     else: # Wrong command
-                        if rsyscmd_when_cnf == "true":
+                        if rsyscmd_when_cnf == True:
                             print("Unknown command, rsyscmd_when_cnf is enabled so will try to run external command...")
                             os.system(cmd)
-                        elif rsyscmd_when_cnf == "false":
+                        elif rsyscmd_when_cnf == False:
                             beep()
                             visuallog("Command not found on the list m(__)m : " + cmd, 2)
                             print(color.red + "[Unknown command]" + color.reset, end=' ')

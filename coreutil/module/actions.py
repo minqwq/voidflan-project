@@ -204,7 +204,6 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
         # CONFIG SET START
         system_version = cDevJsonRead["system_version"] # 版本号 / Version
         system_codename = cDevJsonRead["system_codename"] # Codename
-        system_build = cDevJsonRead["system_build"] # 每做一个修改或增减内容，就加一个 Build / If changed a feature, build +=1
         system_is_beta = False # 是否为 Beta 版 / Beta version
         isWindows = cJsonRead["isWindows"] # 是否为 Windows / Are you windows?
         cmd_theme = cJsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme

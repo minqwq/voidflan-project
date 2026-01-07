@@ -1,0 +1,29 @@
+{
+    "1": {
+        "1": {
+            "1": {
+                "1": {
+                    "1": {
+                        "1": {
+                            "name": "VoidFlan Project",
+                            "ename": "vf",
+                            "version": "2.0 Beta 3",
+                            "vercode": "2003",
+                            "setup_date": "2025-12-17",
+                            "need_venv": false,
+                            "min_python": "3.8",
+                            "support_os": [
+                                "linux",
+                                "osx",
+                                "macos",
+                                "windows"
+                            ],
+                            "boo_class": "idk",
+                            "work_file": "voidflan.py"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
