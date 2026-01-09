@@ -1,3 +1,11 @@
+# VoidFlan tmp data
+data/*
+savedfile/*
+
+# Vim backup
+*.*~
+*.un~
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -65,7 +73,7 @@ cython_debug/
 
 # Log files.
 *.log
-output.log
+cache/*
 
 # swap files
 .*.swp

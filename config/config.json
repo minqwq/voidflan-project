@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "isWindows": false,
     "cmd_theme": "default_v2",
     "default_hostname": "starlik",
@@ -15,6 +16,7 @@
     "dualBoot_startupCommand": "python test.py",
     "dualBoot_OSName": "TEST",
     "venvEnable": true,
+>>>>>>> c4a76d7361f75e5a4351fd293403f2ab8afccf77
     "venvPath": "~/pyvenv/bin/python",
     "replace_python_command_to_python3": true,
     "disablePathShow": false,

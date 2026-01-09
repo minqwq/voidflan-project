@@ -42,12 +42,14 @@ except Exception as crashReason:
 visuallog("Kernel is ready.", 0)
 try:
     import curses
+    print("curses loaded")
 except ModuleNotFoundError:
-    print("If you are trying run this on windows, please install curses module.")
-    sys.exit(1)
+    print("If you are trying run this on windows, please install curses module.(you can ignore this if you dont need advanced startup screen)")
+    input("[Press any key to continue...]")
 try:
     import pygame
     haveSoundCard = True
+    print("pygame loaded")
 except Exception:
     print("pygame not found or error, some program may not work.")
     haveSoundCard = False
@@ -59,7 +61,7 @@ try:
     import coreutil.shizuku.manager as szkmng # Installer for shizuku
     import coreutil.oeminfo.printoeminfo as oeminfo
 except Exception as crashReason:
-    visuallog(crashReason + " can't to load", 2)
+    visuallog(crashReason + ", can't to load", 2)
 print("\033[?25l")
 
 cmdhist_lines = 0
@@ -81,6 +83,9 @@ logger.info("Logger started successfully.")
 system_version = devJsonRead["system_version"] # 版本号 / Version
 system_codename = devJsonRead["system_codename"] # Codename
 system_codename_lower = devJsonRead["system_codename_lower"] # Codename Lowercased
+<<<<<<< HEAD
+=======
+>>>>>>> c4a76d7361f75e5a4351fd293403f2ab8afccf77
 system_is_beta = False # 是否为 Beta 版 / Beta version
 isWindows = jsonRead["isWindows"] # 是否为 Windows / Are you windows?
 cmd_theme = jsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme
@@ -305,7 +310,10 @@ else:
         networked = False
         print("[" + color.yellow + " WARN " + color.reset + "] Skipped network checking, will keep status \"False\".")
     """
-    print("\n" + system_version + "-" + system_codename_lower + " ")
+<<<<<<< HEAD
+=======
+    print("\n" + system_version + "-" + system_codename_lower)
+>>>>>>> c4a76d7361f75e5a4351fd293403f2ab8afccf77
     print("Flandre Studio 2024--2025")
     print("0x1c Studio 2022--2023")
     print("\n" + "* VoidFlan Project is a Open-Source fake operating system, so fell free to improve our code!")
@@ -580,7 +588,10 @@ while count < 3:
                         cat(lsh_path_fixed + "/coreutil/plaintext/netrefresh_help.txt")
 
                     elif cmd == "pyosver":
-                        print(system_version + " ")
+<<<<<<< HEAD
+=======
+                        print(system_version)
+>>>>>>> c4a76d7361f75e5a4351fd293403f2ab8afccf77
 
                     elif cmd == "jrrp":
                         print("As today, your luck is " + str(random.randint(0, 100)))
@@ -809,7 +820,10 @@ while count < 3:
 
                     elif cmd == "about" or cmd == "^[[5~": # About system
                         slowprint("---------------| About |---------------")
-                        print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" " +  + " by Yartmin Scarlet" + color.reset)
+<<<<<<< HEAD
+=======
+                        print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" by Yartmin Scarlet" + color.reset)
+>>>>>>> c4a76d7361f75e5a4351fd293403f2ab8afccf77
                         print("(C) " + color.green + "0x1c Studio " + color.reset + "2022--2023 | (C) " + colorama.Fore.LIGHTRED_EX + "Flandre" + color.red + " Studio " + color.reset + "&" + color.grey + " FCNM " + color.reset + "&" + color.grey + " SnowMio Studios 2022--2025" + color.reset)
                         print("Python version: " + str(platform.python_version()))
                         print(" ")
