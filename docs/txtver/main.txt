@@ -1,3 +1,0 @@
-Welcome to PY OS Improved Documents(After 1.5.0 and before 1.5.1(release))
-Here you can learn or take a look the usage.
-The pages list is shown on folder list.

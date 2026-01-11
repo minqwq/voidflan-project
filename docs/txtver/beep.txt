@@ -1,9 +1,0 @@
-# How the beep(pc speaker) means
-
-Before logon:
-- 1 Beep: All works fine
-- 2 Beeps: Kernel Panic
-
-After logon:
-- 1 Beep: Finish, logon, error, warn, etc ..
-- 3 Beeps: System Software Panic(Crash)
