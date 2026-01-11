@@ -1,9 +1,7 @@
 {
     "startup_screen_filepath": "./coreutil/xubuntu_startup_mod.py",
-<<<<<<< HEAD
     "autologin_username": "yartmin",
     "system_version": "2.0.0-smeister1",
->>>>>>> c4a76d7361f75e5a4351fd293403f2ab8afccf77
     "system_codename": "Linkiya",
     "system_codename_lower": "linkiya"
 }

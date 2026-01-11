@@ -83,9 +83,6 @@ logger.info("Logger started successfully.")
 system_version = devJsonRead["system_version"] # 版本号 / Version
 system_codename = devJsonRead["system_codename"] # Codename
 system_codename_lower = devJsonRead["system_codename_lower"] # Codename Lowercased
-<<<<<<< HEAD
-=======
->>>>>>> c4a76d7361f75e5a4351fd293403f2ab8afccf77
 system_is_beta = False # 是否为 Beta 版 / Beta version
 isWindows = jsonRead["isWindows"] # 是否为 Windows / Are you windows?
 cmd_theme = jsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme
@@ -310,10 +307,7 @@ else:
         networked = False
         print("[" + color.yellow + " WARN " + color.reset + "] Skipped network checking, will keep status \"False\".")
     """
-<<<<<<< HEAD
-=======
     print("\n" + system_version + "-" + system_codename_lower)
->>>>>>> c4a76d7361f75e5a4351fd293403f2ab8afccf77
     print("Flandre Studio 2024--2025")
     print("0x1c Studio 2022--2023")
     print("\n" + "* VoidFlan Project is a Open-Source fake operating system, so fell free to improve our code!")
@@ -586,12 +580,7 @@ while count < 3:
                             print("True, true, False, false")
                     elif cmd == "netrefresh -h":
                         cat(lsh_path_fixed + "/coreutil/plaintext/netrefresh_help.txt")
-
-                    elif cmd == "pyosver":
-<<<<<<< HEAD
-=======
                         print(system_version)
->>>>>>> c4a76d7361f75e5a4351fd293403f2ab8afccf77
 
                     elif cmd == "jrrp":
                         print("As today, your luck is " + str(random.randint(0, 100)))
@@ -620,7 +609,6 @@ while count < 3:
 
                     # Package manager info
                     elif cmd == "shizuku":
-                        # cat(lsh_path_fixed + "/coreutil/plaintext/extprog_info.txt")
                         szkmng.tips()
                     elif cmd == "shizuku list":
                         szkmng.list_apps()
@@ -633,13 +621,11 @@ while count < 3:
                         pkgPath = cmd[16:]
                         print("Installing package from " + pkgPath + " ...")
                         if isWindows == True:
-                            # os.system("copy " + pkgPath + " .\\data\\apps")
                             result = szkmng.install(pkgPath)
                             os.chdir(pyosi_local_path)
                             if result != 0:
                                 print("Installation failed.")
                         elif isWindows == False:
-                            # os.system("cp " + pkgPath + " ./data/apps")
                             result = szkmng.install(pkgPath)
                             os.chdir(pyosi_local_path)
                             if result != 0:
@@ -786,9 +772,6 @@ while count < 3:
                         else:
                             lsh_hostname = lsh_hostname_pre
 
-                    elif cmd.startswith("sudo"): # sudo not sudo
-                        print("This system is not based on linux, so sudo is not on herse")
-
                     elif cmd.startswith("szk"):
                         # 提取包名，即命令去掉前四个字符后的部分
                         pypkg = cmd[4:]
@@ -818,12 +801,9 @@ while count < 3:
                             finally:
                                 os.chdir(pyosi_local_path)
 
-                    elif cmd == "about" or cmd == "^[[5~": # About system
+                    elif cmd == "about": # About system
                         slowprint("---------------| About |---------------")
-<<<<<<< HEAD
-=======
                         print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" by Yartmin Scarlet" + color.reset)
->>>>>>> c4a76d7361f75e5a4351fd293403f2ab8afccf77
                         print("(C) " + color.green + "0x1c Studio " + color.reset + "2022--2023 | (C) " + colorama.Fore.LIGHTRED_EX + "Flandre" + color.red + " Studio " + color.reset + "&" + color.grey + " FCNM " + color.reset + "&" + color.grey + " SnowMio Studios 2022--2025" + color.reset)
                         print("Python version: " + str(platform.python_version()))
                         print(" ")
@@ -910,8 +890,8 @@ while count < 3:
                         else:
                             os.system(customCommand)
 
-                    elif cmd == "": # what is this??? --minqwq at 2024-06-12 19:32
-                        space = "0"
+                    elif cmd == "":
+                        space = 0
 
                     elif cmd == "clear":
                         clearScreen()
