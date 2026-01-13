@@ -56,6 +56,11 @@ except Exception:
 import art
 import pprint
 import psutil
+try:
+    from rich.traceback import install
+    install(show_locals=True)
+except ModuleNotFoundError:
+    input("rich library not found! are you sure want to continue? [Enter/^C]")
 visuallog("Initialing unimportant Kernel Feature...", 0)
 try:
     import coreutil.shizuku.manager as szkmng # Installer for shizuku
