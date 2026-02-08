@@ -11,8 +11,22 @@ import socket
 import pprint
 import logging
 import json
+from . import lhwinfo
 
 loadtime = 0
+
+
+def termux_detect():
+    return "TERMUX_VERSION" in os.environ
+
+def userLoginSession(lsh_hostname):
+    user = ("\n" + lsh_hostname + " login: ")
+
+def clearScreen():
+    print("\033[2J" + "\033[0;0H")
+
+def beep():
+    print("\a", end="\r")
 
 def dotLoader(howMany, howSlow):
     for dotLoader_time in range(howMany):
@@ -181,12 +195,29 @@ def visuallog(string, level): # Logger that's can be used on your third-party pr
     elif level == 3:
         print(colorama.Fore.RED + "[FATAL] " + colorama.Fore.RESET + string)
         logger.fatal(string)
+
+def count_script_instances(vfexec):
+    """统计当前脚本的运行实例数量"""
+    current_script = os.path.abspath(vfexec)
+    count = 0
+
+    for proc in psutil.process_iter(['cmdline']):
+        try:
+            cmdline = proc.info['cmdline']
+            if cmdline and current_script in ' '.join(cmdline):
+                count += 1
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            continue
+
+    return count
+
 '''
 mori
 - Desc: used for a command "morifetchex", will fetch the system information.
 usage: see code
 '''
 def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
+    
     if curpath == "":
         path = os.getcwd()
     else:
@@ -204,6 +235,7 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
         # CONFIG SET START
         system_version = cDevJsonRead["system_version"] # 版本号 / Version
         system_codename = cDevJsonRead["system_codename"] # Codename
+        distribution_name = cDevJsonRead["distribution_name"] # 发行版名称
         system_is_beta = False # 是否为 Beta 版 / Beta version
         isWindows = cJsonRead["isWindows"] # 是否为 Windows / Are you windows?
         cmd_theme = cJsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme
@@ -232,22 +264,16 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
     
     def final_prints():
         print(f"{Fore.LIGHTCYAN_EX}morifetch{Fore.LIGHTRED_EX}EX{Style.RESET_ALL} Version 1.00a\n",
-              f" {Fore.YELLOW}User & Hostname: {Style.RESET_ALL}{user} at {hostname}\n",
+              f" {distribution_name} {system_version}\n",
+              f" {Fore.YELLOW}User & Hostname: {Style.RESET_ALL}{user} at {hostname} pty/{count_script_instances(__file__)}\n",
               f" {Fore.YELLOW}Uptime: {Style.RESET_ALL}{uptime}\n",
               f" {Fore.YELLOW}Version & Codename: {Style.RESET_ALL}{system_version} \"{system_codename}\"\n",
               f" {Fore.YELLOW}Device UUID: {Style.RESET_ALL}{deviceid}\n\n"
               f"  {Fore.GREEN}Host System Release: {Style.RESET_ALL}{platform.system()} {platform.release()} {platform.version()}\n",
               f" {Fore.GREEN}Host Arch: {Style.RESET_ALL}{platform.machine()}\n\n",
-              f" {Fore.CYAN}CPU: {Style.RESET_ALL}Failed to Fetch\n"
-              f"  {Fore.CYAN}Native Memory: {Style.RESET_ALL}1024 KiB")
-        formemcount = 0
-        formemtotal = int(psutil.virtual_memory().total / 1024 / 1024)
-        formemtotalkib = int(psutil.virtual_memory().total / 1024)
-        for i in range(formemtotal):
-            formemcount += 1
-            print(f"  {Fore.CYAN}Extended Memory: {Style.RESET_ALL}{formemcount} MiB", end="\r") 
-            time.sleep(0.00001)
-        print(f"  {Fore.CYAN}Extended Memory: {Style.RESET_ALL}{formemtotal} MiB / {formemtotalkib} KiB")
+              f" {Fore.RED}CPU Model: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_model()}\n",
+              f" {Fore.RED}CPU Flags: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_flags()}\n\n",
+              f" {Fore.CYAN}Memory(rss / vms): {Style.RESET_ALL}{psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024} MiB / {psutil.Process(os.getpid()).memory_info().vms / 1024 / 1024} MiB, Total available {psutil.virtual_memory().total / 1024 / 1024} MiB")
 
     final_prints()
 
@@ -271,13 +297,18 @@ def timeformat(sectime):
 
     return " ".join(parts)
 
+def warmreboot():
+    with open(__file__, 'r', encoding='utf-8') as f:
+        script_code = f.read()
+
+# Core shell
 def coresh():
     pprint.pprint(dict(globals()))
     print("End of current loaded modules.\nStarting shell...")
     print("! You are now running VoidFlan Project in Kernel mode\n"+
           "If all are dont, type \"exit\" to exit shell.")
     while True:
-        cmd = input("kn >_ $ ")
+        cmd = input("(scarletkernel) ")
         if cmd == "about":
             sk_act_about()
         elif cmd == "exit":

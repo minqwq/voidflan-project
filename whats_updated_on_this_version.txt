@@ -1,6 +1,8 @@
 2.0 SMeister 1 - 2026-01-xx
 - Optimized codes(really?
 - Removed old, and some lazy, trash stuffs
+- Added hostnamecfg.json for control about hostname features
+- Improved Windows supports
 - Removed Herobrine
 
 2.0 Laevatein 3 - 2025-12-12

@@ -5,9 +5,11 @@ import json
 conf = open("./config/config.json", "r", encoding="utf-8")
 devconf = open("./config/.devconfig/confdev.json", "r", encoding="utf-8")
 kiconf = open("./coreutil/module/kernelinfo.json", "r", encoding="utf-8")
+hostconf = open("./config/hostnamecfg.json", "r", encoding="utf-8")
 jsonRead = json.load(conf)
 devJsonRead = json.load(devconf)
 kiJsonRead = json.load(kiconf)
+hostconfJsonRead = json.load(hostconf)
 import time as tm
 import getpass
 import calendar
@@ -65,12 +67,15 @@ visuallog("Initialing unimportant Kernel Feature...", 0)
 try:
     import coreutil.shizuku.manager as szkmng # Installer for shizuku
     import coreutil.oeminfo.printoeminfo as oeminfo
+    import coreutil.module.rebootspell as rebootspell
 except Exception as crashReason:
     visuallog(crashReason + ", can't to load", 2)
 print("\033[?25l")
 
+# Init defines
 cmdhist_lines = 0
 cmdhist_time = "nul"
+cmd = "?"
 lsh_hostname = "scarletlocal-000"
 user = "defaultuser-000"
 lsh_path = os.getcwd()
@@ -78,7 +83,11 @@ lsh_path_fixed = os.getcwd()
 networked = False
 rpia_404 = False
 debugMode = ""
+isDevchan = False
+isDev = False
+logout = False
 
+# Set logger style
 LOG_FORMAT = '[Embedded][%(levelname)s] %(asctime)s | %(message)s'
 logging.basicConfig(filename='cache/.output.log', datefmt='%b %a %d %H:%M:%S %Y', level=logging.INFO, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
@@ -91,7 +100,13 @@ system_codename_lower = devJsonRead["system_codename_lower"] # Codename Lowercas
 system_is_beta = False # 是否为 Beta 版 / Beta version
 isWindows = jsonRead["isWindows"] # 是否为 Windows / Are you windows?
 cmd_theme = jsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme
-isDev = False # 是否为 Dev 模式 / Dev mode
+# 是否为 Dev 频道 / Devchan
+try:
+    sysdevchanSplit = system_codename_lower.split("-")[1]
+    if sysdevchanSplit.startswith("dev"):
+        isDevchan = True
+except IndexError:
+    pass
 enable_instant_show_time = jsonRead["enable_instant_show_time"] # INstant show time before shell
 isUnregistered = jsonRead["isUnregistered"] # Fake unregistered warning
 beep_when_finished = jsonRead["beep_when_finished"] # When a command finished running, speaker will beep
@@ -111,7 +126,7 @@ disablePathShow = jsonRead["disablePathShow"] # Disable path show on shell
 shorter_welcome = jsonRead["shorter_welcome"] # Show shorter welcome text when logon
 faster_startup = jsonRead["faster_startup"] # New version of startup screen
 rsyscmd_when_cnf = jsonRead["rsyscmd_when_cnf"] # Run system command when command not found
-lsh_hostname = jsonRead["default_hostname"] # Your default hostname(Boot ID 1 only)
+
 autologin_username = devJsonRead["autologin_username"]
 enable_legacy_help_engine = jsonRead["enable_legacy_help_engine"]
 expertfeature_cd_enabled = True # cd command availablity
@@ -120,15 +135,14 @@ try:
     deviceid = open(lsh_path_fixed + "/config/deviceid.txt", "r", encoding="utf-8").readline().strip()
 except Exception:
     pass
-# EXPERTIONAL FEATURE
+# HOSTNAME CONFIG START
+use_ip_as_hostname = hostconfJsonRead["use_ip_as_hostname"] # Show local ip on hostname instead of custom string
+disable_hostname = hostconfJsonRead["disable_hostname"] # Show nothing instead of hostname after username
 
-readConfigFromExport = False # Linux only! windows have same but not a command.
-disableKernelFeature = False # Disable the kernel, may crash more.
-
-# EXPERTIONAL FEATURE
-# DYNAMIC CONFIG
-logout = False
-# DYNAMIC CONFIG END
+if use_ip_as_hostname == True:
+    lsh_hostname = network_ip.get_local_ip()
+else:
+    lsh_hostname = jsonRead["default_hostname"] # Your default hostname(Boot ID 1 only)
 # CONFIG END
 
 if disablePathShow == True:
@@ -180,47 +194,9 @@ def runPreInstApp(pathtoapp):
         print("check it on config/config.json\nif you need help please contact minqwq723897@outlook.com")
         sys.exit()
 
-def termux_detect():
-    return "TERMUX_VERSION" in os.environ
-
-def userLoginSession():
-    user = ("\n" + lsh_hostname + " login: ")
-
-# with open("./config/config.json", "w", encoding="utf-8") as temp_writeConfig:
-#
-"""
-def compWizard():
-    print("Comptiable Wizard\ntrue if you are windows\nfalse if you are *nix")
-    conf_isWindows_write = input("> ")
-    if conf_isWindows_write == False:
-        jsonRead["isWindows"] = False
-        json.dump(jsonRead, jsonWrite, indent=4)
-        print("You can restart now.")
-    elif conf_isWindows_write == True:
-        jsonRead["isWindows"] = True
-        json.dump(jsonRead, jsonWrite, indent=4)
-        print("You can restart now.")
-    # print("Please configure the 'isWindows' to false or true on config/config.json\nIt's looks like this:\"isWindows\": \"\", Change it to:\n\"isWindows\": \"false\" If you are linux\n\"isWindows\": \"true\" If you are windows")
-    # print("Exiting...")
-    # sys.exit()
-    else:
-        print("Please retry.")
-"""
-
-def clearScreen():
-    print("\033[2J" + "\033[0;0H")
-
-def beep():
-    print("\a", end="\r")
-
-loadtime_aftered = 0
-temp_clock1 = time.time()
-
-print("Other utils loaded")
-logger.info("test log")
 print(style_cur.hide)
 runPreInstApp(lsh_path_fixed + "/apps/coreutils/exampleapp/hello.py")
-time.sleep(1)
+(1)
 clearScreen()
 runPreInstApp(lsh_path_fixed + "/coreutil/oeminfo/checkoem.py")
 print("VoidFlan Bootstrap 10.0 Laevatein 2")
@@ -237,7 +213,6 @@ else:
 time.sleep(1.5)
 clearScreen()
 print(color.reset)
-time.sleep(0.1)
 # Boot manager
 bootManagerLoopRun = True
 logger.info("Start logging.")
@@ -300,18 +275,6 @@ else:
     if system_is_beta == True: # If is beta version, show this warn
         print(text.doubt + "not release version, may unstable")
     print("[" + color.green + "  OK  " + color.reset + "] Scarlet Kernel initialion complete")
-    """
-    print("[" + color.yellow + " WAIT " + color.reset + "] Initialing network... checking... connecting to main.minqwq.moe:80 ...(Press Ctrl+C to skip)")
-    try:
-        if netcheck("main.minqwq.moe", 80):
-            networked = True
-            print("[" + color.green + "  OK  " + color.reset + "] Network return True, enabled")
-        else:
-            print("[" + color.red + " FAIL " + color.reset + "] Network return False, if you have tryed to reconnect, login and run \"netrefresh\"")
-    except KeyboardInterrupt:
-        networked = False
-        print("[" + color.yellow + " WARN " + color.reset + "] Skipped network checking, will keep status \"False\".")
-    """
     print("\n" + system_version + "-" + system_codename_lower)
     print("Flandre Studio 2024--2025")
     print("0x1c Studio 2022--2023")
@@ -320,20 +283,6 @@ else:
     print("This is a \"freeware\" and will not take your any money.")
     loading_spinner("[" + color.yellow + " WAIT " + color.reset + "] Delay: 3 secs (Press Ctrl+C to skip) ", 3)
 clearScreen()
-time.sleep(0.1)
-"""
-aprilFoolsTimeCheck = time.time()
-print(str(aprilFoolsTimeCheck))
-if aprilFoolsTimeCheck < 1743523200:
-    print(text.error + color.red + "Your system has been hacked by minqwq!!!!!!\nPlease type the coorrect password to unlock.")
-    getAFUnlock = input("type decoded of this string(after you decoded, if you see 0 and 1 please decode again)\nMTEwMTExMCAxMTAwMDAxIDExMDExMTAgMTEwMDAwMSAxMTAxMTAxIDExMDEwMDE=\n>")
-    if getAFUnlock == "nanami":
-        pass
-    else:
-        while True:
-            print(text.error + color.red + "Your system is being to destroy...")
-            time.sleep(0.1)
-"""
 end_startingtime = time.time()
 startingtime_t = end_startingtime - startingtime
 beep()
@@ -341,9 +290,7 @@ logger.info("Welcome to VoidFlan Project!")
 if isWindows == True:
     visuallog("Operating System Incomptiable warning: Some program may not working on your PC.", 1)
 print("VoidFlan Project PhyU/Legacy " + system_version + " \"" + system_codename + "\" " + lsh_hostname) # Login screen | For restart to login manager, please goto this line for work normally
-# print("\n" + random.choice(splashes))
 now = datetime.datetime.now()
-# other_StyleTime = now.strftime("%b %a %d %H:%M:%S %Y")
 count = 0
 unreg_count = 0
 stpasswd = "ciallo"
@@ -353,7 +300,6 @@ while count < 3:
     if not autologin_username == "":
         user = autologin_username
     if user == "" or user == "defaultuser-000":
-        time.sleep(1.5)
         visuallog("Login incorrect", 2)
     else:
         isCreatorAccount = False
@@ -390,9 +336,6 @@ while count < 3:
                 lshdate = now.strftime("%Y-%m-%d")
                 lshtime = now.strftime("%H:%M:%S")
                 if user == "minqwq":
-                    # password_pre = b"aWxvdmVtaW8="
-                    # password = base64.b64decode(password_pre)
-                    # inputpass = bytes(input(), encoding="utf-8")
                     creatorVerifyPassword = base64.b64decode(b"cXdlMTE1MDYx")
                     creatorVerify = bytes(getpass.getpass("Verify required, please type password...\n> "), encoding="utf-8")
                     if creatorVerify == creatorVerifyPassword:
@@ -427,11 +370,9 @@ while count < 3:
                     cat(lsh_path_fixed + "/" + co_welcome) # Welcome text, editable at coreutil/plaintext/welcome.txt
                 elif shorter_welcome == True:
                     cat(lsh_path_fixed + "/coreutil/plaintext/welcome_shorter.txt")
-                print("\nH-hi thewe " + color.cyan + user + color.reset + " >///<, I-I missed you a-a lot.")
-                print("Today is " + colorama.Fore.LIGHTCYAN_EX + lshdate + color.reset + " and time is " + colorama.Fore.LIGHTCYAN_EX + lshtime + color.reset + ".\nWeather is not bad.\n")
+                print("Today is " + colorama.Fore.LIGHTCYAN_EX + lshdate + color.reset + " and time is " + colorama.Fore.LIGHTCYAN_EX + lshtime + color.reset)
                 welcome_withDetectTime(user)
                 autoexec.main()
-                # print(style.slowblink + "Happy china lunar year(2025-01-28)!" + color.reset)
                 if isDev == True:
                     print("Logged into dev account, some command may unlocked!")
                 try:
@@ -811,6 +752,8 @@ while count < 3:
                         print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" by Yartmin Scarlet" + color.reset)
                         print("(C) " + color.green + "0x1c Studio " + color.reset + "2022--2023 | (C) " + colorama.Fore.LIGHTRED_EX + "Flandre" + color.red + " Studio " + color.reset + "&" + color.grey + " FCNM " + color.reset + "&" + color.grey + " SnowMio Studios 2022--2025" + color.reset)
                         print("Python version: " + str(platform.python_version()))
+                        if isDevchan == True:
+                            print("Development Channel! (may unstable)")
                         print(" ")
                         print("add option -c for credits\nadd option -s for support\nadd option -l for license")
                     elif cmd == "about -c" or cmd == "about --credits":
@@ -851,27 +794,13 @@ while count < 3:
                     elif cmd == "power shutdown" or cmd == "st" or cmd == ":q" or cmd == "halt": # Shutdown
                         logger.info("Shutting down...")
                         clearScreen()
-                        for i in range(175):
-                            print(colorama.Back.LIGHTWHITE_EX)
-                            time.sleep(0.0005)
-                        print(color.reset)
-                        clearScreen()
                         input("You can safe turn off your computer now.(any key...)")
                         clearScreen()
                         sys.exit()
                     elif cmd == "power reboot" or cmd == "reboot":
-                        visuallog("Executing reboot process...", 0)
-                        visuallog("Unloading all modules and kernel...", 1)
-                        '''
-                        for tmp_module0 in set(sys.modules.keys()):
-                            if tmp_module0 not in sys.buildin_module_names and not tmp_module0.startswith("_"):
-                                del sys.modules[tmp_module0]
-                        '''
-                        visuallog("Unloaded complete...", 0)
                         visuallog("Reset Spell \"Reboot the world\"", 0)
-                        time.sleep(1)
                         clearScreen()
-                        goto(line=1)
+                        os.execl(sys.executable, sys.executable, *sys.argv)
 
                     elif cmd == "time": # Show current time
                         now = datetime.datetime.now()
