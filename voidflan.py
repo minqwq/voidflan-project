@@ -2,14 +2,7 @@
 print("First running may take long time in some device, if this happen please just wait.(if its not responding at somewhere please press Ctrl+C and restart.)")
 from python_goto import goto
 import json
-conf = open("./config/config.json", "r", encoding="utf-8")
-devconf = open("./config/.devconfig/confdev.json", "r", encoding="utf-8")
-kiconf = open("./coreutil/module/kernelinfo.json", "r", encoding="utf-8")
-hostconf = open("./config/hostnamecfg.json", "r", encoding="utf-8")
-jsonRead = json.load(conf)
-devJsonRead = json.load(devconf)
-kiJsonRead = json.load(kiconf)
-hostconfJsonRead = json.load(hostconf)
+
 import time as tm
 import getpass
 import calendar
@@ -19,8 +12,6 @@ import datetime
 import colorama
 import time
 import random
-from os import path
-sys.path.append("./")
 import platform
 import requests
 import base64
@@ -41,17 +32,14 @@ try:
 except Exception as crashReason:
     print(crashReason + " Can't startup currently, kernel is broken.")
     sys.exit(15)
-visuallog("Kernel is ready.", 0)
 try:
     import curses
-    print("curses loaded")
 except ModuleNotFoundError:
     print("If you are trying run this on windows, please install curses module.(you can ignore this if you dont need advanced startup screen)")
     input("[Press any key to continue...]")
 try:
     import pygame
     haveSoundCard = True
-    print("pygame loaded")
 except Exception:
     print("pygame not found or error, some program may not work.")
     haveSoundCard = False
@@ -86,6 +74,16 @@ debugMode = ""
 isDevchan = False
 isDev = False
 logout = False
+
+# Init configs
+conf = open("./config/config.json", "r", encoding="utf-8")
+devconf = open("./config/.devconfig/confdev.json", "r", encoding="utf-8")
+kiconf = open("./coreutil/module/kernelinfo.json", "r", encoding="utf-8")
+hostconf = open("./config/hostnamecfg.json", "r", encoding="utf-8")
+jsonRead = json.load(conf)
+devJsonRead = json.load(devconf)
+kiJsonRead = json.load(kiconf)
+hostconfJsonRead = json.load(hostconf)
 
 # Set logger style
 LOG_FORMAT = '[Embedded][%(levelname)s] %(asctime)s | %(message)s'

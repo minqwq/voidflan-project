@@ -21,7 +21,6 @@ writeme.write("PY OS Improved SBI\n" +
               "Architecture   - " + platform.machine() + "\n" +
               "pyosver        - " + devJR["system_version"] + "\n"
               "System/Kernel  - " + platform.system() + "\n" +
-              "Builder's Path - " + os.environ["PWD"] + "\n" +
               "S/K, Version   - " + platform.release() + "\n" +
               "uuid           - " + str(uuid.uuid4()) + "\n\n"
               )
