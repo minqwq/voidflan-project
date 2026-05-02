@@ -1,4 +1,4 @@
 {
-    "use_ip_as_hostname": true,
+    "use_ip_as_hostname": false,
     "disable_hostname": false
 }

@@ -1,10 +1,10 @@
 2.0 SMeister 1 - 2026-01-xx
-- Added config editor, now more easier!
-- Optimized codes(really?
-- Removed old, and some lazy, trash stuffs
-- Added hostnamecfg.json for control about hostname features
-- Improved Windows supports
-- Removed Herobrine
+- 加入了json编辑器，现在用起来更简单啦~
+- 优化石山(真的吗.....？
+- 删除了一些上古内置程序
+- 加入了 hostnamecfg.json，用于主机名称的修改
+- 加强对 Windows 的支持
+- 移除了 Herobrine
 
 2.0 Laevatein 3 - 2025-12-12
 - Improved startup speed

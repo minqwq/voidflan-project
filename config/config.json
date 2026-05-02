@@ -16,6 +16,7 @@
     "dualBoot_OSName": "TEST",
     "venvEnable": false,
     "venvPath": "~/pyvenv/bin/python",
+    "python_exec_path_windows": "D:/winprogs/amd64/Python313/python.exe",
     "replace_python_command_to_python3": false,
     "disablePathShow": false,
     "shorter_welcome": false,

@@ -12,9 +12,12 @@ import pprint
 import logging
 import json
 from . import lhwinfo
+from . import jsonedit
 
 loadtime = 0
 
+def jsoneditor(load, save):
+    jsonedit.JsonEditor(file, save)
 
 def termux_detect():
     return "TERMUX_VERSION" in os.environ
@@ -46,11 +49,11 @@ def dir_filecount(directory):
 def cbatteryperc():
     try:
         if psutil.sensors_battery().percent > 21:
-            print(colorama.Fore.LIGHTYELLOW_EX + "[Low battery(" + str(psutil.sensors_battery().percent) + "%)]", end="")
+            print(colorama.Fore.LIGHTYELLOW_EX + "[低电量(" + str(psutil.sensors_battery().percent) + "%)]", end="")
         elif psutil.sensors_battery().percent > 11:
-            print(colorama.Fore.YELLOW + "[Low battery(" + str(psutil.sensors_battery().percent) + "%)]", end="")
+            print(colorama.Fore.YELLOW + "[低电量(" + str(psutil.sensors_battery().percent) + "%)]", end="")
         elif psutil.sensors_battery().percent > 6:
-            print(colorama.Fore.LIGHTRED_EX + "[Very low battery(" + str(psutil.sensors_battery().percent) + "%)]", end="")
+            print(colorama.Fore.LIGHTRED_EX + "[极低电量(" + str(psutil.sensors_battery().percent) + "%)]", end="")
         else:
             print("[" + str(psutil.sensors_battery().percent) + "]", end="")
     except Exception:
@@ -63,17 +66,17 @@ def linuxUtil_detectDistro():
 def welcome_withDetectTime(username):
     dtn = datetime.datetime.now()
     if int(dtn.strftime("%H")) >= 6:
-        print("Yo " + username + ", Good morning!")
+        print("早上好 " + username + "")
     elif int(dtn.strftime("%H")) >= 12:
-        print("It's noon " + username + ", go eat something...")
+        print("中午啦 " + username + "，去吃点什么吧。")
     elif int(dtn.strftime("%H")) >= 14:
-        print("Good afternoon " + username + "!")
+        print("下午好 " + username + "")
     elif int(dtn.strftime("%H")) >= 18:
-        print("It's night now, still working, " + username + "?")
+        print("晚上好 " + username + "")
     elif int(dtn.strftime("%H")) >= 21:
-        print("Time to sleep, " + username + ".")
+        print("该睡觉了 " + username + "。")
     elif int(dtn.strftime("%H")) >= 0:
-        print("It's overnight now, why not go to sleep " + username + "?")
+        print("...还不睡觉吗 " + username + "？")
 def cat(file):
     try:
         tmp_catcore = open(file, "r", encoding="utf-8")
@@ -144,7 +147,7 @@ def filesearch(keyword, directory='.', search_subdirs=True):
     COLOR_PATH = "\033[0;36m"     # Cyan (for paths)
     COLOR_TYPE = "\033[0;90m"     # Gray (for type indicators)
 
-    print(f"\nSearching for '{COLOR_KEYWORD}{keyword}{COLOR_RESET}' in {COLOR_PATH}{os.path.abspath(directory)}{COLOR_RESET}\n")
+    print(f"\n正在搜索字符串 '{COLOR_KEYWORD}{keyword}{COLOR_RESET}' 位于 {COLOR_PATH}{os.path.abspath(directory)}{COLOR_RESET}\n")
     
     matches_found = False
 
@@ -265,15 +268,15 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
     def final_prints():
         print(f"{Fore.LIGHTCYAN_EX}morifetch{Fore.LIGHTRED_EX}EX{Style.RESET_ALL} Version 1.00a\n",
               f" {distribution_name} {system_version}\n",
-              f" {Fore.YELLOW}User & Hostname: {Style.RESET_ALL}{user} at {hostname} pty/{count_script_instances(__file__)}\n",
-              f" {Fore.YELLOW}Uptime: {Style.RESET_ALL}{uptime}\n",
-              f" {Fore.YELLOW}Version & Codename: {Style.RESET_ALL}{system_version} \"{system_codename}\"\n",
-              f" {Fore.YELLOW}Device UUID: {Style.RESET_ALL}{deviceid}\n\n"
-              f"  {Fore.GREEN}Host System Release: {Style.RESET_ALL}{platform.system()} {platform.release()} {platform.version()}\n",
-              f" {Fore.GREEN}Host Arch: {Style.RESET_ALL}{platform.machine()}\n\n",
-              f" {Fore.RED}CPU Model: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_model()}\n",
-              f" {Fore.RED}CPU Flags: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_flags()}\n\n",
-              f" {Fore.CYAN}Memory(rss / vms): {Style.RESET_ALL}{psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024} MiB / {psutil.Process(os.getpid()).memory_info().vms / 1024 / 1024} MiB, Total available {psutil.virtual_memory().total / 1024 / 1024} MiB")
+              f" {Fore.YELLOW}用户名和主机名: {Style.RESET_ALL}{user} at {hostname} pty/{count_script_instances(__file__)}\n",
+              f" {Fore.YELLOW}启动时间: {Style.RESET_ALL}{uptime}\n",
+              f" {Fore.YELLOW}版本与代号: {Style.RESET_ALL}{system_version} \"{system_codename}\"\n",
+              f" {Fore.YELLOW}设备 UUID: {Style.RESET_ALL}{deviceid}\n\n"
+              f"  {Fore.GREEN}主机系统名称与版本: {Style.RESET_ALL}{platform.system()} {platform.release()} {platform.version()}\n",
+              f" {Fore.GREEN}主机 CPU 架构: {Style.RESET_ALL}{platform.machine()}\n\n",
+              f" {Fore.RED}CPU 型号: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_model()}\n",
+              f" {Fore.RED}CPU 支持功能: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_flags()}\n\n",
+              f" {Fore.CYAN}内存(rss / vms): {Style.RESET_ALL}{psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024} MiB / {psutil.Process(os.getpid()).memory_info().vms / 1024 / 1024} MiB, 总共 {psutil.virtual_memory().total / 1024 / 1024} MiB")
 
     final_prints()
 

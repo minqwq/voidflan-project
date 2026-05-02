@@ -1,7 +1,7 @@
 {
     "meta": {
         "title": "VoidFlan Project Codename \"Kokoro\"",
-        "subtitle": "Command List",
+	    "subtitle": "命令列表",
         "version": "0.01a_tr",
         "colors": {
             "title": "cyan",
@@ -11,65 +11,63 @@
         }
     },
     "categories": {
-        "System": {
-            "ls": "List files on current path",
-            "about [-csl]": "Show the system's information",
-            "pyosver": "Show current version of system",
-            "time": "Show the current time",
-            "clear": "Clear your screen",
-            "power [reboot, shutdown]": "Power manager",
-            "exit": "Lock the system",
-            "hostname [-c]": "Hostname manager",
-            "echo [str]": "\"Echo\" some words!",
-            "flan <file>": "Remove file",
-            "rmdir <path>": "Remove folder",
-            "su <user>": "Switch user",
-            "patch": "Check the current configurements of the system",
-            "chthm <theme>": "Change the theme of Flandre Shell",
-            "pyosiupgrade": "Upgrade the system(Development Channel User Only)",
-            "shizuku <c1> <c2>": "Package manager, Offline.",
-            "logout": "Logoff the current user",
-            "kernlog <level> <str>": "Print kernel log now",
-            "uptime": "How long time you opened your computer?"
+        "系统": {
+            "ls": "列出当前位置的所有文件。",
+            "about [-csl]": "系统版本及关于信息。",
+            "pyosver": "显示版本号。",
+            "time": "显示时间。",
+            "clear": "清屏",
+            "power [reboot, shutdown]": "电源管理器",
+            "exit": "锁定系统。",
+            "hostname [-c]": "主机名管理器。",
+            "echo [str]": "输出指定文本。",
+            "flan <file>": "删除文件。",
+            "rmdir <path>": "删除文件夹。",
+            "su <user>": "切换用户",
+            "patch": "查看现在的配置状态和各种变量和已加载的模块。",
+            "chthm <theme>": "切换 Shell 主题",
+            "pyosiupgrade": "更新（仅限开发频道）",
+            "shizuku <c1> <c2>": "包管理器。",
+            "logout": "登出当前用户。",
+            "kernlog <level> <str>": "输出日志。",
+            "uptime": "显示在线时间。"
         },
-        "Tools": {
-            "morifetchex": "uwufetch's Replacement, For showing hardware/software information",
-            "caesar": "Caesar encryption tools",
-            "sticker": "notepad but can't save content",
-            "fileget": "Get any file from internet",
-            "paint": "Paint(image maker app)",
-            "clock": "Timer and clock",
-            "tasks": "Critical tasks now will never forgot again.",
-            "asciicvt": "ASCII Code Converter",
-            "ed": "Line-based text editor",
-            "netrefresh [-h, set] [status]": "Refresh network connection",
-            "cuscmd": "Run any command on host system",
-            "pftest": "CPU Speed test tools",
-	    "whereis": "Search files on your computer."
+        "工具": {
+            "morifetchex": "uwufetch 的再版，显示各种系统信息和硬件信息。",
+            "caesar": "凯撒加解密。",
+            "fileget": "类似 wget 的下载器，但跨平台兼容。",
+            "paint": "画图。",
+            "clock": "时钟与计时",
+            "asciicvt": "ASCII 码转换器。",
+            "ed": "基于行的文本编辑器。",
+            "netrefresh [-h, set] [status]": "重载网络连接",
+            "cuscmd": "在主机操作系统上运行命令。",
+            "pftest": "CPU 速度测试。",
+            "whereis": "搜索文件。"
         },
-        "Relax": {
-            "screensaver": "Save your CRT screen",
-            "jrrp": "Check your luck amount of today"
+        "休闲": {
+            "screensaver": "屏幕保护程序。",
+            "jrrp": "今日人品（字面意"
         },
-        "Multimedia": {
-            "krmidipl": "Kirisame MIDI Player"
+        "多媒体": {
+            "krmidipl": "雾雨 MIDI 播放器"
         },
-        "Games": {
-            "tetris": "Tetris for Python 3.x",
-            "guessnum": "Number guessing game",
-            "ttt": "Tic-Tac-Toe classic game for Python 3.x"
+        "游戏": {
+            "tetris": "Python 3.x 版 Tetris",
+            "guessnum": "经典猜数字游戏。",
+            "ttt": "Python 3.x 版井字棋"
         },
-        "Networking": {
-            "empty": "we are not ready for them."
+        "网上冲浪": {
+            "空": "空"
         },
-        "Graphical Program": {
-            "empty": "we are not ready for them."
+        "GUI 程序": {
+            "空": "空"
         },
-        "Other": {
-            "tutor": "VoidFlan Project User help manual(Unfinished)"
+        "其他": {
+            "空": "空"
         },
-        "Keyboard Shortcut": {
-            "^C (Control+C)": "Emergency options"
+        "键盘快捷键": {
+            "^C (Control+C)": "应急选项"
         }
     }
 }
