@@ -234,6 +234,12 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
         devconf = open(devconfigfile, "r", encoding="utf-8")
         cJsonRead = json.load(conf)
         cDevJsonRead = json.load(devconf)
+
+        dmiBasePath = "/sys/class/dmi/id/"
+
+        dmiProductFamily = open(dmiBasePath + "product_family").read().strip()
+        dmiProductName = open(dmiBasePath + "product_name").read().strip()
+        dmiSysVendor = open(dmiBasePath + "sys_vendor").read().strip()
     
         # CONFIG SET START
         system_version = cDevJsonRead["system_version"] # 版本号 / Version
@@ -262,8 +268,8 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
         shorter_welcome = cJsonRead["shorter_welcome"] # Show shorter welcome text when logon
         faster_startup = cJsonRead["faster_startup"] # New version of startup screen
         rsyscmd_when_cnf = cJsonRead["rsyscmd_when_cnf"] # Run system command when command not found
-    except Exception:
-        print("It seems like config files are not found.")
+    except Exception as e:
+        print("It seems like config files are not found. " + e)
     
     def final_prints():
         print(f"{Fore.LIGHTCYAN_EX}morifetch{Fore.LIGHTRED_EX}EX{Style.RESET_ALL} Version 1.00a\n",
@@ -276,7 +282,9 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
               f" {Fore.GREEN}主机 CPU 架构: {Style.RESET_ALL}{platform.machine()}\n\n",
               f" {Fore.RED}CPU 型号: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_model()}\n",
               f" {Fore.RED}CPU 支持功能: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_flags()}\n\n",
-              f" {Fore.CYAN}内存(rss / vms): {Style.RESET_ALL}{psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024} MiB / {psutil.Process(os.getpid()).memory_info().vms / 1024 / 1024} MiB, 总共 {psutil.virtual_memory().total / 1024 / 1024} MiB")
+              f" {Fore.CYAN}内存(rss / vms): {Style.RESET_ALL}{psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024} MiB / {psutil.Process(os.getpid()).memory_info().vms / 1024 / 1024} MiB, 总共 {psutil.virtual_memory().total / 1024 / 1024} MiB\n\n",
+              f" {Fore.LIGHTBLUE_EX}主机系列和序列号: {Style.RESET_ALL}{dmiProductFamily} {dmiProductName}\n",
+              f" {Fore.LIGHTBLUE_EX}主机制造商: {Style.RESET_ALL}{dmiSysVendor}\n")
 
     final_prints()
 

@@ -1,5 +1,5 @@
 # Main code - VoidFlan Project
-print("First running may take long time in some device, if this happen please just wait.(if its not responding at somewhere please press Ctrl+C and restart.)")
+print("每次重启主机系统后再次启动此程序可能需要一段时间才能初始化，请耐心等待。")
 from python_goto import goto
 import json
 import getpass
@@ -12,7 +12,6 @@ import random
 import platform
 import traceback
 import logging
-import autoexec
 import threading
 import uuid
 try:
@@ -184,9 +183,9 @@ runPreInstApp(lsh_path_fixed + "/apps/coreutils/exampleapp/hello.py")
 (1)
 clearScreen()
 runPreInstApp(lsh_path_fixed + "/coreutil/oeminfo/checkoem.py")
-print("VoidFlan Bootstrap 10.0 Laevatein 2")
-print(colorama.Fore.LIGHTGREEN_EX + "Native + Extended Memory Total " + str(psutil.virtual_memory().total / 1024) + " KBytes(i)")
-print(colorama.Fore.LIGHTGREEN_EX + "System Kernel init successful!")
+print("VoidFlan Bootstrap")
+print(colorama.Fore.LIGHTGREEN_EX + "总内存 " + str(psutil.virtual_memory().total / 1024 / 1024) + " MiB")
+print(colorama.Fore.LIGHTGREEN_EX + "初始化完成！")
 print("Checking Device UUID Availablity...")
 if not os.path.isfile(lsh_path_fixed + "/config/deviceid.txt"):
     print("Not found, Creating one...")
@@ -337,7 +336,6 @@ while count < 3:
                     cat(lsh_path_fixed + "/coreutil/plaintext/welcome_shorter.txt")
                 print("今天是 " + colorama.Fore.LIGHTCYAN_EX + lshdate + color.reset + "，时间是 " + colorama.Fore.LIGHTCYAN_EX + lshtime + color.reset)
                 welcome_withDetectTime(user)
-                autoexec.main()
                 if isDev == True:
                     print("dev")
                 try:
@@ -409,6 +407,9 @@ while count < 3:
                             os.system("ls ./")
                         elif isWindows == True:
                             os.system("dir .\\")
+
+                    elif cmd == "version":
+                        print(system_version + " " + system_codename_lower)
 
                     elif cmd == "oeminfo":
                         oeminfo.getoeminfo(lsh_path_fixed + "/coreutil/oeminfo/oeminfo.json")

@@ -1,11 +1,11 @@
 {
-    "isWindows": true,
+    "isWindows": false,
     "cmd_theme": "default_v2",
     "default_hostname": "starlik",
     "enable_instant_show_time": true,
     "isUnregistered": false,
     "beep_when_finished": true,
-    "auto_boot_choice": "",
+    "auto_boot_choice": "1",
     "devenv": "uwu",
     "enablePassword": false,
     "show_password_when_typing": false,
