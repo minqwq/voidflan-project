@@ -13,6 +13,7 @@ import logging
 import json
 from . import lhwinfo
 from . import jsonedit
+from . import hardware
 
 loadtime = 0
 
@@ -279,12 +280,13 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
               f" {Fore.YELLOW}版本与代号: {Style.RESET_ALL}{system_version} \"{system_codename}\"\n",
               f" {Fore.YELLOW}设备 UUID: {Style.RESET_ALL}{deviceid}\n\n"
               f"  {Fore.GREEN}主机系统名称与版本: {Style.RESET_ALL}{platform.system()} {platform.release()} {platform.version()}\n",
-              f" {Fore.GREEN}主机 CPU 架构: {Style.RESET_ALL}{platform.machine()}\n\n",
+              f" {Fore.GREEN}主机 CPU 架构: {Style.RESET_ALL}{platform.machine()} {hardware.detect_x86_64_level(set(lhwinfo.cpu.get_cpu_flags().split()))}\n\n",
               f" {Fore.RED}CPU 型号: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_model()}\n",
               f" {Fore.RED}CPU 支持功能: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_flags()}\n\n",
               f" {Fore.CYAN}内存(rss / vms): {Style.RESET_ALL}{psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024} MiB / {psutil.Process(os.getpid()).memory_info().vms / 1024 / 1024} MiB, 总共 {psutil.virtual_memory().total / 1024 / 1024} MiB\n\n",
               f" {Fore.LIGHTBLUE_EX}主机系列和序列号: {Style.RESET_ALL}{dmiProductFamily} {dmiProductName}\n",
-              f" {Fore.LIGHTBLUE_EX}主机制造商: {Style.RESET_ALL}{dmiSysVendor}\n")
+              f" {Fore.LIGHTBLUE_EX}主机制造商: {Style.RESET_ALL}{dmiSysVendor}\n",
+              f" {Fore.LIGHTBLUE_EX}主机主板型号: {Style.RESET_ALL}{hardware.getBoardModelFromCpu(lhwinfo.cpu.get_cpu_model())}")
 
     final_prints()
 
