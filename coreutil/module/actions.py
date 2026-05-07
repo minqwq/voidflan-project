@@ -295,24 +295,29 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
 
     final_prints()
 
+
 def timeformat(sectime):
-    days = sectime // (24 * 3600)
-    sectime %= (24 * 3600)
-    hours = sectime // 3600
-    sectime %= 3600
-    minutes = sectime // 60
-    sectime %= 60
+    if not isinstance(sectime, (int, float)):
+        raise TypeError(f"Expected number, got {type(sectime).__name__}")
+    if sectime < 0:
+        raise ValueError("Time cannot be negative")
+    
+    sectime = int(sectime)
+
+    days, reminder = divmod(sectime, 86400)
+    hours, reminder = divmod(reminder, 3600)
+    minutes, seconds = divmod(reminder, 60)
 
     parts = []
-    if days > 0:
-        parts.append(f"{int(days)}d")
-    if hours > 0:
-        parts.append(f"{int(hours)}h")
-    if minutes > 0:
-        parts.append(f"{int(minutes)}m")
-    if sectime > 0 or not parts:
-        parts.append(f"{int(sectime)}s")
-
+    if days:
+        parts.append(f"{days}d")
+    if hours:
+        parts.append(f"{hours}h")
+    if minutes:
+        parts.append(f"{minutes}m")
+    if seconds or not parts:
+        parts.append(f"{seconds}s")
+    
     return " ".join(parts)
 
 def warmreboot():
