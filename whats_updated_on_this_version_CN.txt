@@ -1,4 +1,4 @@
-2.0 SMeister 1 - 2026-05-05
+2.0 Pre-release 1 - 2026-05-05
 - 加入了json编辑器，现在用起来更简单啦~
 - 优化石山(真的吗.....？
 - 删除了一些上古内置程序
@@ -6,14 +6,14 @@
 - 加强对 Windows 的支持
 - 移除了 Herobrine
 
-2.0 Laevatein 3 - 2025-12-12
+2.0 Beta 3 - 2025-12-12
 - Improved startup speed
 - Build code now decprated
 - Removed some old programs and cleanup useless content
 - Added oem boot screens and can be customized
 - Removed Herobrine
 
-2.0 Laevatein 2 - 2025-09-12
+2.0 Beta 2 - 2025-09-12
 - Updated the Kernel, so you can see formatted uptime on morifetchex now
 - Added autotest runPreInstApp availbility, if the config had problem, the system will wont start and saying error and help
 - Updated the login screen, so it looks more like linux tty login now

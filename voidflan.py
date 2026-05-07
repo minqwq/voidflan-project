@@ -55,15 +55,17 @@ isDev = False
 logout = False
 
 # Init configs
-conf = open("./config/config.json", "r", encoding="utf-8")
-devconf = open("./config/.devconfig/confdev.json", "r", encoding="utf-8")
-kiconf = open("./coreutil/module/kernelinfo.json", "r", encoding="utf-8")
-hostconf = open("./config/hostnamecfg.json", "r", encoding="utf-8")
-jsonRead = json.load(conf)
-devJsonRead = json.load(devconf)
-kiJsonRead = json.load(kiconf)
-hostconfJsonRead = json.load(hostconf)
-
+try:
+    conf = open("./config/config.json", "r", encoding="utf-8")
+    devconf = open("./config/.devconfig/confdev.json", "r", encoding="utf-8")
+    kiconf = open("./coreutil/module/kernelinfo.json", "r", encoding="utf-8")
+    hostconf = open("./config/hostnamecfg.json", "r", encoding="utf-8")
+    jsonRead = json.load(conf)
+    devJsonRead = json.load(devconf)
+    kiJsonRead = json.load(kiconf)
+    hostconfJsonRead = json.load(hostconf)
+except json.decoder.JSONDecodeError:
+    input("[JSON Syntax Incorrect] Press any key to except")
 # Set logger style
 LOG_FORMAT = '[Embedded][%(levelname)s] %(asctime)s | %(message)s'
 logging.basicConfig(filename='cache/.output.log', datefmt='%b %a %d %H:%M:%S %Y', level=logging.INFO, format=LOG_FORMAT)
@@ -71,47 +73,50 @@ logger = logging.getLogger(__name__)
 logger.info("Logger started successfully.")
 
 # CONFIG START
-system_version = devJsonRead["system_version"] # 版本号 / Version
-system_codename = devJsonRead["system_codename"] # Codename
-system_codename_lower = devJsonRead["system_codename_lower"] # Codename Lowercased
-system_is_beta = False # 是否为 Beta 版 / Beta version
-isWindows = jsonRead["isWindows"] # 是否为 Windows / Are you windows?
-cmd_theme = jsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme
-# 是否为 Dev 频道 / Devchan
 try:
-    sysdevchanSplit = system_codename_lower.split("-")[1]
-    if sysdevchanSplit.startswith("dev"):
-        isDevchan = True
-except IndexError:
-    pass
-enable_instant_show_time = jsonRead["enable_instant_show_time"] # INstant show time before shell
-isUnregistered = jsonRead["isUnregistered"] # Fake unregistered warning
-beep_when_finished = jsonRead["beep_when_finished"] # When a command finished running, speaker will beep
-auto_boot_choice = jsonRead["auto_boot_choice"] # When have a number, the boot manager will auto boot to selected operating system.
-enablePassword = jsonRead["enablePassword"] # Enable password when login, string on the config.
-show_password_when_typing = jsonRead["show_password_when_typing"] # Enable will not shown password when typing.
-pwdstring = jsonRead["pwdstring"] # Password string
-allowShowNotify = jsonRead["allowShowNotify"] # Enable to show notify in linux desktop or windows 10+
-dualBoot = jsonRead["dualBoot"] # Allow you to boot another fake os written in any language
-dualBoot_startupCommand = jsonRead["dualBoot_startupCommand"] # Dual boot startup command
-dualBoot_OSName = jsonRead["dualBoot_OSName"] # Dual boot name(show in boot manager)
-venvEnable = jsonRead["venvEnable"] # Enable python venv here
-if venvEnable == True:
-    venvPath = jsonRead["venvPath"] # If you are linux distro, like me, you need this
-replace_python_command_to_python3 = jsonRead["replace_python_command_to_python3"] # Replace python command to python3(when you using linux distro)
-disablePathShow = jsonRead["disablePathShow"] # Disable path show on shell
-shorter_welcome = jsonRead["shorter_welcome"] # Show shorter welcome text when logon
-faster_startup = jsonRead["faster_startup"] # New version of startup screen
-rsyscmd_when_cnf = jsonRead["rsyscmd_when_cnf"] # Run system command when command not found
-python_exec_path_windows = jsonRead["python_exec_path_windows"] # Python executable path(Windows only, linux/posix use venv instead)
-autologin_username = devJsonRead["autologin_username"]
-enable_legacy_help_engine = jsonRead["enable_legacy_help_engine"]
-expertfeature_cd_enabled = True # cd command availablity
-kernelver = kiJsonRead["version"] # Kernel version
-try:
-    deviceid = open(lsh_path_fixed + "/config/deviceid.txt", "r", encoding="utf-8").readline().strip()
-except Exception:
-    pass
+    system_version = devJsonRead["system_version"] # 版本号 / Version
+    system_codename = devJsonRead["system_codename"] # Codename
+    system_codename_lower = devJsonRead["system_codename_lower"] # Codename Lowercased
+    system_is_beta = False # 是否为 Beta 版 / Beta version
+    isWindows = jsonRead["isWindows"] # 是否为 Windows / Are you windows?
+    cmd_theme = jsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme
+    # 是否为 Dev 频道 / Devchan
+    try:
+        sysdevchanSplit = system_codename_lower.split("-")[1]
+        if sysdevchanSplit.startswith("dev"):
+            isDevchan = True
+    except IndexError:
+        pass
+    enable_instant_show_time = jsonRead["enable_instant_show_time"] # INstant show time before shell
+    isUnregistered = jsonRead["isUnregistered"] # Fake unregistered warning
+    beep_when_finished = jsonRead["beep_when_finished"] # When a command finished running, speaker will beep
+    auto_boot_choice = jsonRead["auto_boot_choice"] # When have a number, the boot manager will auto boot to selected operating system.
+    enablePassword = jsonRead["enablePassword"] # Enable password when login, string on the config.
+    show_password_when_typing = jsonRead["show_password_when_typing"] # Enable will not shown password when typing.
+    pwdstring = jsonRead["pwdstring"] # Password string
+    allowShowNotify = jsonRead["allowShowNotify"] # Enable to show notify in linux desktop or windows 10+
+    dualBoot = jsonRead["dualBoot"] # Allow you to boot another fake os written in any language
+    dualBoot_startupCommand = jsonRead["dualBoot_startupCommand"] # Dual boot startup command
+    dualBoot_OSName = jsonRead["dualBoot_OSName"] # Dual boot name(show in boot manager)
+    venvEnable = jsonRead["venvEnable"] # Enable python venv here
+    if venvEnable == True:
+        venvPath = jsonRead["venvPath"] # If you are linux distro, like me, you need this
+    replace_python_command_to_python3 = jsonRead["replace_python_command_to_python3"] # Replace python command to python3(when you using linux distro)
+    disablePathShow = jsonRead["disablePathShow"] # Disable path show on shell
+    shorter_welcome = jsonRead["shorter_welcome"] # Show shorter welcome text when logon
+    faster_startup = jsonRead["faster_startup"] # New version of startup screen
+    rsyscmd_when_cnf = jsonRead["rsyscmd_when_cnf"] # Run system command when command not found
+    python_exec_path_windows = jsonRead["python_exec_path_windows"] # Python executable path(Windows only, linux/posix use venv instead)
+    autologin_username = devJsonRead["autologin_username"]
+    enable_legacy_help_engine = jsonRead["enable_legacy_help_engine"]
+    expertfeature_cd_enabled = True # cd command availablity
+    kernelver = kiJsonRead["version"] # Kernel version
+    try:
+        deviceid = open(lsh_path_fixed + "/config/deviceid.txt", "r", encoding="utf-8").readline().strip()
+    except Exception:
+        pass
+except json.decoder.JSONDecodeError:
+    input("[JSON Syntax Incorrect] Press any key to except")
 # HOSTNAME CONFIG START
 use_ip_as_hostname = hostconfJsonRead["use_ip_as_hostname"] # Show local ip on hostname instead of custom string
 disable_hostname = hostconfJsonRead["disable_hostname"] # Show nothing instead of hostname after username
@@ -239,6 +244,7 @@ while bootManagerLoopRun == True:
             pass
     elif bootChoice == "7":
         coresh()
+        goto(line=1)
     elif bootChoice == "8":
         visuallog("Not provided in this version", 2)
     elif bootChoice == "9":
@@ -408,6 +414,9 @@ while count < 3:
                         elif isWindows == True:
                             os.system("dir .\\")
 
+                    elif cmd == "yukarifm":
+                        runPreInstApp(lsh_path_fixed + "/apps/yukarifileman/yukarifm.py")
+
                     elif cmd == "version":
                         print(system_version + " " + system_codename_lower)
 
@@ -559,19 +568,6 @@ while count < 3:
                     elif cmd == "2048":
                         os.system(lsh_path_fixed + "/apps/2048/2048-in-terminal")
 
-                    elif cmd.startswith("flan"):
-                        rmFile = cmd[3:]
-                        if rmFile == "":
-                            print("未提供字符串")
-                        else:
-                            os.remove(rmFile)
-                    elif cmd.startswith("rmdir"):
-
-                        rmDir = cmd[6:]
-                        if rmDir == "":
-                            print("未提供字符串")
-                        else:
-                            os.rmdir(rmDir)
                     elif cmd.startswith("su"):
                         user_preInput = cmd[3:]
                         if user_preInput == "":

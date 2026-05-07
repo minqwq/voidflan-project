@@ -21,8 +21,6 @@
             "exit": "锁定系统。",
             "hostname [-c]": "主机名管理器。",
             "echo [str]": "输出指定文本。",
-            "flan <file>": "删除文件。",
-            "rmdir <path>": "删除文件夹。",
             "su <user>": "切换用户",
             "patch": "查看现在的配置状态和各种变量和已加载的模块。",
             "chthm <theme>": "切换 Shell 主题",
@@ -30,7 +28,8 @@
             "shizuku <c1> <c2>": "包管理器。",
             "logout": "登出当前用户。",
             "kernlog <level> <str>": "输出日志。",
-            "uptime": "显示在线时间。"
+            "uptime": "显示在线时间。",
+            "yukarifm": "文件管理器"
         },
         "工具": {
             "morifetchex": "uwufetch 的再版，显示各种系统信息和硬件信息。",

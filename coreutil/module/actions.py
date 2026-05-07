@@ -234,19 +234,24 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
         devconf = open(devconfigfile, "r", encoding="utf-8")
         cJsonRead = json.load(conf)
         cDevJsonRead = json.load(devconf)
-
-        dmiBasePath = "/sys/class/dmi/id/"
-
-        dmiProductFamily = open(dmiBasePath + "product_family").read().strip()
-        dmiProductName = open(dmiBasePath + "product_name").read().strip()
-        dmiSysVendor = open(dmiBasePath + "sys_vendor").read().strip()
+        
+        isWindows = cJsonRead["isWindows"] # 是否为 Windows / Are you windows?
+        if isWindows == False:
+            dmiBasePath = "/sys/class/dmi/id/"
+            dmiProductFamily = open(dmiBasePath + "product_family").read().strip()
+            dmiProductName = open(dmiBasePath + "product_name").read().strip()
+            dmiSysVendor = open(dmiBasePath + "sys_vendor").read().strip()
+        else:
+            dmiProductFamily = "Unknown"
+            dmiProductName = "Unknown"
+            dmiSysVendor = "Unknown"
     
         # CONFIG SET START
         system_version = cDevJsonRead["system_version"] # 版本号 / Version
         system_codename = cDevJsonRead["system_codename"] # Codename
         distribution_name = cDevJsonRead["distribution_name"] # 发行版名称
         system_is_beta = False # 是否为 Beta 版 / Beta version
-        isWindows = cJsonRead["isWindows"] # 是否为 Windows / Are you windows?
+
         cmd_theme = cJsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme
         isDev = False # 是否为 Dev 模式 / Dev mode
         enable_instant_show_time = cJsonRead["enable_instant_show_time"] # INstant show time before shell
@@ -268,8 +273,8 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
         shorter_welcome = cJsonRead["shorter_welcome"] # Show shorter welcome text when logon
         faster_startup = cJsonRead["faster_startup"] # New version of startup screen
         rsyscmd_when_cnf = cJsonRead["rsyscmd_when_cnf"] # Run system command when command not found
-    except Exception as e:
-        print("It seems like config files are not found. " + e)
+    except Exception:
+        print("It seems like config files are not found. ")
     
     def final_prints():
         print(f"{Fore.LIGHTCYAN_EX}morifetch{Fore.LIGHTRED_EX}EX{Style.RESET_ALL} Version 1.00a\n",
@@ -320,10 +325,8 @@ def coresh():
           "If all are dont, type \"exit\" to exit shell.")
     while True:
         cmd = input("(scarletkernel) ")
-        if cmd == "about":
-            sk_act_about()
-        elif cmd == "exit":
-            sys.exit()
+        if cmd == "exit":
+            exit()
         elif cmd == "mori":
             mori("Scarlet Kernel II", "127.0.0.1", "/", "", "", "Unknown", "11111111-1111-1111-1111111111111111")
         elif cmd.startswith("dlt"):
