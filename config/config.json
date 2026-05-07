@@ -14,7 +14,7 @@
     "dualBoot": false,
     "dualBoot_startupCommand": "python test.py",
     "dualBoot_OSName": "TEST",
-    "venvEnable": false,
+    "venvEnable": true,
     "venvPath": "~/pyvenv/bin/python",
     "python_exec_path_windows": "",
     "replace_python_command_to_python3": false,
