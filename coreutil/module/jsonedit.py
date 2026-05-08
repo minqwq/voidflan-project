@@ -141,13 +141,16 @@ class JsonEditor:
         
         print("\nCurrent content:")
         self.display()
-        print("\nInput format: name content (e.g., iswin true or name \"John\")")
-        print("Enter 'save' to save and exit")
-        print("Enter 'saveas <path>' to save as")
-        print("Enter 'exit' to exit without saving")
-        print("Enter 'show' to redisplay current content")
-        print("Enter 'clear' to clear all data")
-        print("Enter 'setpath <path>' to set save path")
+        
+        print(
+            "\nInput format: name content (e.g., iswin true or name \"John\")"
+            "\nEnter 'save' to save and exit"
+            "\nEnter 'saveas <path>' to save as"
+            "\nEnter 'exit' to exit without saving"
+            "\nEnter 'show' to redisplay current content"
+            "\nEnter 'clear' to clear all data"
+            "\nEnter 'setpath <path>' to set save path"
+        )
         
         while True:
             try:
