@@ -1,21 +1,6 @@
 #!/usr/bin/env python3
 import re
 
-def detect_x86_64_level(cpu_flags: set[str] | None = None) -> str:
-    """
-    检测 x86_64 微架构级别
-    """
-    if cpu_flags is None:
-        print("CPU Flags not given")
-
-    if {"avx512f", "avx512bw"} & cpu_flags:
-        return "Version 4"
-    if {"avx", "avx2", "bmi1", "bmi2", "fma"} & cpu_flags:
-        return "Version 3"
-    if {"sse3", "ssse3", "sse4_1", "sse4_2", "popcnt"} & cpu_flags:
-        return "Version 2"
-    return "Version 1"
-
 def getBoardModelFromCpu(cpu_model: str) -> str:
     m = cpu_model.lower()
 

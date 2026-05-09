@@ -752,7 +752,7 @@ while count < 3:
                 time.sleep(0.3)
                 beep()
                 clearScreen()
-                traceback.print_exception(crashReason, limit=1145, file=sys.stdout)
+                # traceback.print_exception(crashReason, limit=1145, file=sys.stdout) - not working on python 3.8.10
                 cat(lsh_path_fixed + "/coreutil/buildtime_styled.txt")
                 runPreInstApp("coreutil/catchinfo.py")
                 print("Last command input: " + cmd)
