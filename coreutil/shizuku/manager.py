@@ -155,10 +155,12 @@ def install(*aargs):
             app_tar = app_json["target_python_version"]
             app_comptb = app_json["compatible_os"]
         while True:
-            check = str(input(f"{Fore.CYAN}Do you want to install the package '{app_name}'? (y/n): {Fore.RESET}"))
-            if check == "y" or check == "Y":
+            check = str(
+                input(f"{Fore.CYAN}Do you want to install the package '{app_name}'? (y/n): {Fore.RESET}")
+            ).strip().lower()
+            if check == "y":
                 break
-            elif check == "n" or check == "N":
+            elif check == "n":
                 print(Fore.RED + "Operation cancelled." + Fore.RESET)
                 return 1
             else:
@@ -212,10 +214,10 @@ def install(*aargs):
                 print(f"{Fore.RED}An error occurred while checking package '{app_name}'.{Fore.RESET}")
                 return 1
             while True:
-                check = str(input("> "))
-                if check == "y" or check == "Y":
+                check = str(input("> ")).strip().lower()
+                if check == "y":
                     break
-                elif check == "n" or check == "N":
+                elif check == "n":
                     print(Fore.RED + "Operation cancelled." + Fore.RESET)
                     return 0
                 else:
@@ -308,10 +310,12 @@ def remove(*aargs):
     # Confirm removal
     while True:
         try:
-            check = str(input(f"{Fore.CYAN}Do you want to remove the package '{app_name}'? (y/n): {Fore.RESET}"))
-            if check == "y" or check == "Y":
+            check = str(
+                input(f"{Fore.CYAN}Do you want to remove the package '{app_name}'? (y/n): {Fore.RESET}")
+            ).strip().lower()
+            if check == "y":
                 break
-            elif check == "n" or check == "N":
+            elif check == "n":
                 print(Fore.RED + "Operation cancelled." + Fore.RESET)
                 return 1
             else:
