@@ -80,15 +80,17 @@ def main():
 
     state_info = app_state.get_info()
 
-    print(f"\n{'='*50}")
-    print("Python脚本重启演示")
-    print('='*50)
-    print(f"启动时间: {time.ctime(app_state.start_time)}")
-    print(f"运行时间: {state_info['uptime']:.2f}秒")
-    print(f"重启次数: {state_info['restarts']}")
-    print(f"当前时间: {time.ctime()}")
-    print(f"进程PID: {os.getpid()}")
-    print('='*50)
+    print(
+        "\n=================================================="
+        "\nPython脚本重启演示"
+        "\n=================================================="
+        f"\n启动时间: {time.ctime(app_state.start_time)}"
+        f"\n运行时间: {state_info['uptime']:.2f}秒"
+        f"\n重启次数: {state_info['restarts']}"
+        f"\n当前时间: {time.ctime()}"
+        f"\n进程PID: {os.getpid()}"
+        "\n=================================================="
+    )
 
     # 业务逻辑
     for i in range(3):
@@ -96,11 +98,13 @@ def main():
         time.sleep(1)
 
     # 用户交互
-    print("\n可用命令:")
-    print("  1 - 查看状态")
-    print("  2 - 修改数据")
-    print("  3 - 重启脚本")
-    print("  0 - 退出")
+    print(
+        "\n可用命令:"
+        "\n  1 - 查看状态"
+        "\n  2 - 修改数据"
+        "\n  3 - 重启脚本"
+        "\n  0 - 退出"
+    )
 
     while True:
         try:
