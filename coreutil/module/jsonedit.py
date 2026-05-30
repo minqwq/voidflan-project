@@ -2,10 +2,12 @@ import json
 import os
 import sys
 import re
-from typing import Dict, Any, Union, Optional
+from typing import Dict, Union
 
 class JsonEditor:
-    def __init__(self, filepath: str = None, save_path: str = None):
+    def __init__(self, 
+                 filepath: str | None = None, 
+                 save_path: str | None = None):
         """
         Initialize JSON editor
         
@@ -15,7 +17,7 @@ class JsonEditor:
         """
         self.filepath = filepath
         self.save_path = save_path or filepath  # Use filepath as save location if not specified
-        self.data = {}
+        self.data: Dict = {}
         
     def load(self) -> bool:
         """Load JSON file"""
@@ -36,7 +38,7 @@ class JsonEditor:
         except json.JSONDecodeError as e:
             print(f"JSON format error: {e}")
             return False
-        except Exception as e:
+        except JsonReadFileError as e:
             print(f"Failed to read file: {e}")
             return False
     
@@ -97,7 +99,7 @@ class JsonEditor:
         # Return string for other cases
         return stat
     
-    def save(self, custom_path: str = None) -> bool:
+    def save(self, custom_path: str | None = None) -> bool:
         """
         Save to file
         
@@ -117,7 +119,7 @@ class JsonEditor:
                 json.dump(self.data, f, indent=2, ensure_ascii=False)
             print(f"Saved to: {save_to}")
             return True
-        except Exception as e:
+        except SaveFileError as e:
             print(f"Failed to save: {e}")
             return False
     
@@ -162,11 +164,11 @@ class JsonEditor:
                 if user_input.lower() == 'exit':
                     print("Exiting editor")
                     break
-                elif user_input.lower() == 'save':
+                if user_input.lower() == 'save':
                     if self.save():
                         print("Save successful, exiting editor")
                         break
-                elif user_input.lower().startswith('saveas '):
+                if user_input.lower().startswith('saveas '):
                     parts = user_input.split(' ', 1)
                     if len(parts) == 2:
                         custom_path = parts[1]
@@ -196,6 +198,14 @@ class JsonEditor:
             except EOFError:
                 print("\n\nEditor ended")
                 break
+
+
+class JsonReadFileError(Exception):
+    """ Error occurred during reading json file. """
+
+
+class SaveFileError(Exception):
+    """ Error occurred during saving file. """
 
 
 def main():
