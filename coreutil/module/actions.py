@@ -18,7 +18,8 @@ from . import hardware
 loadtime = 0
 
 def jsoneditor(load, save):
-    jsonedit.JsonEditor(file, save)
+    editor = jsonedit.JsonEditor(load, save)
+    editor.run()
 
 def termux_detect():
     return "TERMUX_VERSION" in os.environ

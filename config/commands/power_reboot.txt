@@ -1,0 +1,3 @@
+visuallog("电符 [世界重启]", 0)
+clearScreen()
+os.execl(sys.executable, sys.executable, *sys.argv)

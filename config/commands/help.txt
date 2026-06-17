@@ -1,0 +1,4 @@
+if enable_legacy_help_engine == False:
+    runPreInstApp(lsh_path_fixed + "/apps/coreutils/help/cmdListParser.py")
+elif enable_legacy_help_engine == True:
+    cat(lsh_path_fixed + "/" + co_manualHelp)

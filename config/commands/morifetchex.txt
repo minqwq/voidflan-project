@@ -1,0 +1,4 @@
+currentUptime = time.time()
+currentUptimeII = currentUptime - end_startingtime
+formattedUptime = timeformat(currentUptimeII)
+mori(user, lsh_hostname, lsh_path, "config/config.json", "config/.devconfig/confdev.json", formattedUptime, deviceid)

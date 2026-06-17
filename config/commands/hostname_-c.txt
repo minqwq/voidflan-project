@@ -1,0 +1,5 @@
+lsh_hostname_pre = input("> ")
+if lsh_hostname_pre == "":
+    print("未提供字符串")
+else:
+    lsh_hostname = lsh_hostname_pre

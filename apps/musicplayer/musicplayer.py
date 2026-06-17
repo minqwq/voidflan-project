@@ -1,6 +1,9 @@
 import colorama
 import os
-from python_goto import goto
+try:
+    from goto import goto
+except ModuleNotFoundError:
+    from python_goto import goto
 class color: # Text colors
     red = "\033[31m"
     green = "\033[32m"

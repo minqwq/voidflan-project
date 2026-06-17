@@ -1,0 +1,1 @@
+print(system_version + " " + system_codename_lower)

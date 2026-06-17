@@ -1,0 +1,5 @@
+pkgPath = cmd[16:]
+print("正在安装来自 " + pkgPath + " 的软件包...")
+result = szkmng.install(pkgPath)
+if result != 0:
+    print("安装失败。")

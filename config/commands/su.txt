@@ -1,0 +1,7 @@
+user_preInput = cmd[3:]
+if user_preInput == "":
+    print("未指定用户。")
+else:
+    user = user_preInput
+    print("切换用户到 " + user)
+    logger.info("[Login manager] Switch user to " + user)

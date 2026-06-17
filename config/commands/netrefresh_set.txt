@@ -1,0 +1,9 @@
+value = cmd[15:]
+if value.lower() == "true":
+    networked = True
+    print("networked = " + str(networked))
+elif value.lower() == "false":
+    networked = False
+    print("networked = " + str(networked))
+else:
+    print("True, true, False, false")

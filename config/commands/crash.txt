@@ -1,0 +1,6 @@
+if user == "dev":
+    logger.warn("Congrats, you make the VoidFlan Project crashed.")
+    raise EOFError("by urself")
+else:
+    os.chdir(lsh_path_fixed + "/apps")
+    cat_bugged("coreutil/plaintext/manualhelp.txt")

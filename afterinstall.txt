@@ -1,9 +1,0 @@
-It's best for UXTerm/XTerm, tty, and most common terminal emulator.
-in Windows, cmd(not powershell) and ConEmu.
-in Android, Termux is the best choice.
-I dont know how to run it fine in MacOS X, so find it by yourself, if you have trick please send to me or pull request with this file, i will add it
-
-please check config/conf.json when you trying to use "install.py"
-if its empty please run "git restore *" and modify it manually.
-
-Enjoy...

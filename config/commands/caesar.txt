@@ -1,0 +1,3 @@
+os.chdir(lsh_path_fixed + "/apps/caesartools")
+runPreInstApp("caesar.py")
+os.chdir("../..")

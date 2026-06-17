@@ -1,0 +1,1 @@
+print("请指定要运行的 shizuku 包名，例如：shizuku run <package>")

@@ -1,0 +1,2 @@
+currentUptime = time.time()
+print(currentUptime - end_startingtime)

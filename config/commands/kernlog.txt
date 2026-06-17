@@ -1,0 +1,6 @@
+try:
+    level = int(cmd[8:9])
+    string = cmd[10:]
+    visuallog(string, level)
+except Exception:
+    visuallog("格式错误，应为 kernlog <level> <str>", 2)

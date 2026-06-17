@@ -1,0 +1,5 @@
+string = cmd[5:]
+if string == "":
+    print("未提供字符串")
+else:
+    print(string)

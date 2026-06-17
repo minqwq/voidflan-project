@@ -1,0 +1,1 @@
+print("今日人品 " + str(random.randint(0, 100)))

@@ -1,0 +1,5 @@
+target = cmd[16:]
+if target == "":
+    print("未键入字符串。")
+else:
+    sys.stdout = target

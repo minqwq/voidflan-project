@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import re
 
-def getBoardModelFromCpu(cpu_model: str) -> str:
-    m = cpu_model.lower()
+def getBoardModelFromCpu(cpu_model):
+    m = str(cpu_model).lower()
 
     # ===== Intel 老平台 =====
     if re.search(r"pentium 4|celeron", m):

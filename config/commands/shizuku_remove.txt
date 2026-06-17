@@ -1,0 +1,5 @@
+rm_app_name = cmd[15:]
+print("开始卸载软件包: " + rm_app_name + " ...")
+result = szkmng.remove(rm_app_name)
+if result != 0:
+    print("卸载失败")

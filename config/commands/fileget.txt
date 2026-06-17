@@ -1,0 +1,3 @@
+os.chdir(lsh_path_fixed + "/download")
+runPreInstApp("../apps/fileget/fileget.py")
+os.chdir("..")

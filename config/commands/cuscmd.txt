@@ -1,0 +1,3 @@
+print("现在开始输入要运行的命令。")
+customCommand = input("")
+os.system(customCommand)

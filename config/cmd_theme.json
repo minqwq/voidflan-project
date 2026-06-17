@@ -1,0 +1,15 @@
+{
+    "default": "{light_blue}{user}{grey}:{cyan}{hostname}{light_green} > {reset}",
+    "flandre": "{light_yellow}{user}{reset}/{light_red}{hostname}{reset} ( {light_yellow}{path}{reset} ){light_red} > {reset}",
+    "remilia": "{light_blue}{user}{reset}\\{light_magenta}{hostname}{reset} {{ {light_blue}{path}{reset} }} {light_magenta}> {reset}",
+    "classic": "{user}@{hostname} {path} > ",
+    "sh": "$ ",
+    "default_v2": {
+        "normal": "{green}{user}:{hostname}{reset} [ {path} ] {green}$ {reset}",
+        "root": "[*root*] {red}{user}:{hostname}{reset} [ {path} ] {red}$ {reset}"
+    },
+    "lite": "{green}{user}{light_green} : {reset}",
+    "debian_bash": "{light_green}{user}@{hostname}{reset}:{light_blue}~{reset}$ ",
+    "arch_bash": "[{user}@{hostname} ~ ] $ ",
+    "tcsh": "{cyan}{hostname}{reset}:{light_white}{path}{reset}> "
+}

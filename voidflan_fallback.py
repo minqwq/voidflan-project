@@ -11,8 +11,11 @@ import sys
 import datetime
 import colorama
 import time
+import random
+import platform
 import traceback
 import logging
+import threading
 import uuid
 try:
     from coreutil.module.actions import *
@@ -28,6 +31,7 @@ try:
 except ModuleNotFoundError:
     print("If you are trying run this on windows, please install curses module.(you can ignore this if you dont need advanced startup screen)")
     input("[Press any key to continue...]")
+import pprint
 import psutil
 visuallog("Initialing unimportant Kernel Feature...", 0)
 try:
@@ -176,96 +180,6 @@ def cmdhistory_write():
     cmdhist_timed = datetime.datetime.now().strftime("%b %a %d %H:%M:%S %Y")
     tmp_f.write(str(cmdhist_time) + " " + user + ":" + lsh_hostname + " | " + cmd + "\n")
 
-
-def load_command_config():
-    commands_path = os.path.join(lsh_path_fixed, "config", "commands.json")
-    try:
-        with open(commands_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            commands = data.get("commands", [])
-            if not isinstance(commands, list):
-                raise TypeError("commands should be a list")
-            return commands
-    except FileNotFoundError:
-        logger.error("Commands config missing: %s", commands_path)
-        return []
-    except (json.decoder.JSONDecodeError, TypeError):
-        input(f"[JSON Syntax Incorrect] {commands_path} Press any key to except")
-        return []
-
-
-def normalize_command_file_name(command_name):
-    return command_name.replace(" ", "_")
-
-
-def resolve_command_spec(cmd, command_list):
-    best = None
-    for spec in command_list:
-        name = spec.get("name")
-        if name == cmd:
-            return spec
-        if spec.get("accept_args") and name and cmd.startswith(name + " "):
-            if best is None or len(name) > len(best.get("name", "")):
-                best = spec
-    return best
-
-
-def execute_command_text(spec, cmd):
-    file_name = spec.get("file")
-    if not file_name:
-        file_name = normalize_command_file_name(spec.get("name", "")) + ".txt"
-    file_path = os.path.join(lsh_path_fixed, "config", "commands", file_name)
-    try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            code = f.read()
-    except FileNotFoundError:
-        print("命令定义文件缺失: " + file_name)
-        return
-    globals()["cmd"] = cmd
-    try:
-        exec(compile(code, file_path, "exec"), globals())
-    except Exception as command_error:
-        print("执行命令时发生错误: " + str(command_error))
-
-
-def execute_command(cmd):
-    cmd = cmd.rstrip()
-    spec = resolve_command_spec(cmd, command_list)
-    if not spec:
-        if rsyscmd_when_cnf:
-            print("未知命令，正在尝试运行命令于主机系统。")
-            os.system(cmd)
-        else:
-            beep()
-            visuallog("Unknown command m(__)m : " + cmd, 2)
-            print(color.red + "[未知命令]" + color.reset, end=' ')
-            logger.error("tty1/lsh | " + cmd + " | Command not found!")
-        return
-    typ = spec.get("type", "shell")
-    if typ == "shell":
-        if "cmd" in spec:
-            os.system(spec["cmd"])
-        else:
-            command_text = spec.get("cmd_windows") if isWindows else spec.get("cmd_posix")
-            if command_text:
-                os.system(command_text)
-            else:
-                print("命令配置错误: " + str(spec))
-    elif typ == "python":
-        runPreInstApp(lsh_path_fixed + "/" + spec["target"])
-    elif typ == "python_template":
-        name = spec.get("name", "")
-        rest = cmd[len(name):].lstrip()
-        target = spec["target"].format(rest=rest)
-        runPreInstApp(lsh_path_fixed + "/" + target)
-    elif typ == "text":
-        execute_command_text(spec, cmd)
-    else:
-        print("未知命令类型: " + typ)
-
-
-command_list = load_command_config()
-
 def runPreInstApp(pathtoapp):
     if isWindows == True:
         if python_exec_path_windows == "":
@@ -314,7 +228,6 @@ runPreInstApp(lsh_path_fixed + "/apps/coreutils/exampleapp/hello.py")
 clearScreen()
 runPreInstApp(lsh_path_fixed + "/coreutil/oeminfo/checkoem.py")
 print("VoidFlan Bootstrap")
-runPreInstApp(lsh_path_fixed + "/coreutil/bootscr.py")
 print(colorama.Fore.LIGHTGREEN_EX + "总内存 " + str(psutil.virtual_memory().total / 1024 / 1024) + " MiB")
 print(colorama.Fore.LIGHTGREEN_EX + "初始化完成！")
 print("Checking Device UUID Availablity...")
@@ -334,6 +247,7 @@ logger.info("Start logging.")
 logger.info("Starting VoidFlan Boot manager.")
 while bootManagerLoopRun == True:
     print(colorama.Fore.LIGHTRED_EX + "Scarlet Kernel 启动管理器\n" + color.reset + style_cur.show)
+    print("不知道如何抉择时，请选择 1。")
     print("\n1:VoidFlan Project " + system_version + "\n9:VoidFlan 应急恢复文档\n2:重启\n3:退出\n4:PY OS Improved Pre-Alpha 1\n5:BBC OS 1.2.1\n8:切到 Leaf Boot Manager（已废弃）")
     if dualBoot == True:
         print(color.green + "\n多启动项已启用。" + color.reset)
@@ -347,6 +261,7 @@ while bootManagerLoopRun == True:
         print("...")
         break
     elif bootChoice == "2":
+        # os.execv(sys.executable, ['python'] + sys.argv) # here, its have issue on windows, so its disabled now --minqwq
         goto(line=1)
     elif bootChoice == "3":
         sys.exit()
@@ -507,7 +422,322 @@ while count < 3:
                     # Begin commands register
 
                     pyosi_local_path = os.getcwd()
-                    execute_command(cmd) # every command runs here, no error! --Yartmin
+
+                    if cmd == "ls": # Path
+                        if isWindows == False:
+                            os.system("ls ./")
+                        elif isWindows == True:
+                            os.system("dir .\\")
+
+                    elif cmd == "yukarifm":
+                        runPreInstApp(lsh_path_fixed + "/apps/yukarifileman/yukarifm.py")
+
+                    elif cmd == "version":
+                        print(system_version + " " + system_codename_lower)
+
+                    elif cmd == "oeminfo":
+                        oeminfo.getoeminfo(lsh_path_fixed + "/coreutil/oeminfo/oeminfo.json")
+                            
+                    elif cmd == "scrtest":
+                        runPreInstApp(lsh_path_fixed + "/apps/coreutils/scrtest/scrtest.py")
+
+                    elif cmd == "help":
+                        if enable_legacy_help_engine == False:
+                            runPreInstApp(lsh_path_fixed + "/apps/coreutils/help/cmdListParser.py")
+                        elif enable_legacy_help_engine == True:
+                            cat(lsh_path_fixed + "/" + co_manualHelp)
+
+                    elif cmd == "morifetchex":
+                        currentUptime = time.time()
+                        currentUptimeII = currentUptime - end_startingtime
+                        formattedUptime = timeformat(currentUptimeII)
+                        mori(user, lsh_hostname, lsh_path, "config/config.json", "config/.devconfig/confdev.json", formattedUptime, deviceid)
+                    
+                    elif cmd.startswith("kernlog"):
+                        try:
+                            level = int(cmd[8:9])
+                            string = cmd[10:]
+                            visuallog(string, level)
+                        except Exception:
+                            visuallog("格式错误，应为 kernlog <level> <str>", 2)
+
+                    elif cmd.startswith("whereis"):
+                        whereisword = cmd[8:]
+                        filesearch(whereisword)
+
+                    elif cmd == "krmidipl":
+                        runPreInstApp(lsh_path_fixed + "/apps/krmidipl/runme.py")
+
+                    elif cmd.startswith("cd"):
+                        if expertfeature_cd_enabled == True:
+                            chdir = cmd[3:]
+                            try:
+                                os.chdir(chdir)
+                                lsh_path = os.getcwd()
+                                if disablePathShow == True:
+                                    lsh_path = "DISABLED"
+                            except FileNotFoundError:
+                                print("路径未找到: " + chdir)
+
+                    elif cmd == "netrefresh":
+                        if netcheck("main.minqwq.moe", 80):
+                            networked = True
+                            print("[" + color.green + "  OK  " + color.reset + "] Network return True, enabled")
+                        else:
+                            print("[" + color.red + " FAIL " + color.reset + "] Network return False, if you have tryed to reconnect, retry run \"netrefresh\"")
+                    elif cmd.startswith("netrefresh set"):
+                        if cmd[15:] == True or cmd[15:] == True:
+                            networked = True
+                            print("networked = " + str(networked))
+                        elif cmd[15:] == False or cmd[15:] == False:
+                            networked = False
+                            print("networked = " + str(networked))
+                        else:
+                            print("True, true, False, false")
+                    elif cmd == "netrefresh -h":
+                        cat(lsh_path_fixed + "/coreutil/plaintext/netrefresh_help.txt")
+                        print(system_version)
+
+                    elif cmd == "jrrp":
+                        print("今日人品 " + str(random.randint(0, 100)))
+
+                    elif cmd == "logout":
+                        print("登出...")
+                        logout = True
+                        break
+
+                    elif cmd == "pyosiupgrade":
+                        print("更新系统中...(Development Channel)")
+                        os.system("git pull --no-rebase")
+                        print("请关闭此程序再打开以应用更新。")
+
+                    elif cmd == "weather":
+                        runPreInstApp(lsh_path_fixed + "/apps/weather/weather-api.py")
+
+                    elif cmd.startswith("stdoutredirect"):
+                        if cmd[16:] == "":
+                            print("未键入字符串。")
+                        else:
+                            sys.stdout = cmd[16:]
+
+                    elif cmd == "ed":
+                        runPreInstApp(lsh_path_fixed + "/apps/ed-editor/edit.py")
+
+                    # Package manager info
+                    elif cmd == "shizuku":
+                        szkmng.tips()
+                    elif cmd == "shizuku list":
+                        szkmng.list_apps()
+                    elif cmd.startswith("shizuku run"):
+                        os.chdir(lsh_path_fixed + "/extprog")
+                        runPreInstApp(cmd[11:] + ".py")
+                        os.chdir("../")
+                    # Package install
+                    elif cmd.startswith("shizuku install"):
+                        pkgPath = cmd[16:]
+                        print("正在安装来自 " + pkgPath + " 的软件包...")
+                        result = szkmng.install(pkgPath)
+                        os.chdir(pyosi_local_path)
+                        if result != 0:
+                            print("安装失败。")
+                    # Package remove
+                    elif cmd.startswith("shizuku remove"):
+                        rm_app_name = cmd[15:]
+                        print("开始卸载软件包: " + rm_app_name + " ...")
+                        result = szkmng.remove(rm_app_name)
+                        os.chdir(pyosi_local_path)
+                        if result != 0:
+                            print("卸载失败")
+                    # The credits
+                    elif cmd.startswith("shizuku credits"):
+                        cat(lsh_path_fixed + "/coreutil/plaintext/shizuku_credits.txt")
+
+                    elif cmd.startswith("chthm"):
+                        cmd_theme = cmd[6:]
+                        logger.info("Shell theme changed to " + cmd[6:])
+                        print("Shell 主题已设置为 " + cmd[6:])
+
+                    elif cmd == "patch":
+                        pprint.pprint(dict(globals()))
+                    elif cmd == "patch --set":
+                        confsel1 = input("set <confsel1> = <confsel2>(cur:sel1): ")
+                        confsel2 = input("set <confsel1> = <confsel2>(cur:sel2): ")
+                        os.environ[confsel1] = confsel2
+
+                    elif cmd == "asciicvt":
+                        runPreInstApp(lsh_path_fixed + "/apps/asciicvt/asciiconverter.py")
+
+                    elif cmd == "tasks":
+                        os.system("cd ./home/public/savedfile/tasks && ../../apps/tasks/tasks && cd ../..")
+
+                    elif cmd == "2048":
+                        os.system(lsh_path_fixed + "/apps/2048/2048-in-terminal")
+
+                    elif cmd.startswith("su"):
+                        user_preInput = cmd[3:]
+                        if user_preInput == "":
+                            print("未指定用户。")
+                        else:
+                            user = user_preInput
+                            print("切换用户到 " + user)
+                            logger.info("[Login manager] Switch user to " + user)
+
+                    elif cmd == "rss":
+                        runPreInstApp(lsh_path_fixed + "/apps/rss/main.py")
+
+                    elif cmd == "crash":
+                        if user == "dev":
+                            logger.warn("Congrats, you make the VoidFlan Project crashed.")
+                            raise EOFError("by urself")
+                        else:
+                            os.chdir(lsh_path_fixed + "/apps")
+                            cat_bugged("coreutil/plaintext/manualhelp.txt")
+
+                    elif cmd.startswith("echo "):
+                        string = cmd[5:]
+                        if string == "":
+                            print("未提供字符串")
+                        else:
+                            print(string)
+
+                    elif cmd == "clock":
+                        runPreInstApp(lsh_path_fixed + "/apps/clock/clock.py")
+
+                    elif cmd == "ttt":
+                        runPreInstApp(lsh_path_fixed + "/apps/tictactoe/tictactoe.py")
+
+                    elif cmd == "paint":
+                        paintWidthAndHeight = input("Input width and height(example:50 50): ")
+                        os.chdir(lsh_path_fixed + "/home/public/savedfile")
+                        runPreInstApp("../apps/paint/paint.py " + paintWidthAndHeight)
+                        os.chdir("..")
+
+                    elif cmd == "pftest":
+                        runPreInstApp(lsh_path_fixed + "/apps/pftest/mark.py")
+
+                    elif cmd == "demine":
+                        os.system(lsh_path_fixed + "/apps/minesweeper/minesweeper")
+
+                    elif cmd == "fileget":
+                        os.chdir(lsh_path_fixed + "/download")
+                        runPreInstApp("../apps/fileget/fileget.py")
+                        os.chdir("..")
+
+                    elif cmd == "uptime":
+                        currentUptime = time.time()
+                        print(currentUptime - end_startingtime)
+
+                    elif cmd == "guessnum":
+                        runPreInstApp(lsh_path_fixed + "/apps/guessnum/guessnum.py")
+
+                    elif cmd == "hostname":
+                        print(lsh_hostname)
+                    elif cmd == "hostname -c":
+                        lsh_hostname_pre = input("> ")
+                        if lsh_hostname_pre == "":
+                            print("未提供字符串")
+                        else:
+                            lsh_hostname = lsh_hostname_pre
+
+                    elif cmd.startswith("szk"):
+                        # 提取包名，即命令去掉前四个字符后的部分
+                        pypkg = cmd[4:]
+                        if isWindows == True:
+                            try:
+                                os.chdir(".\\data\\apps\\" + pypkg)
+                                runPreInstApp(pypkg + ".py")
+                            except FileNotFoundError:
+                                print("未找到程序包: " + pypkg)
+                                os.chdir(pyosi_local_path)
+                            except Exception as e:
+                                print("错误: " + str(e))
+                                os.chdir(pyosi_local_path)
+                            finally:
+                                os.chdir(pyosi_local_path)
+                        elif isWindows == False:
+                            try:
+                                os.chdir(lsh_path_fixed + "/data/apps/" + pypkg)
+                                print("EXECUTABLE=" + sys.executable)
+                                runPreInstApp(pypkg + ".py")
+                            except FileNotFoundError:
+                                print("未找到程序包: " + pypkg)
+                                os.chdir(pyosi_local_path)
+                            except Exception as e:
+                                print("错误: " + str(e))
+                                os.chdir(pyosi_local_path)
+                            finally:
+                                os.chdir(pyosi_local_path)
+
+                    elif cmd == "about": # About system
+                        slowprint("---------------| 关于 |---------------")
+                        print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" by Yartmin Scarlet" + color.reset)
+                        print("(C) " + color.green + "0x1c Studio " + color.reset + "2022--2023 | (C) " + colorama.Fore.LIGHTRED_EX + "Flandre" + color.red + " Studio 芙兰社 " + color.reset + "& " + colorama.Fore.LIGHTBLUE_EX + "NoirNyan Software " + color.reset + "2022--2026")
+                        print("Python 环境版本: " + str(platform.python_version()))
+                        if isDevchan == True:
+                            print("位于测试频道")
+                        print(" ")
+                        print("-l 查看协议")
+                    elif cmd == "about -l":
+                        cat(lsh_path_fixed + "/LICENSE")
+
+                    elif cmd == "power":
+                        print("请指定一个选项。")
+                    elif cmd == "power shutdown" or cmd == "st" or cmd == ":q" or cmd == "halt": # Shutdown
+                        logger.info("Shutting down...")
+                        sys.exit()
+                    elif cmd == "power reboot" or cmd == "reboot":
+                        visuallog("电符 [世界重启]", 0)
+                        clearScreen()
+                        os.execl(sys.executable, sys.executable, *sys.argv)
+
+                    elif cmd == "time": # Show current time
+                        now = datetime.datetime.now()
+                        other_StyleTime = now.strftime("%b %a %d %H:%M:%S %Y")
+                        print(other_StyleTime)
+                        
+                    elif cmd == "caesar":
+                        os.chdir(lsh_path_fixed + "/apps/caesartools")
+                        runPreInstApp("caesar.py")
+                        os.chdir("../..")
+
+                    elif cmd == "cuscmd":
+                        print("现在开始输入要运行的命令。")
+                        customCommand = input("")
+                        os.system(customCommand)
+
+                    elif cmd == "":
+                        space = 0
+
+                    elif cmd == "clear":
+                        clearScreen()
+
+                    elif cmd == "exit":
+                        clearScreen()
+                        systemIsLocked = True
+                        print("VoidFlan " + system_version + " 已锁定")
+                        print("按u解锁，输time查看时间，输st关机")
+                        while systemIsLocked == True:
+                            unlockSystem = input("")
+                            if unlockSystem == "u":
+                                systemIsLocked = False
+                                clearScreen()
+                                break
+                            elif unlockSystem == "time":
+                                now = datetime.datetime.now()
+                                other_StyleTime = now.strftime("%b %a %d %H:%M:%S %Y")
+                                print(other_StyleTime)
+                            elif unlockSystem == "st":
+                                clearScreen()
+                                sys.exit()
+                    else: # Wrong command
+                        if rsyscmd_when_cnf == True:
+                            print("未知命令，正在尝试运行命令于主机系统。")
+                            os.system(cmd)
+                        elif rsyscmd_when_cnf == False:
+                            beep()
+                            visuallog("Unknown command m(__)m : " + cmd, 2)
+                            print(color.red + "[未知命令]" + color.reset, end=' ')
+                            logger.error("tty1/lsh | " + cmd + " | Command not found!")
             except KeyboardInterrupt: # Ctrl+C, "Ctrl+Alt+Del" like action
                 try:
                     print("\n按 1 重启\n其他键取消\n再按一次 Ctrl+C 退出")

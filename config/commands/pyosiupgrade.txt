@@ -1,0 +1,3 @@
+print("更新系统中...(Development Channel)")
+os.system("git pull --no-rebase")
+print("请关闭此程序再打开以应用更新。")

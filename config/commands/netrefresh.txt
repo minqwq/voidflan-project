@@ -1,0 +1,5 @@
+if netcheck("main.minqwq.moe", 80):
+    networked = True
+    print("[" + color.green + "  OK  " + color.reset + "] Network return True, enabled")
+else:
+    print("[" + color.red + " FAIL " + color.reset + "] Network return False, if you have tryed to reconnect, retry run \"netrefresh\"")

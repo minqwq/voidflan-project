@@ -1,0 +1,17 @@
+clearScreen()
+systemIsLocked = True
+print("VoidFlan " + system_version + " 已锁定")
+print("按u解锁，输time查看时间，输st关机")
+while systemIsLocked == True:
+    unlockSystem = input("")
+    if unlockSystem == "u":
+        systemIsLocked = False
+        clearScreen()
+        break
+    elif unlockSystem == "time":
+        now = datetime.datetime.now()
+        other_StyleTime = now.strftime("%b %a %d %H:%M:%S %Y")
+        print(other_StyleTime)
+    elif unlockSystem == "st":
+        clearScreen()
+        sys.exit()

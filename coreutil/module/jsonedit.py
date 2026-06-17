@@ -130,7 +130,15 @@ class JsonEditor:
     def run(self):
         """Run editor"""
         if not self.filepath:
-            self.filepath = input("Enter JSON file path to read: ").strip()
+            default_path = None
+            for candidate in ["config/config.json", os.path.join("config", "config.json")]:
+                if os.path.exists(candidate):
+                    default_path = candidate
+                    break
+            if default_path:
+                self.filepath = default_path
+            else:
+                self.filepath = input("Enter JSON file path to read: ").strip()
             if not self.save_path:  # If save path not set, use read path
                 self.save_path = self.filepath
         

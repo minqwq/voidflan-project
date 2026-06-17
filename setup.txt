@@ -1,0 +1,10 @@
+首先，您应该是以 git 或 zip 形式获取此项目的。
+接下来，您需要安装本项目需要的 whl 包。
+借由 requirements.txt，请输入此命令安装这些包：pip install -r requirements.txt
+    注：Windows 7 及 Windows Vista 可能需要以下额外操作：
+        - 安装 Visual C++ Build Tools 2015+
+	- 安装 Python 3.6 / 3.7 / 3.8
+如果一切正常没有报错，接下来您应该开始修改配置文件。
+编辑 /config/config.json 和 /config/hostnamecfg.json 中的一些内容即可，你需要一点英文能力，或者寻求帮助。
+
+完工！以后只需在此文件夹内输入 python voidflan.py 即可。

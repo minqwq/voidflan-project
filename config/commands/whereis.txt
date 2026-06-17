@@ -1,0 +1,2 @@
+whereisword = cmd[8:]
+filesearch(whereisword)

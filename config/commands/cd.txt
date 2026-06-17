@@ -1,0 +1,9 @@
+if expertfeature_cd_enabled:
+    chdir = cmd[3:]
+    try:
+        os.chdir(chdir)
+        lsh_path = os.getcwd()
+        if disablePathShow == True:
+            lsh_path = "DISABLED"
+    except FileNotFoundError:
+        print("路径未找到: " + chdir)

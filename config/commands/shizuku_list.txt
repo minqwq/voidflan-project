@@ -1,0 +1,1 @@
+szkmng.list_apps()

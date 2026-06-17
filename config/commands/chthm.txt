@@ -1,0 +1,3 @@
+cmd_theme = cmd[6:]
+logger.info("Shell theme changed to " + cmd[6:])
+print("Shell 主题已设置为 " + cmd[6:])

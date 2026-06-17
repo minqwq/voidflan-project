@@ -1,0 +1,3 @@
+confsel1 = input("set <confsel1> = <confsel2>(cur:sel1): ")
+confsel2 = input("set <confsel1> = <confsel2>(cur:sel2): ")
+os.environ[confsel1] = confsel2

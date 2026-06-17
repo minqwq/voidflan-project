@@ -1,0 +1,2 @@
+logger.info("Shutting down...")
+sys.exit()

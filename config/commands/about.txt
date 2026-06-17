@@ -1,0 +1,8 @@
+slowprint("---------------| 关于 |---------------")
+print(color.blue + "VoidFlan Project " + system_version + "-" + system_codename_lower + " \"" + system_codename + "\" by Yartmin Scarlet" + color.reset)
+print("(C) " + color.green + "0x1c Studio " + color.reset + "2022--2023 | (C) " + colorama.Fore.LIGHTRED_EX + "Flandre" + color.red + " Studio 芙兰社 " + color.reset + "& " + colorama.Fore.LIGHTBLUE_EX + "NoirNyan Software " + color.reset + "2022--2026")
+print("Python 环境版本: " + str(platform.python_version()))
+if isDevchan == True:
+    print("位于测试频道")
+print(" ")
+print("-l 查看协议")

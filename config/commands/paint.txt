@@ -1,0 +1,4 @@
+paintWidthAndHeight = input("Input width and height(example:50 50): ")
+os.chdir(lsh_path_fixed + "/home/public/savedfile")
+runPreInstApp("../apps/paint/paint.py " + paintWidthAndHeight)
+os.chdir("..")

@@ -1,0 +1,2 @@
+task_dir = os.path.join(lsh_path_fixed, "home", "public", "savedfile", "tasks")
+os.system(f"cd \"{task_dir}\" && ../../apps/tasks/tasks && cd ../..")

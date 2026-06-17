@@ -1,0 +1,2 @@
+cat(lsh_path_fixed + "/coreutil/plaintext/netrefresh_help.txt")
+print(system_version)
