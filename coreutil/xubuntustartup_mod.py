@@ -18,9 +18,9 @@ def animate_dots(stdscr):
     
     # 居中显示 "Xubuntu 25.04"
     # center_text(stdscr, height // 2 - 1, "Xubuntu 25.04")
-    center_text(stdscr, height // 2 - 4, "Codename \"Hata no Kokoro\"")
+    center_text(stdscr, height // 2 - 4, "Codename \"Tionless Haraso\"")
     center_text(stdscr, height // 2 - 3, "VoidFlan Project II")
-    center_text(stdscr, height // 2 - 2, "Beta 2 Sep. Release")
+    center_text(stdscr, height // 2 - 2, "RC 1 June Release")
     
     # 计算四个点的起始位置（居中）
     dots_x = (width - 7) // 2  # 4个点 + 3个空格 = 7字符宽度

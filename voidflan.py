@@ -62,11 +62,13 @@ try:
     devconf = open("./config/.devconfig/confdev.json", "r", encoding="utf-8")
     kiconf = open("./coreutil/module/kernelinfo.json", "r", encoding="utf-8")
     hostconf = open("./config/hostnamecfg.json", "r", encoding="utf-8")
+    searcherconf = open("./config/searcher.json", "r", encoding="utf-8")
     jsonRead = json.load(conf)
     cmdThemeJsonRead = json.load(cmdthemeconf)
     devJsonRead = json.load(devconf)
     kiJsonRead = json.load(kiconf)
     hostconfJsonRead = json.load(hostconf)
+    searcherconfJsonRead = json.load(searcherconf)
 except json.decoder.JSONDecodeError:
     input("[JSON Syntax Incorrect] Press any key to except")
 # Set logger style
@@ -117,6 +119,10 @@ try:
     expertfeature_cd_enabled = True # cd command availablity
     kernelver = kiJsonRead["version"] # Kernel version
     distribution_name = devJsonRead["distribution_name"] # 发行版名称
+<<<<<<< HEAD
+=======
+    whereis_searchspeed = searcherconfJsonRead["searching_speed"]
+>>>>>>> 9027220b709cadbdece7f333d57ccf8aef441daf
     try:
         deviceid = open(lsh_path_fixed + "/config/deviceid.txt", "r", encoding="utf-8").readline().strip()
     except Exception:
