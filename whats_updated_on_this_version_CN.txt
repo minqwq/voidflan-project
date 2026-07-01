@@ -1,3 +1,7 @@
+2.0 RC 1 - 2026-xx-xx
+- 为 autoexecute 加入了一丁点安全机制
+- 移除了 Satsuki Rin
+
 2.0 Pre-release 2 - 2026-06-18
 - 加入了实际可使用的 cfgedit cmdedit 和需要用户定义 json 文件的 jsonedit <file> 命令。
 - 重构了命令运行机制，现在应该运行的比之前更快一些

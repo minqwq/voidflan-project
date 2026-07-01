@@ -330,13 +330,13 @@ def coresh():
     pprint.pprint(dict(globals()))
     print("End of current loaded modules.\nStarting shell...")
     print("! You are now running VoidFlan Project in Kernel mode\n"+
-          "If all are dont, type \"exit\" to exit shell.")
+          "If all are done, type \"exit\" to exit shell.")
     while True:
         cmd = input("(scarletkernel) ")
         if cmd == "exit":
             exit()
         elif cmd == "mori":
-            mori("Scarlet Kernel II", "127.0.0.1", "/", "", "", "Unknown", "11111111-1111-1111-1111111111111111")
+            mori("Scarlet Kernel II", "127.0.0.1", "/", "config/config.json", "config/.devconfig/confdev.json", "Unknown", "11111111-1111-1111-1111111111111111")
         elif cmd.startswith("dlt"):
             dotLoader(50, 0.01)
         else:
