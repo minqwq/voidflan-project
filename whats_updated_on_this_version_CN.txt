@@ -1,9 +1,6 @@
 2.0 RC 1 - 2026-xx-xx
 - 为 autoexecute 加入了一丁点安全机制
-<<<<<<< HEAD
-=======
 - 为 whereis 添加了一个配置文件，然后现在有扫盘速度限制了，0为不限制，以秒的方式使用
->>>>>>> 9027220b709cadbdece7f333d57ccf8aef441daf
 - 移除了 Satsuki Rin
 
 2.0 Pre-release 2 - 2026-06-18
