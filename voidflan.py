@@ -4,6 +4,7 @@ try:
     from goto import goto
 except ModuleNotFoundError:
     from python_goto import goto
+import ast
 import json
 import getpass
 import os
@@ -40,8 +41,8 @@ print("\033[?25l")
 
 # Init defines
 cmdhist_lines = 0
-cmdhist_time = "nul"
-cmd = "?"
+cmdhist_time = ""
+cmd = ""
 lsh_hostname = "scarletlocal-000"
 user = "defaultuser-000"
 lsh_path = os.getcwd()
@@ -52,6 +53,7 @@ debugMode = ""
 isDevchan = False
 isDev = False
 logout = False
+cmdhist_timed = datetime.datetime.now().strftime("%b %a %d %H:%M:%S %Y")
 
 # Init configs
 try:
@@ -60,11 +62,13 @@ try:
     devconf = open("./config/.devconfig/confdev.json", "r", encoding="utf-8")
     kiconf = open("./coreutil/module/kernelinfo.json", "r", encoding="utf-8")
     hostconf = open("./config/hostnamecfg.json", "r", encoding="utf-8")
+    searcherconf = open("./config/searcher.json", "r", encoding="utf-8")
     jsonRead = json.load(conf)
     cmdThemeJsonRead = json.load(cmdthemeconf)
     devJsonRead = json.load(devconf)
     kiJsonRead = json.load(kiconf)
     hostconfJsonRead = json.load(hostconf)
+    searcherconfJsonRead = json.load(searcherconf)
 except json.decoder.JSONDecodeError:
     input("[JSON Syntax Incorrect] Press any key to except")
 # Set logger style
@@ -107,11 +111,15 @@ try:
     shorter_welcome = jsonRead["shorter_welcome"] # Show shorter welcome text when logon
     faster_startup = jsonRead["faster_startup"] # New version of startup screen
     rsyscmd_when_cnf = jsonRead["rsyscmd_when_cnf"] # Run system command when command not found
+    autoexecute_prompt_on_effects = jsonRead.get("autoexecute_prompt_on_effects", True) # Prompt before running autoexecute.py when it may modify variables or environment
+    autoexecute_show_variable_changes = jsonRead.get("autoexecute_show_variable_changes", True) # Print each variable change made by autoexecute.py
     python_exec_path_windows = jsonRead["python_exec_path_windows"] # Python executable path(Windows only, linux/posix use venv instead)
     autologin_username = devJsonRead["autologin_username"]
     enable_legacy_help_engine = jsonRead["enable_legacy_help_engine"]
     expertfeature_cd_enabled = True # cd command availablity
     kernelver = kiJsonRead["version"] # Kernel version
+    distribution_name = devJsonRead["distribution_name"] # 发行版名称
+    whereis_searchspeed = searcherconfJsonRead["searching_speed"]
     try:
         deviceid = open(lsh_path_fixed + "/config/deviceid.txt", "r", encoding="utf-8").readline().strip()
     except Exception:
@@ -173,7 +181,6 @@ def build_cmd_prompt(theme_name, username, hostname, path):
 def cmdhistory_write():
     tmp_f = open("cache/history.txt", "a", encoding="utf-8")
     # cmdhist_lines += 1
-    cmdhist_timed = datetime.datetime.now().strftime("%b %a %d %H:%M:%S %Y")
     tmp_f.write(str(cmdhist_time) + " " + user + ":" + lsh_hostname + " | " + cmd + "\n")
 
 
@@ -265,6 +272,101 @@ def execute_command(cmd):
 
 
 command_list = load_command_config()
+
+class AutoexecuteAssignmentLogger(ast.NodeTransformer):
+    def _collect_target_names(self, targets):
+        names = []
+        for target in targets:
+            names.extend(self._collect_target_names_from_node(target))
+        return names
+
+    def _collect_target_names_from_node(self, node):
+        if isinstance(node, ast.Name):
+            return [node.id]
+        if isinstance(node, (ast.Tuple, ast.List)):
+            names = []
+            for elt in node.elts:
+                names.extend(self._collect_target_names_from_node(elt))
+            return names
+        return []
+
+    def _make_change_log(self, name):
+        return ast.Expr(value=ast.Call(
+            func=ast.Name(id="print", ctx=ast.Load()),
+            args=[
+                ast.Constant(value=f"[autoexecute] variable changed: {name}"),
+                ast.Constant(value="->"),
+                ast.Name(id=name, ctx=ast.Load()),
+            ],
+            keywords=[],
+        ))
+
+    def visit_Assign(self, node):
+        node = self.generic_visit(node)
+        statements = [node]
+        for name in self._collect_target_names(node.targets):
+            statements.append(self._make_change_log(name))
+        return statements
+
+    def visit_AugAssign(self, node):
+        node = self.generic_visit(node)
+        statements = [node]
+        for name in self._collect_target_names([node.target]):
+            statements.append(self._make_change_log(name))
+        return statements
+
+    def visit_AnnAssign(self, node):
+        node = self.generic_visit(node)
+        statements = [node]
+        for name in self._collect_target_names([node.target]):
+            statements.append(self._make_change_log(name))
+        return statements
+
+
+def contains_effectful_autoexecute_code(code):
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return True
+    effectful_node_types = (ast.Assign, ast.AugAssign, ast.AnnAssign, ast.Delete, ast.Import, ast.ImportFrom)
+    for node in ast.walk(tree):
+        if isinstance(node, effectful_node_types):
+            return True
+    return False
+
+
+def transform_autoexecute_code(code, autoexec_path):
+    if not autoexecute_show_variable_changes:
+        return compile(code, autoexec_path, "exec")
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return compile(code, autoexec_path, "exec")
+    transformed_tree = AutoexecuteAssignmentLogger().visit(tree)
+    ast.fix_missing_locations(transformed_tree)
+    return compile(transformed_tree, autoexec_path, "exec")
+
+
+def run_autoexecute_script():
+    autoexec_path = os.path.join(lsh_path_fixed, "autoexecute.py")
+    if not os.path.isfile(autoexec_path):
+        return
+    with open(autoexec_path, "r", encoding="utf-8") as autoexec_file:
+        code = autoexec_file.read()
+    if autoexecute_prompt_on_effects and contains_effectful_autoexecute_code(code):
+        try:
+            prompt_reply = input("检测到 autoexecute.py 中含有不安全的代码，会修改您的环境变量，确实要执行吗？[Y/n] ").strip().lower()
+        except KeyboardInterrupt:
+            print("\n已取消执行 autoexecute.py")
+            return
+        if prompt_reply not in ("", "y", "yes", "true", "t", "1"):
+            print("已跳过执行 autoexecute.py")
+            return
+    try:
+        exec(transform_autoexecute_code(code, autoexec_path), globals())
+    except Exception as command_error:
+        print("在执行 \"autoexecute\" 时发生错误: " + str(command_error))
+
 
 def runPreInstApp(pathtoapp):
     if isWindows == True:
@@ -477,6 +579,10 @@ while count < 3:
                 with open("cache/lastlogin.txt", "w", encoding="utf-8") as ll_wrt:
                     ll_wrt.write("上次登录: " + now.strftime("%b %a %d %H:%M:%S %Y"))
                     print("登录时间更新完毕。")
+                try:
+                    run_autoexecute_script()
+                except Exception as command_error:
+                    print("在执行 \"autoexecute\" 时发生错误: " + str(command_error))
                 while count < 3:
                     if cmd_theme not in cmd_theme_templates:
                         print("主题没有找到，回到默认。")

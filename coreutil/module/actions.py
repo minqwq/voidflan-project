@@ -132,7 +132,7 @@ def loading_spinner(string, tm):
             time.sleep(0.125)
     except KeyboardInterrupt:
         pass
-def filesearch(keyword, directory='.', search_subdirs=True):
+def filesearch(keyword, searchspeed, directory='.', search_subdirs=True):
     """
     Search for files and directories containing the keyword in their names
     
@@ -155,6 +155,8 @@ def filesearch(keyword, directory='.', search_subdirs=True):
 
     try:
         for root, dirs, files in os.walk(directory if search_subdirs else (directory,)):
+            if searchspeed != 0:
+                time.sleep(searchspeed)  # Sleep for the specified search speed
             # Search directories first
             for dir_name in dirs:
                 if keyword.lower() in dir_name.lower():
@@ -165,6 +167,7 @@ def filesearch(keyword, directory='.', search_subdirs=True):
                     location = f"./{rel_path}" if rel_path != "." else "."
                     print(f"  {COLOR_DIR}{display_name}/{COLOR_RESET}  {COLOR_TYPE}(dir) {COLOR_PATH}({location}){COLOR_RESET}")
                     matches_found = True
+
             
             # Then search files
             for file_name in files:
@@ -330,13 +333,13 @@ def coresh():
     pprint.pprint(dict(globals()))
     print("End of current loaded modules.\nStarting shell...")
     print("! You are now running VoidFlan Project in Kernel mode\n"+
-          "If all are dont, type \"exit\" to exit shell.")
+          "If all are done, type \"exit\" to exit shell.")
     while True:
         cmd = input("(scarletkernel) ")
         if cmd == "exit":
             exit()
         elif cmd == "mori":
-            mori("Scarlet Kernel II", "127.0.0.1", "/", "", "", "Unknown", "11111111-1111-1111-1111111111111111")
+            mori("Scarlet Kernel II", "127.0.0.1", "/", "config/config.json", "config/.devconfig/confdev.json", "Unknown", "11111111-1111-1111-1111111111111111")
         elif cmd.startswith("dlt"):
             dotLoader(50, 0.01)
         else:

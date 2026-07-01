@@ -1,2 +1,3 @@
 whereisword = cmd[8:]
-filesearch(whereisword)
+whereisspeed = whereis_searchspeed
+filesearch(whereisword, whereisspeed)

@@ -20,8 +20,10 @@
     "replace_python_command_to_python3": true,
     "disablePathShow": false,
     "shorter_welcome": false,
-    "faster_startup": false,
+    "faster_startup": true,
     "rsyscmd_when_cnf": false,
+    "autoexecute_prompt_on_effects": true,
+    "autoexecute_show_variable_changes": true,
     "enable_legacy_help_engine": false,
     "language": "en_ST"
 }
