@@ -1,0 +1,11 @@
+{
+  "name": "wowdemo",
+  "version": "1.0",
+  "vcode": 1,
+  "author": "Copilot",
+  "description": "An example Shizuku package that prints a welcome message.",
+  "category": "demo",
+  "min_python_version": "3.8",
+  "target_python_version": "3.11",
+  "compatible_os": "windows"
+}

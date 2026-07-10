@@ -1,0 +1,253 @@
+请注意: 下行开始由 AI 编写，这通常代表着不完全正确，不过我已经审视过了没什么问题。
+
+Shizuku 软件包开发指南
+=======================
+
+本文档用于说明如何为 PY OS Improved / Voidflan 项目中的 Shizuku 包管理器开发一个软件包。
+
+1. 什么是 Shizuku 软件包
+------------------------
+
+Shizuku 软件包本质上是一个压缩包（.zip），其中包含以下内容：
+
+- info.json：包元数据文件，描述包的名称、版本、作者、兼容性等信息。
+- main.py：包的主程序，安装后会被放进包目录中，并被 Shizuku 的运行机制调用。
+- 可选文件：requirements.txt、额外资源文件、图片、配置文件等。
+
+安装器会先读取包内的 info.json，然后把整个包内容复制到安装目录中。
+
+2. 软件包目录结构
+------------------
+
+最小示例结构如下：
+
+example_package/
+├── info.json
+└── main.py
+
+更完整的例子可以是：
+
+myapp/
+├── info.json
+├── main.py
+├── requirements.txt
+├── assets/
+│   └── icon.png
+└── README.txt
+
+3. info.json 的格式
+-------------------
+
+info.json 是包的“身份证”。它必须包含以下字段：
+
+{
+  "name": "wowdemo",
+  "version": "1.0",
+  "vcode": 1,
+  "author": "Your Name",
+  "description": "This package does something useful.",
+  "category": "demo",
+  "min_python_version": "3.8",
+  "target_python_version": "3.11",
+  "compatible_os": "windows"
+}
+
+字段说明：
+
+- name：包名。安装后会作为目录名使用，建议使用简洁的英文小写名称。
+- version：版本字符串，例如 "1.0"、"2.0.1"。
+- vcode：整数版本代码。安装器会用它判断是否覆盖安装、升级、降级。
+- author：作者名。
+- description：简短说明。
+- category：分类，例如 demo、tool、game、utility。
+- min_python_version：最低兼容 Python 版本。
+- target_python_version：目标 Python 版本。
+- compatible_os：兼容操作系统，建议写 windows、linux 或 mixed。
+
+注意：
+
+- name 不能包含空格，建议使用字母、数字、下划线。
+- vcode 建议从 1 开始递增。
+- compatible_os 的值应尽量与目标环境一致。
+
+4. main.py 的编写要求
+----------------------
+
+main.py 是软件包启动入口。它应当包含以下特点：
+
+- 直接可执行。
+- 输出内容时使用 print()。
+- 适合在 Python 解释器中被直接运行。
+
+最简单示例：
+
+print("just say wow! package manager it just works")
+
+如果你的包需要读取文件、处理用户输入、调用第三方库，则可以写成完整脚本：
+
+import os
+
+print("Hello from my package")
+print("Current directory:", os.getcwd())
+
+5. 依赖管理
+-----------
+
+如果包依赖第三方模块，可以在包根目录放置 requirements.txt。
+
+例如：
+
+requests>=2.31.0
+colorama>=0.4.0
+
+安装过程中，Shizuku 会检查包目录下是否存在 requirements.txt，并自动执行：
+
+python -m pip install -r requirements.txt
+
+6. 打包步骤
+-----------
+
+把准备好的包文件放进一个临时目录，然后打包为 .zip 文件。
+
+例如：
+
+myapp/
+├── info.json
+├── main.py
+└── requirements.txt
+
+打包后得到：
+
+myapp.zip
+
+注意：
+
+- 压缩包内文件路径应当是相对路径，而不是包含多层目录。
+- 推荐将包内容直接放在压缩包根目录，而不是放在一个子文件夹中。
+- 例如，压缩包里应该直接有 info.json 和 main.py，而不是 myapp/info.json。
+
+7. 生成 .zip 包的示例（Python）
+---------------------------------
+
+可以用下面的 Python 代码生成安装包：
+
+import os
+import zipfile
+
+root = "myapp"
+out = "myapp.zip"
+
+with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+    z.write(os.path.join(root, "info.json"), "info.json")
+    z.write(os.path.join(root, "main.py"), "main.py")
+    if os.path.exists(os.path.join(root, "requirements.txt")):
+        z.write(os.path.join(root, "requirements.txt"), "requirements.txt")
+
+8. 安装流程
+------------
+
+在项目环境中，安装命令会使用 Shizuku 的安装器。
+
+安装包时，安装器会：
+
+1. 读取包内的 info.json。
+2. 检查包是否适配当前系统和 Python 版本。
+3. 询问用户是否确认安装。
+4. 把包内容复制到项目的安装目录中。
+5. 更新注册信息。
+
+安装后，包会出现在包注册表中，之后可被 Shizuku 运行命令调用。
+
+9. 运行方式
+-----------
+
+安装后，包名会用于运行：
+
+shizuku run <package_name>
+
+或者：
+
+szk <package_name>
+
+这会尝试运行安装目录中对应包的 main.py。
+
+10. 包名与安装目录的关系
+---------------------------
+
+安装器会把包名作为安装目录名，通常是：
+
+data/apps/<package_name>
+
+因此：
+
+- 包名最好是唯一的。
+- 包名最好是简短且稳定的。
+- 包名不要随意改动，否则旧安装包可能会变得难以管理。
+
+11. 调试建议
+------------
+
+开发包时建议遵循以下流程：
+
+1. 先在本地目录里测试 main.py 是否能正常运行。
+2. 确认 info.json 的字段齐全且语法合法。
+3. 先生成 .zip 包，再进行安装测试。
+4. 如果安装失败，重点检查：
+   - info.json 是否存在且格式正确。
+   - 压缩包内是否直接包含 info.json 和 main.py。
+   - requirements.txt 是否写法正确。
+   - 包名是否与安装器预期一致。
+
+12. 最佳实践
+-------------
+
+- 保持包名与文件名一致，便于维护。
+- 版本号和 vcode 一定要递增，避免安装混乱。
+- 让 main.py 足够小，逻辑清晰。
+- 对外部依赖做最小化声明。
+- 为包提供有意义的 description 和 category。
+- 保留 README 或说明文件，方便后续维护。
+
+13. 最小可用模板
+-----------------
+
+下面给出一个最小可用模板，可以直接作为新包的起点。
+
+包目录：
+
+hello_pkg/
+├── info.json
+├── main.py
+
+info.json：
+
+{
+  "name": "hello_pkg",
+  "version": "1.0",
+  "vcode": 1,
+  "author": "Your Name",
+  "description": "A simple demo package.",
+  "category": "demo",
+  "min_python_version": "3.8",
+  "target_python_version": "3.11",
+  "compatible_os": "windows"
+}
+
+main.py：
+
+print("Hello from hello_pkg")
+
+14. 结语
+--------
+
+只要遵循上述格式，Shizuku 就能识别并安装你的软件包。
+
+如果你想开发一个更复杂的包，可以把 main.py 扩展为：
+
+- 图形界面入口
+- 命令行工具
+- 文件处理工具
+- 自动化脚本
+- 游戏或演示程序
+
+只要它是一个符合 Shizuku 包结构的 Python 程序，就能被这个系统接入。

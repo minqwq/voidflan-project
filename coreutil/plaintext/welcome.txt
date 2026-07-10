@@ -1,6 +1,9 @@
 VoidFlan Project II
 Development Channel
 
-v2.00a Pre-release 2
+v2.0 RC 1
 
-Updates and packages, please visit http://home.libyartmin.ccwu.cc/voidflan-project
+一路走来，虽艰难但因为有大家的支持此项目才能继续下去。
+感谢，真的非常感谢。            --Yartmin Scarlet
+
+更新与软件包请阅览此网站: http://home.libyartmin.ccwu.cc/voidflan-project

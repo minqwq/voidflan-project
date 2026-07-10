@@ -1,8 +1,8 @@
 {
     "startup_screen_filepath": "./coreutil/module/xubuntustartup_mod.py",
     "autologin_username": "",
-    "distribution_name": "VoidFlan Project",
+    "distribution_name": "VoidFlan Project II",
     "system_version": "2.0.0-rc1",
-    "system_codename": "Tionless Haraso",
-    "system_codename_lower": "haraso-devchan"
+    "system_codename": "Reverse Ideology",
+    "system_codename_lower": "reverseideology-devchan"
 }

@@ -1,0 +1,7 @@
+pkg_name = cmd[4:].strip()
+if pkg_name == "":
+    print("请指定要运行的 Shizuku 包名，例如：szk <package>")
+else:
+    result = szkmng.run(pkg_name)
+    if result != 0:
+        print("运行失败。")
