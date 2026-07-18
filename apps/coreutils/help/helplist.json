@@ -1,7 +1,7 @@
 {
     "meta": {
         "title": "VoidFlan Project Codename \"Kokoro\"",
-	    "subtitle": "命令列表",
+        "subtitle": "Command List",
         "version": "0.01a_tr",
         "colors": {
             "title": "cyan",
@@ -11,62 +11,62 @@
         }
     },
     "categories": {
-        "系统": {
-            "ls": "列出当前位置的所有文件。",
-            "about [-csl]": "系统版本及关于信息。",
-            "pyosver": "显示版本号。",
-            "time": "显示时间。",
-            "clear": "清屏",
-            "power [reboot, shutdown]": "电源管理器",
-            "exit": "锁定系统。",
-            "hostname [-c]": "主机名管理器。",
-            "echo [str]": "输出指定文本。",
-            "su <user>": "切换用户",
-            "patch": "查看现在的配置状态和各种变量和已加载的模块。",
-            "chthm <theme>": "切换 Shell 主题",
-            "pyosiupgrade": "更新（仅限开发频道）",
-            "shizuku <c1> <c2>": "包管理器。",
-            "logout": "登出当前用户。",
-            "kernlog <level> <str>": "输出日志。",
-            "uptime": "显示在线时间。",
-            "yukarifm": "文件管理器"
+        "System": {
+            "ls": "List all files in the current directory.",
+            "about [-csl]": "System version and about information.",
+            "pyosver": "Show the version number.",
+            "time": "Show the current time.",
+            "clear": "Clear the screen.",
+            "power [reboot, shutdown]": "Power manager.",
+            "exit": "Lock the system.",
+            "hostname [-c]": "Hostname manager.",
+            "echo [str]": "Output the specified text.",
+            "su <user>": "Switch user.",
+            "patch": "View the current configuration state, variables, and loaded modules.",
+            "chthm <theme>": "Switch shell theme.",
+            "pyosiupgrade": "Update (development channel only).",
+            "shizuku <c1> <c2>": "Package manager.",
+            "logout": "Log out the current user.",
+            "kernlog <level> <str>": "Output logs.",
+            "uptime": "Show online time.",
+            "yukarifm": "File manager."
         },
-        "工具": {
-            "morifetchex": "uwufetch 的再版，显示各种系统信息和硬件信息。",
-            "caesar": "凯撒加解密。",
-            "fileget": "类似 wget 的下载器，但跨平台兼容。",
-            "paint": "画图。",
-            "clock": "时钟与计时",
-            "asciicvt": "ASCII 码转换器。",
-            "ed": "基于行的文本编辑器。",
-            "netrefresh [-h, set] [status]": "重载网络连接",
-            "cuscmd": "在主机操作系统上运行命令。",
-            "pftest": "CPU 速度测试。",
-            "whereis": "搜索文件。"
+        "Tools": {
+            "morifetchex": "A remake of uwufetch that displays system and hardware information.",
+            "caesar": "Caesar encryption and decryption.",
+            "fileget": "A wget-like downloader with cross-platform compatibility.",
+            "paint": "Draw pictures.",
+            "clock": "Clock and timer.",
+            "asciicvt": "ASCII converter.",
+            "ed": "Line-based text editor.",
+            "netrefresh [-h, set] [status]": "Reload network connection.",
+            "cuscmd": "Run commands on the host OS.",
+            "pftest": "CPU speed test.",
+            "whereis": "Search files."
         },
-        "休闲": {
-            "screensaver": "屏幕保护程序。",
-            "jrrp": "今日人品（字面意"
+        "Leisure": {
+            "screensaver": "Screensaver.",
+            "jrrp": "Today's luck (literal)."
         },
-        "多媒体": {
-            "krmidipl": "雾雨 MIDI 播放器"
+        "Multimedia": {
+            "krmidipl": "MIDI player."
         },
-        "游戏": {
-            "tetris": "Python 3.x 版 Tetris",
-            "guessnum": "经典猜数字游戏。",
-            "ttt": "Python 3.x 版井字棋"
+        "Games": {
+            "tetris": "Tetris for Python 3.x.",
+            "guessnum": "Classic number guessing game.",
+            "ttt": "Tic-tac-toe for Python 3.x."
         },
-        "网上冲浪": {
-            "空": "空"
+        "Web Surfing": {
+            "Empty": "Empty"
         },
-        "GUI 程序": {
-            "空": "空"
+        "GUI Programs": {
+            "Empty": "Empty"
         },
-        "其他": {
-            "空": "空"
+        "Other": {
+            "Empty": "Empty"
         },
-        "键盘快捷键": {
-            "^C (Control+C)": "应急选项"
+        "Keyboard Shortcuts": {
+            "^C (Control+C)": "Emergency option"
         }
     }
 }

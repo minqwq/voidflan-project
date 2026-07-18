@@ -2,19 +2,49 @@
 import re
 
 def getBoardModelFromCpu(cpu_model):
-    m = str(cpu_model).lower()
+    m_raw = str(cpu_model)
+    m = m_raw.lower()
+    # 去掉频率噪声（如 '1.60GHz'）、移除括号/斜线/逗号，并合并空白
+    m = re.sub(r"\b\d+(?:\.\d+)?\s*ghz\b", "", m)
+    m = re.sub(r"[\(\)/,]", " ", m)
+    # 去掉孤立的 'r'（例如来自 '(R)' 的残留）和 'tm'
+    m = re.sub(r"\br\b", "", m)
+    m = re.sub(r"\btm\b", "", m)
+    m = re.sub(r"\s+", " ", m).strip()
+
+    # ===== Intel 移动/笔记本平台 (列表匹配实现，更易维护) =====
+    # 先用明确的关键词列表匹配，再用少量正则匹配 T/P 系列代号
+    mobile_855 = ["pentium m", "celeron m", "centrino"]
+    mobile_945 = ["core duo", "core solo"]
+
+    for kw in mobile_855:
+        if kw in m:
+            return "855GM / 855GME / 915GM (Mobile - ThinkPad X31 时代及类似平台)"
+    for kw in mobile_945:
+        if kw in m:
+            return "945GM / 945GMS (Mobile)"
+
+    # Core 2 Duo 移动（若明确带 'mobile' 或使用 T/P 系列代号）
+    if "core 2 duo" in m and "mobile" in m:
+        return "GM965 / PM965 / GM45 (Mobile)"
+    if re.search(r"\bT\d{3,4}\b", m_raw) or re.search(r"\bP\d{4}\b", m_raw):
+        return "GM965 / PM965 / GM45 (Mobile)"
+
+    # 兜底：若字符串包含单词 'mobile'
+    if "mobile" in m:
+        return "GM965 / PM965 / GM45 (Mobile)"
 
     # ===== Intel 老平台 =====
     if re.search(r"pentium 4|celeron", m):
-        return "845 / 850 / 865 等 (Socket 478)"
+        return "i845 / i850 / i865 (Socket 478/LGA775)"
     if re.search(r"pentium d", m):
-        return "865 / 945 / 955 / 975 (LGA775)"
+        return "i865 / i945 / i955 / i975 (LGA775)"
     if re.search(r"core 2 duo|core 2 quad|core 2 extreme", m):
-        return "945 / 965 / P35 / P45 / G31 / G41 (LGA775)"
+        return "i945 / i965 / P35 / P45 / G31 / G41 (LGA775)"
     if re.search(r"xeon 30[0-9]|xeon 31[0-9]|xeon 32[0-9]|xeon 33[0-9]", m):
-        return "5000 / 5100 芯片组 (LGA771)"
+        return "5000 / 5100 Chipset (LGA771)"
     if re.search(r"xeon 51[0-9]|xeon 52[0-9]|xeon 53[0-9]|xeon 54[0-9]", m):
-        return "5000 / 5400 芯片组 (LGA771)"
+        return "5000 / 5400 Chipset (LGA771)"
 
     # ===== Intel 主流平台 =====
     if re.search(r"i[3579]-1[234]\d{3}", m):
@@ -33,9 +63,9 @@ def getBoardModelFromCpu(cpu_model):
     # ===== AMD FM 系列 =====
     if re.search(r"a[468]-3\d{3}", m):
         return "A55 / A75 (FM1)"
-    if re.search(r"a[4610]-[0-4]\d{3}", m):
+    if re.search(r"a[146]-[0-5]\d{3}[k]", m):
         return "A55 / A75 / A85X (FM2)"
-    if re.search(r"a[4610]-[5678]\d{3}", m):
+    if re.search(r"a[146]-[5678]\d{3}[k]", m):
         return "A58 / A68H / A78 / A88X (FM2+)"
 
     # ===== AMD AM1 =====
@@ -58,8 +88,14 @@ def getBoardModelFromCpu(cpu_model):
 
 if __name__ == "__main__":
     test_cpus = [
+        # Intel 移动/笔记本样本
+        "Intel(R) Pentium(R) M",
+        "Intel(R) Celeron(R) M 360",
+        "Intel(R) Core(TM) Duo T2400",
+        "Intel(R) Core(TM)2 Duo T7300",
+
         # Intel 老平台
-        "Intel(R) Pentium(R) 4 2.40GHz",
+        "Intel(R) Pentium(R) 4",
         "Intel(R) Pentium(R) D 805",
         "Intel(R) Core(TM)2 Duo CPU E4500",
         "Intel(R) Core(TM)2 Quad CPU Q6600",
@@ -119,6 +155,7 @@ if __name__ == "__main__":
     ]
 
     print("====== CPU 主板芯片组推测测试 ======\n")
+    print("got " + cpu_model)
     for cpu in test_cpus:
         result = getBoardModelFromCpu(cpu)
         print(f"{cpu:<40} => {result}")

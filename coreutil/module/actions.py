@@ -51,11 +51,11 @@ def dir_filecount(directory):
 def cbatteryperc():
     try:
         if psutil.sensors_battery().percent > 21:
-            print(colorama.Fore.LIGHTYELLOW_EX + "[低电量(" + str(psutil.sensors_battery().percent) + "%)]", end="")
+            print(colorama.Fore.LIGHTYELLOW_EX + "[Low battery(" + str(psutil.sensors_battery().percent) + "%)]", end="")
         elif psutil.sensors_battery().percent > 11:
-            print(colorama.Fore.YELLOW + "[低电量(" + str(psutil.sensors_battery().percent) + "%)]", end="")
+            print(colorama.Fore.YELLOW + "[Low battery(" + str(psutil.sensors_battery().percent) + "%)]", end="")
         elif psutil.sensors_battery().percent > 6:
-            print(colorama.Fore.LIGHTRED_EX + "[极低电量(" + str(psutil.sensors_battery().percent) + "%)]", end="")
+            print(colorama.Fore.LIGHTRED_EX + "[Very low battery(" + str(psutil.sensors_battery().percent) + "%)]", end="")
         else:
             print("[" + str(psutil.sensors_battery().percent) + "]", end="")
     except Exception:
@@ -68,17 +68,17 @@ def linuxUtil_detectDistro():
 def welcome_withDetectTime(username):
     dtn = datetime.datetime.now()
     if int(dtn.strftime("%H")) >= 6:
-        print("早上好 " + username + "")
+        print("Good morning, " + username + "!")
     elif int(dtn.strftime("%H")) >= 12:
-        print("中午啦 " + username + "，去吃点什么吧。")
+        print("Good noon, " + username + ". What shall we eat?")
     elif int(dtn.strftime("%H")) >= 14:
-        print("下午好 " + username + "")
+        print("Good afternoon, " + username + "!")
     elif int(dtn.strftime("%H")) >= 18:
-        print("晚上好 " + username + "")
+        print("Good evening, " + username + "!")
     elif int(dtn.strftime("%H")) >= 21:
-        print("该睡觉了 " + username + "。")
+        print("It's time to sleep, " + username + ".")
     elif int(dtn.strftime("%H")) >= 0:
-        print("...还不睡觉吗 " + username + "？")
+        print("Still not sleeping, " + username + "?")
 def cat(file):
     try:
         tmp_catcore = open(file, "r", encoding="utf-8")
@@ -149,7 +149,7 @@ def filesearch(keyword, searchspeed, directory='.', search_subdirs=True):
     COLOR_PATH = "\033[0;36m"     # Cyan (for paths)
     COLOR_TYPE = "\033[0;90m"     # Gray (for type indicators)
 
-    print(f"\n正在搜索字符串 '{COLOR_KEYWORD}{keyword}{COLOR_RESET}' 位于 {COLOR_PATH}{os.path.abspath(directory)}{COLOR_RESET}\n")
+    print(f"\nSearching for string '{COLOR_KEYWORD}{keyword}{COLOR_RESET}' in {COLOR_PATH}{os.path.abspath(directory)}{COLOR_RESET}\n")
     
     matches_found = False
 
@@ -205,7 +205,7 @@ def visuallog(string, level): # Logger that's can be used on your third-party pr
         logger.fatal(string)
 
 def count_script_instances(vfexec):
-    """统计当前脚本的运行实例数量"""
+    """Count the current number of running instances of this script."""
     current_script = os.path.abspath(vfexec)
     count = 0
 
@@ -240,7 +240,7 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
         cJsonRead = json.load(conf)
         cDevJsonRead = json.load(devconf)
         
-        isWindows = cJsonRead["isWindows"] # 是否为 Windows / Are you windows?
+        isWindows = cJsonRead["isWindows"] # Whether this is Windows / Are you windows?
         if isWindows == False:
             dmiBasePath = "/sys/class/dmi/id/"
             dmiProductFamily = open(dmiBasePath + "product_family").read().strip()
@@ -252,50 +252,50 @@ def mori(user, hostname, curpath, configfile, devconfigfile, uptime, deviceid):
             dmiSysVendor = "Unknown"
     
         # CONFIG SET START
-        system_version = cDevJsonRead["system_version"] # 版本号 / Version
+        system_version = cDevJsonRead["system_version"] # Version number / Version
         system_codename = cDevJsonRead["system_codename"] # Codename
-        distribution_name = cDevJsonRead["distribution_name"] # 发行版名称
-        system_is_beta = False # 是否为 Beta 版 / Beta version
+        distribution_name = cDevJsonRead["distribution_name"] # Distribution name
+        system_is_beta = False # Whether this is a beta build / Beta version
 
-        cmd_theme = cJsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme
-        isDev = False # 是否为 Dev 模式 / Dev mode
-        enable_instant_show_time = cJsonRead["enable_instant_show_time"] # INstant show time before shell
+        cmd_theme = cJsonRead["cmd_theme"] # Terminal shell theme
+        isDev = False # Whether this is dev mode / Dev mode
+        enable_instant_show_time = cJsonRead["enable_instant_show_time"] # Show time before shell
         isUnregistered = cJsonRead["isUnregistered"] # Fake unregistered warning
-        beep_when_finished = cJsonRead["beep_when_finished"] # When a command finished running, speaker will beep
-        auto_boot_choice = cJsonRead["auto_boot_choice"] # When have a number, the boot manager will auto boot to selected operating system.
-        enablePassword = cJsonRead["enablePassword"] # Enable password when login, string on the config.
-        show_password_when_typing = cJsonRead["show_password_when_typing"] # Enable will not shown password when typing.
+        beep_when_finished = cJsonRead["beep_when_finished"] # When a command finishes running, the speaker will beep
+        auto_boot_choice = cJsonRead["auto_boot_choice"] # When a number is present, the boot manager will automatically boot to the selected operating system.
+        enablePassword = cJsonRead["enablePassword"] # Enable password at login, stored in config.
+        show_password_when_typing = cJsonRead["show_password_when_typing"] # Keep password invisible while typing.
         pwdstring = cJsonRead["pwdstring"] # Password string
-        allowShowNotify = cJsonRead["allowShowNotify"] # Enable to show notify in linux desktop or windows 10+
-        dualBoot = cJsonRead["dualBoot"] # Allow you to boot another fake os written in any language
+        allowShowNotify = cJsonRead["allowShowNotify"] # Enable desktop notifications on Linux or Windows 10+
+        dualBoot = cJsonRead["dualBoot"] # Allow booting another fake OS written in any language
         dualBoot_startupCommand = cJsonRead["dualBoot_startupCommand"] # Dual boot startup command
-        dualBoot_OSName = cJsonRead["dualBoot_OSName"] # Dual boot name(show in boot manager)
-        venvEnable = cJsonRead["venvEnable"] # Enable python venv here
+        dualBoot_OSName = cJsonRead["dualBoot_OSName"] # Dual boot name (shown in boot manager)
+        venvEnable = cJsonRead["venvEnable"] # Enable Python venv here
         if venvEnable == "true":
-            venvPath = cJsonRead["venvPath"] # If you are linux distro, like me, you need this
-        replace_python_command_to_python3 = cJsonRead["replace_python_command_to_python3"] # Replace python command to python3(when you using linux distro)
-        disablePathShow = cJsonRead["disablePathShow"] # Disable path show on shell
-        shorter_welcome = cJsonRead["shorter_welcome"] # Show shorter welcome text when logon
-        faster_startup = cJsonRead["faster_startup"] # New version of startup screen
-        rsyscmd_when_cnf = cJsonRead["rsyscmd_when_cnf"] # Run system command when command not found
+            venvPath = cJsonRead["venvPath"] # If you are using a Linux distro, like me, you need this
+        replace_python_command_to_python3 = cJsonRead["replace_python_command_to_python3"] # Replace the python command with python3 (when using a Linux distro)
+        disablePathShow = cJsonRead["disablePathShow"] # Disable path display in the shell
+        shorter_welcome = cJsonRead["shorter_welcome"] # Show a shorter welcome message on login
+        faster_startup = cJsonRead["faster_startup"] # New startup screen version
+        rsyscmd_when_cnf = cJsonRead["rsyscmd_when_cnf"] # Run a system command when the command is not found
     except Exception:
         print("It seems like config files are not found. ")
     
     def final_prints():
         print(f"{Fore.LIGHTCYAN_EX}morifetch{Fore.LIGHTRED_EX}EX{Style.RESET_ALL} Version 1.00a\n",
               f" {distribution_name} {system_version}\n",
-              f" {Fore.YELLOW}用户名和主机名: {Style.RESET_ALL}{user} at {hostname} pty/{count_script_instances(__file__)}\n",
-              f" {Fore.YELLOW}启动时间: {Style.RESET_ALL}{uptime}\n",
-              f" {Fore.YELLOW}版本与代号: {Style.RESET_ALL}{system_version} \"{system_codename}\"\n",
-              f" {Fore.YELLOW}设备 UUID: {Style.RESET_ALL}{deviceid}\n\n"
-              f"  {Fore.GREEN}主机系统名称与版本: {Style.RESET_ALL}{platform.system()} {platform.release()} {platform.version()}\n",
-              f" {Fore.GREEN}主机 CPU 架构: {Style.RESET_ALL}{platform.machine()}\n\n",
-              f" {Fore.RED}CPU 型号: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_model()}\n",
-              f" {Fore.RED}CPU 支持功能: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_flags()}\n\n",
-              f" {Fore.CYAN}内存(rss / vms): {Style.RESET_ALL}{psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024} MiB / {psutil.Process(os.getpid()).memory_info().vms / 1024 / 1024} MiB, 总共 {psutil.virtual_memory().total / 1024 / 1024} MiB\n\n",
-              f" {Fore.LIGHTBLUE_EX}主机系列和序列号: {Style.RESET_ALL}{dmiProductFamily} {dmiProductName}\n",
-              f" {Fore.LIGHTBLUE_EX}主机制造商: {Style.RESET_ALL}{dmiSysVendor}\n",
-              f" {Fore.LIGHTBLUE_EX}主机主板型号: {Style.RESET_ALL}{hardware.getBoardModelFromCpu(lhwinfo.cpu.get_cpu_model())}")
+              f" {Fore.YELLOW}User and hostname: {Style.RESET_ALL}{user} at {hostname} pty/{count_script_instances(__file__)}\n",
+              f" {Fore.YELLOW}Boot time: {Style.RESET_ALL}{uptime}\n",
+              f" {Fore.YELLOW}Version and codename: {Style.RESET_ALL}{system_version} \"{system_codename}\"\n",
+              f" {Fore.YELLOW}Device UUID: {Style.RESET_ALL}{deviceid}\n\n"
+              f"  {Fore.GREEN}Host OS name and version: {Style.RESET_ALL}{platform.system()} {platform.release()} {platform.version()}\n",
+              f" {Fore.GREEN}Host CPU architecture: {Style.RESET_ALL}{platform.machine()}\n\n",
+              f" {Fore.RED}CPU model: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_model()}\n",
+              f" {Fore.RED}CPU features: {Style.RESET_ALL}{lhwinfo.cpu.get_cpu_flags()}\n\n",
+              f" {Fore.CYAN}Memory (rss / vms): {Style.RESET_ALL}{psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024} MiB / {psutil.Process(os.getpid()).memory_info().vms / 1024 / 1024} MiB, total {psutil.virtual_memory().total / 1024 / 1024} MiB\n\n",
+              f" {Fore.LIGHTBLUE_EX}Host family and serial: {Style.RESET_ALL}{dmiProductFamily} {dmiProductName}\n",
+              f" {Fore.LIGHTBLUE_EX}Host manufacturer: {Style.RESET_ALL}{dmiSysVendor}\n",
+              f" {Fore.LIGHTBLUE_EX}Host motherboard model: {Style.RESET_ALL}{hardware.getBoardModelFromCpu(lhwinfo.cpu.get_cpu_model())}")
 
     final_prints()
 

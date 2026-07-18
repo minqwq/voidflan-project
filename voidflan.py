@@ -1,5 +1,5 @@
 # Main code - VoidFlan Project
-print("每次重启主机系统后再次启动此程序可能需要一段时间才能初始化，请耐心等待。")
+print("After each reboot of the host system, it may take some time to initialize this program again, so please be patient.")
 try:
     from goto import goto
 except ModuleNotFoundError:
@@ -79,13 +79,13 @@ logger.info("Logger started successfully.")
 
 # CONFIG START
 try:
-    system_version = devJsonRead["system_version"] # 版本号 / Version
+    system_version = devJsonRead["system_version"] # Version number / Version
     system_codename = devJsonRead["system_codename"] # Codename
     system_codename_lower = devJsonRead["system_codename_lower"] # Codename Lowercased
-    system_is_beta = False # 是否为 Beta 版 / Beta version
-    isWindows = jsonRead["isWindows"] # 是否为 Windows / Are you windows?
-    cmd_theme = jsonRead["cmd_theme"] # 终端 Shell 主题 / Terminal shell theme
-    # 是否为 Dev 频道 / Devchan
+    system_is_beta = False # Whether this is a Beta version / Beta version
+    isWindows = jsonRead["isWindows"] # Whether it is Windows / Are you windows?
+    cmd_theme = jsonRead["cmd_theme"] # Terminal shell theme / Terminal shell theme
+    # Whether it is the Dev channel / Devchan
     try:
         sysdevchanSplit = system_codename_lower.split("-")[1]
         if sysdevchanSplit.startswith("dev"):
@@ -118,7 +118,7 @@ try:
     enable_legacy_help_engine = jsonRead["enable_legacy_help_engine"]
     expertfeature_cd_enabled = True # cd command availablity
     kernelver = kiJsonRead["version"] # Kernel version
-    distribution_name = devJsonRead["distribution_name"] # 发行版名称
+    distribution_name = devJsonRead["distribution_name"] # Distribution name
     whereis_searchspeed = searcherconfJsonRead["searching_speed"]
     try:
         deviceid = open(lsh_path_fixed + "/config/deviceid.txt", "r", encoding="utf-8").readline().strip()
@@ -226,13 +226,13 @@ def execute_command_text(spec, cmd):
         with open(file_path, "r", encoding="utf-8") as f:
             code = f.read()
     except FileNotFoundError:
-        print("命令定义文件缺失: " + file_name)
+        print("Command definition file missing: " + file_name)
         return
     globals()["cmd"] = cmd
     try:
         exec(compile(code, file_path, "exec"), globals())
     except Exception as command_error:
-        print("执行命令时发生错误: " + str(command_error))
+        print("An error occurred while executing the command: " + str(command_error))
 
 
 def execute_command(cmd):
@@ -240,12 +240,12 @@ def execute_command(cmd):
     spec = resolve_command_spec(cmd, command_list)
     if not spec:
         if rsyscmd_when_cnf:
-            print("未知命令，正在尝试运行命令于主机系统。")
+            print("Unknown command; trying to run it on the host system.")
             os.system(cmd)
         else:
             beep()
             visuallog("Unknown command m(__)m : " + cmd, 2)
-            print(color.red + "[未知命令]" + color.reset, end=' ')
+            print(color.red + "[Unknown command]" + color.reset, end=' ')
             logger.error("tty1/lsh | " + cmd + " | Command not found!")
         return
     typ = spec.get("type", "shell")
@@ -257,7 +257,7 @@ def execute_command(cmd):
             if command_text:
                 os.system(command_text)
             else:
-                print("命令配置错误: " + str(spec))
+                print("Command configuration error: " + str(spec))
     elif typ == "python":
         runPreInstApp(lsh_path_fixed + "/" + spec["target"])
     elif typ == "python_template":
@@ -268,7 +268,7 @@ def execute_command(cmd):
     elif typ == "text":
         execute_command_text(spec, cmd)
     else:
-        print("未知命令类型: " + typ)
+        print("Unknown command type: " + typ)
 
 
 command_list = load_command_config()
@@ -355,17 +355,17 @@ def run_autoexecute_script():
         code = autoexec_file.read()
     if autoexecute_prompt_on_effects and contains_effectful_autoexecute_code(code):
         try:
-            prompt_reply = input("检测到 autoexecute.py 中含有不安全的代码，会修改您的环境变量，确实要执行吗？[Y/n] ").strip().lower()
+            prompt_reply = input("Detected potentially unsafe code in autoexecute.py that may modify your environment variables. Do you really want to run it? [Y/n] ").strip().lower()
         except KeyboardInterrupt:
-            print("\n已取消执行 autoexecute.py")
+            print("\nCancelled execution of autoexecute.py")
             return
         if prompt_reply not in ("", "y", "yes", "true", "t", "1"):
-            print("已跳过执行 autoexecute.py")
+            print("Skipped execution of autoexecute.py")
             return
     try:
         exec(transform_autoexecute_code(code, autoexec_path), globals())
     except Exception as command_error:
-        print("在执行 \"autoexecute\" 时发生错误: " + str(command_error))
+        print("An error occurred while executing \"autoexecute\": " + str(command_error))
 
 
 def runPreInstApp(pathtoapp):
@@ -417,8 +417,8 @@ clearScreen()
 runPreInstApp(lsh_path_fixed + "/coreutil/oeminfo/checkoem.py")
 print("VoidFlan Bootstrap")
 runPreInstApp(lsh_path_fixed + "/coreutil/bootscr.py")
-print(colorama.Fore.LIGHTGREEN_EX + "总内存 " + str(psutil.virtual_memory().total / 1024 / 1024) + " MiB")
-print(colorama.Fore.LIGHTGREEN_EX + "初始化完成！")
+print(colorama.Fore.LIGHTGREEN_EX + "Total memory " + str(psutil.virtual_memory().total / 1024 / 1024) + " MiB")
+print(colorama.Fore.LIGHTGREEN_EX + "Initialization complete!")
 print("Checking Device UUID Availablity...")
 if not os.path.isfile(lsh_path_fixed + "/config/deviceid.txt"):
     print("Not found, Creating one...")
@@ -435,13 +435,13 @@ bootManagerLoopRun = True
 logger.info("Start logging.")
 logger.info("Starting VoidFlan Boot manager.")
 while bootManagerLoopRun == True:
-    print(colorama.Fore.LIGHTRED_EX + "Scarlet Kernel 启动管理器\n" + color.reset + style_cur.show)
-    print("\n1:VoidFlan Project " + system_version + "\n9:VoidFlan 应急恢复文档\n2:重启\n3:退出\n4:PY OS Improved Pre-Alpha 1\n5:BBC OS 1.2.1\n8:切到 Leaf Boot Manager（已废弃）")
+    print(colorama.Fore.LIGHTRED_EX + "Scarlet Kernel boot manager\n" + color.reset + style_cur.show)
+    print("\n1:VoidFlan Project " + system_version + "\n9:VoidFlan emergency recovery documentation\n2:Restart\n3:Exit\n4:PY OS Improved Pre-Alpha 1\n5:BBC OS 1.2.1\n8:Switch to Leaf Boot Manager (deprecated)")
     if dualBoot == True:
-        print(color.green + "\n多启动项已启用。" + color.reset)
+        print(color.green + "\nMulti-boot options are enabled." + color.reset)
         print("6:" + dualBoot_OSName)
     if auto_boot_choice == "":
-        print(style.slowblink + "您可以配置 \"auto_boot_choice\" 项为上述选项编号，这样就可以自动选择了。" + color.reset)
+        print(style.slowblink + "You can set the \"auto_boot_choice\" option to one of the numbers above to select it automatically." + color.reset)
         bootChoice = input("> ")
     else:
         bootChoice = auto_boot_choice
@@ -478,68 +478,68 @@ while bootManagerLoopRun == True:
         clearScreen()
         continue
     else:
-        visuallog("找不到指定的选项。", 2)
-loading_spinner("启动选择项中... ", 1)
+        visuallog("The specified option was not found.", 2)
+loading_spinner("Loading startup options... ", 1)
 clearScreen()
 # Startup screen
-visuallog("启动主系统中...", 0)
+visuallog("Starting the main system...", 0)
 startingtime = time.time()
 if faster_startup == True:
     runPreInstApp(lsh_path_fixed + "/coreutil/xubuntustartup_mod.py")
 else:
-    print("正在启动...")
+    print("Starting...")
     if system_is_beta == True: # If is beta version, show this warn
         print(text.doubt + "not release version, may unstable")
-    print("[" + color.green + "  OK  " + color.reset + "] Scarlet Kernel 初始化完毕。")
+    print("[" + color.green + "  OK  " + color.reset + "] Scarlet Kernel initialization complete.")
     print("\n" + system_version + "-" + system_codename_lower)
     print("Flandre Studio 2024--2026")
     print("0x1c Studio 2022--2023")
-    print("\n" + "* VoidFlan Project 是自由并开放的，您可以随意查看和贡献代码。")
-    print("* VoidFlan Project 由 PY OS/BBC OS 1.2.1 改进而来。")
-    print("这是个 \"免费软件\"，不会要你钱的。")
-    loading_spinner("[" + color.yellow + " WAIT " + color.reset + "] 暂停运行: 3 秒 (按 Ctrl+C 跳过) ", 3)
+    print("\n" + "* VoidFlan Project is free and open, and you can view or contribute to the code freely.")
+    print("* VoidFlan Project was improved from PY OS/BBC OS 1.2.1.")
+    print("This is free software; it will not cost you anything.")
+    loading_spinner("[" + color.yellow + " WAIT " + color.reset + "] Pausing for 3 seconds (press Ctrl+C to skip) ", 3)
 clearScreen()
 end_startingtime = time.time()
 startingtime_t = end_startingtime - startingtime
 beep()
-logger.info("欢迎回到 VoidFlan Project!")
+logger.info("Welcome back to VoidFlan Project!")
 if isWindows == True:
-    visuallog("警告: 检测到 Windows 操作系统，目前并未对此做更多优化，不过应该不会影响使用。", 1)
+    visuallog("Warning: Windows was detected, but no additional optimization has been applied for it yet; it should still work.", 1)
 print("VoidFlan Project PhyU/Legacy " + system_version + " \"" + system_codename + "\" " + lsh_hostname) # Login screen | For restart to login manager, please goto this line for work normally
 now = datetime.datetime.now()
 count = 0
 unreg_count = 0
 stpasswd = "ciallo"
 while count < 3:
-    user = input("登录位于 " + lsh_hostname + " 的用户: ")
+    user = input("User login at " + lsh_hostname + " : ")
     if not autologin_username == "":
         user = autologin_username
     if user == "" or user == "defaultuser-000":
-        visuallog("登录错误", 2)
+        visuallog("Login error", 2)
     else:
         isCreatorAccount = False
-        while count < 3: # 代码难以维护，到处不明变量 --wusheng233
+        while count < 3: # The code is hard to maintain, with variables scattered everywhere. --wusheng233
             if logout == True:
                 while True:
                     clearScreen()
-                    print("系统已被锁定")
-                    user = input("登录位于 " + lsh_hostname + " 的用户: ")
+                    print("The system has been locked")
+                    user = input("User login at " + lsh_hostname + " : ")
                     if user == "":
-                        print("未提供字符串")
+                        print("No string provided")
                     else:
                         break
-            if enablePassword == True: # 回上面：那确实，我也不知道啥时候就变成屎山了 --minqwq
+            if enablePassword == True: # As mentioned above: yes, it really did become a mess at some point. --minqwq
                 if show_password_when_typing == False:
-                    login_password = input("密码: ")
+                    login_password = input("Password: ")
                 elif show_password_when_typing == True:
                     try:
-                        login_password = getpass.getpass("密码: ")
+                        login_password = getpass.getpass("Password: ")
                     except getpass.GetPassWarning:
-                        print("\"show_password_when_typing\": \"false\" - 此配置项可能未按预期工作。")
+                        print("\"show_password_when_typing\": \"false\" - This setting may not work as expected.")
                 if login_password == pwdstring:
                     pass
                 else:
-                    print("密码错误，请再试一次。")
+                    print("Incorrect password, please try again.")
                     continue
             elif enablePassword == False:
                 pass
@@ -547,7 +547,7 @@ while count < 3:
                 pass
             try:
                 clearScreen()
-                print("如果您卡在这里了请重新启动。。")
+                print("If you are stuck here, please restart the system.")
                 lshdate = now.strftime("%Y-%m-%d")
                 lshtime = now.strftime("%H:%M:%S")
                 beep()
@@ -566,27 +566,27 @@ while count < 3:
                     cat(lsh_path_fixed + "/" + co_welcome) # Welcome text, editable at coreutil/plaintext/welcome.txt
                 elif shorter_welcome == True:
                     cat(lsh_path_fixed + "/coreutil/plaintext/welcome_shorter.txt")
-                print("今天是 " + colorama.Fore.LIGHTCYAN_EX + lshdate + color.reset + "，时间是 " + colorama.Fore.LIGHTCYAN_EX + lshtime + color.reset)
+                print("Today is " + colorama.Fore.LIGHTCYAN_EX + lshdate + color.reset + ", and the time is " + colorama.Fore.LIGHTCYAN_EX + lshtime + color.reset)
                 welcome_withDetectTime(user)
                 if isDev == True:
                     print("dev")
                 try:
                     cat(lsh_path_fixed + "/cache/lastlogin.txt")
                 except FileNotFoundError:
-                    print("上次登录: 未知")
+                    print("Last login: unknown")
                 print("\nFlandre SHell (fsh) version " + colorama.Fore.LIGHTRED_EX + "1.8.0" + color.reset + " >///<\n\"The window of the core...\"")
                 tmp_outolog = open("cache/.output.log", "a", encoding="utf-8")
                 with open("cache/lastlogin.txt", "w", encoding="utf-8") as ll_wrt:
-                    ll_wrt.write("上次登录: " + now.strftime("%b %a %d %H:%M:%S %Y"))
-                    print("登录时间更新完毕。")
+                    ll_wrt.write("Last login: " + now.strftime("%b %a %d %H:%M:%S %Y"))
+                    print("Login time updated successfully.")
                 try:
                     run_autoexecute_script()
                 except Exception as command_error:
-                    print("在执行 \"autoexecute\" 时发生错误: " + str(command_error))
+                    print("An error occurred while executing \"autoexecute\": " + str(command_error))
                 while count < 3:
                     if cmd_theme not in cmd_theme_templates:
-                        print("主题没有找到，回到默认。")
-                        print("可用主题:default_v2, default, lite, debian_bash, arch_bash, sh, classic, flandre, remilia, tcsh")
+                        print("Theme not found; returning to default.")
+                        print("Available themes: default_v2, default, lite, debian_bash, arch_bash, sh, classic, flandre, remilia, tcsh")
                         cmd_theme = "default"
                     cmd_pre = build_cmd_prompt(cmd_theme, user, lsh_hostname, lsh_path)
 
@@ -616,7 +616,7 @@ while count < 3:
                     execute_command(cmd) # every command runs here, no error! --Yartmin
             except KeyboardInterrupt: # Ctrl+C, "Ctrl+Alt+Del" like action
                 try:
-                    print("\n按 1 重启\n其他键取消\n再按一次 Ctrl+C 退出")
+                    print("\nPress 1 to restart\nAny other key to cancel\nPress Ctrl+C again to exit")
                     emergencyChoice = input()
                     if emergencyChoice == "1":
                         goto(line=1)
@@ -638,7 +638,7 @@ while count < 3:
                 runPreInstApp("coreutil/catchinfo.py")
                 print("Last command input: " + cmd)
                 print("Logged on " + user)
-                visuallog("System Panic o(╥﹏╥)o : な、何か予期しないエラーが発生しましたにゃ (⁄ ⁄•⁄ω⁄•⁄ ⁄)", 3)
+                visuallog("System Panic o(╥﹏╥)o : An unexpected error has occurred (⁄ ⁄•⁄ω⁄•⁄ ⁄)", 3)
                 input("[System Halted, Press any key to shutdown - " + str(crashReason) + "]")
                 clearScreen()
                 sys.exit()
